@@ -1,0 +1,281 @@
+
+\begin{DoxyItemize}
+\item Changes for \hyperlink{CHANGES-2-0}{Version 2.\+0}
+\item Changes for \hyperlink{CHANGES-2-1}{Version 2.\+1} 
+\end{DoxyItemize}\hypertarget{CHANGES-2-0}{}\section{Version 2.0}\label{CHANGES-2-0}
+\subsection*{Version 2.\+0.\+0 (Sep 27, 2013) }
+
+Version 2.\+0 is a complete rewrite, so there is no way to write a complete set of difference with respect to plumed 1.\+3. Here is a possibly incomplete summary of the difference\+:
+\begin{DoxyItemize}
+\item The input is simpler, more flexible, and more error proof. Many checks are now performed and in this way common errors are avoided.
+\item The units are now the same for all M\+D codes. If you want to use a different unit than the default you set it in the input file.
+\item The analysis tools are now much more flexible. As an example of this it is now possible to write different collective variables with different frequencies.
+\item Many complex collective variables are considerably faster than they were in plumed1. In particular, all variables based on R\+M\+S\+D distances.
+\item Centers of mass can be used as if they were atoms. Hence, unlike plumed 1.\+3, you can use center of mass positions in A\+L\+L collective variables.
+\item The virial contribution is now computed and passed to the M\+D code. Plumed can thus now be used to perform biased N\+P\+T simulations.
+\item Variables can be dumped on different files, and are computed only when this is necessary.
+\item P\+L\+U\+M\+E\+D is now compiled as a separate library. This simplifies the patching procedure, but might require some extra work to configure P\+L\+U\+M\+E\+D properly. Since P\+L\+U\+M\+E\+D can be loaded as a shared library, it is possible to setup everything such that P\+L\+U\+M\+E\+D and M\+D codes can be updated independently from each other.
+\end{DoxyItemize}
+
+In addition, it is now much easier to contribute new functionality to the code because\+:
+\begin{DoxyItemize}
+\item There is a much simpler interface between plumed and the base M\+D codes. This makes it much easier to add plumed to a new M\+D code. Hopefully, in the future, interfaces with M\+D codes will be maintained by the developers of the M\+D codes independently from P\+L\+U\+M\+E\+D developers. This will allow more M\+D codes to be compatible with P\+L\+U\+M\+E\+D.
+\item There is C++ object oriented programming and full compatibility with the C++ standard library
+\item A modular structure.
+\item New collective variables and methods can be released independently.
+\item There is an extensive developer documentation.
+\item User documentation is provided together inside the implementation files.
+\end{DoxyItemize}
+
+Caveats\+:
+\begin{DoxyItemize}
+\item P\+L\+U\+M\+E\+D 2 input file (plumed.\+dat) has a syntax which is not compatible with P\+L\+U\+M\+E\+D 1. Transition should be easy, but cannot be done just using the new version with the old input file.
+\item P\+L\+U\+M\+E\+D 2 is written in C++, thus requires a C++ compiler
+\item P\+L\+U\+M\+E\+D 2 may not include all the features that were available in P\+L\+U\+M\+E\+D 1.
+\end{DoxyItemize}
+
+A tutorial explaining how to move from P\+L\+U\+M\+E\+D 1 to P\+L\+U\+M\+E\+D 2 is available (see \hyperlink{moving}{Moving from Plumed 1 to Plumed 2}).
+
+\subsection*{Version 2.\+0.\+1 (Nov 14, 2013) }
+
+For users\+:
+\begin{DoxyItemize}
+\item Fixed a bug in \hyperlink{HISTOGRAM}{H\+I\+S\+T\+O\+G\+R\+A\+M} with R\+E\+W\+E\+I\+G\+H\+T\+\_\+\+B\+I\+A\+S. Reweighting was only done when also temperature-\/reweighting was enabled.
+\item Fixed a bug that was sometime crashing code with domain decomposition and non-\/dense simulation boxes (e.\+g. implicit solvent).
+\item Performance improvements for \hyperlink{GYRATION}{G\+Y\+R\+A\+T\+I\+O\+N}.
+\item Flush all files every 10000 steps by default, without need to use \hyperlink{FLUSH}{F\+L\+U\+S\+H}
+\item Errors when writing input for \hyperlink{switchingfunction}{switchingfunction} are now properly recognized.
+\item Added message when \hyperlink{simplemd}{simplemd} is used on a non-\/existing file.
+\item Fixed {\ttfamily plumed mklib} such that it deletes the target shared library in case of compilation error.
+\item Several small fixes in documentation and log file.
+\end{DoxyItemize}
+
+For developers\+:
+\begin{DoxyItemize}
+\item Added possibility to setup replica exchange from M\+D codes in fortran (commands \char`\"{}\+G\+R\+E\+X set\+M\+P\+I\+F\+Intercomm\char`\"{} and \char`\"{}\+G\+R\+E\+X set\+M\+P\+I\+F\+Intracomm\char`\"{}).
+\item cmd(\char`\"{}set\+Stop\+Flag\char`\"{}) should now be called after P\+L\+U\+M\+E\+D initialization.
+\item Several small fixes in documentation.
+\end{DoxyItemize}
+
+\subsection*{Version 2.\+0.\+2 (Feb 11, 2014) }
+
+For users\+:
+\begin{DoxyItemize}
+\item Fixed bug with \hyperlink{METAD}{M\+E\+T\+A\+D} with I\+N\+T\+E\+R\+V\+A\+L and replica exchange, including bias exchange. Now the bias is correctly computed outside the boundaries. Notice that this is different from what was done in P\+L\+U\+M\+E\+D 1.\+3. Also notice that I\+N\+T\+E\+R\+V\+A\+L now works correctly with grids and splines.
+\item Fixed bug with \hyperlink{READ}{R\+E\+A\+D} and periodic variables.
+\item Fixed bug with \hyperlink{HISTOGRAM}{H\+I\+S\+T\+O\+G\+R\+A\+M} (option U\+S\+E\+\_\+\+A\+L\+L\+\_\+\+D\+A\+T\+A was not working properly).
+\item Gromacs patch updated to 4.\+6.\+5.
+\item Gromacs patch for 4.\+6 has been modified to allow for better load balancing when using G\+P\+Us.
+\item Added option 'plumed info --long-\/version' and 'plumed info --git-\/version'.
+\item Added full reference (page/number) to published paper in doc and log.
+\item Fixed a bug in file backups (only affecting Windows version -\/ thanks to T. Giorgino).
+\item Added possibility to search in the documentation.
+\item Several small fixes in documentation and log file.
+\end{DoxyItemize}
+
+For developers\+:
+\begin{DoxyItemize}
+\item Fixed makefile dependencies in some auxiliary files in src/lib ($\ast$cmake and $\ast$inc).
+\item Changed way modules are linked in src/. E.\+g. src/colvar/tools/ is not anymore a symlink to src/colvar but a real directory. (Notice that this introduces a regression\+: when using plumed as an external library some include files could not work -\/ this only applies when plumed is installed; also notice that this is fixed in 2.\+0.\+3)
+\item Patch for gromacs 4.\+6 now also include original code so as to simplify its modification.
+\item Added option 'plumed patch --save-\/originals'.
+\item Fixed regtest regtest/secondarystructure/rt32 to avoid problems with N\+U\+M\+E\+R\+I\+C\+A\+L\+\_\+\+D\+E\+R\+I\+V\+A\+T\+I\+V\+E\+S.
+\item Removed include graphs in the documentation (too large).
+\item Several small fixes in documentation.
+\end{DoxyItemize}
+
+\subsection*{Version 2.\+0.\+3 (June 30, 2014) }
+
+For users\+:
+\begin{DoxyItemize}
+\item Now compiles on Blue Gene Q with I\+B\+M compilers.
+\item Fixed bug in \hyperlink{CENTER}{C\+E\+N\+T\+E\+R} where default W\+E\+I\+G\+H\+T\+S were missing.
+\item Fixed broken \hyperlink{CONTACTMAP}{C\+O\+N\+T\+A\+C\+T\+M\+A\+P} with S\+U\+M
+\item Fixed \hyperlink{DUMPATOMS}{D\+U\+M\+P\+A\+T\+O\+M\+S} with gro file and more than 100k atoms.
+\item Added C\+M\+D\+I\+S\+T in \hyperlink{CONTACTMAP}{C\+O\+N\+T\+A\+C\+T\+M\+A\+P} to emulate plumed1 C\+M\+A\+P.
+\item Several small fixes in documentation and log file.
+\end{DoxyItemize}
+
+For developers\+:
+\begin{DoxyItemize}
+\item Fixed cmd(\char`\"{}get\+Bias\char`\"{}) to retrieve bias. It was not working with single precision codes and it was not converting units properly.
+\item Fixed a regression in 2.\+0.\+2 concerning include files from installed plumed (see commit 562d5ea9dfc3).
+\item Small fix in tools/\+Random.\+cpp that allows Random objects to be declared as static.
+\item Small fix in user-\/doc compilation, so that if plumed is not found the sourceme.\+sh file is sourced
+\item Fixed non-\/ansi syntax in a few points and a non-\/important memory leakage.
+\item Split cltools/\+Driver.\+cpp to make parallel compilation faster.
+\end{DoxyItemize}
+
+\subsection*{Version 2.\+0.\+4 (Sep 15, 2014) }
+
+For users\+:
+\begin{DoxyItemize}
+\item Fixed a bug in \hyperlink{BIASVALUE}{B\+I\+A\+S\+V\+A\+L\+U\+E} that could produce wrong acceptance with replica exchange simulations.
+\item Fixed a few innocuous memory leaks.
+\item Fixed reader for xyz files, that now correctly detects missing columns. Also a related regtest has been changed.
+\item Several small fixes in documentation and log file.
+\end{DoxyItemize}
+
+For developers\+:
+\begin{DoxyItemize}
+\item Renamed Value.\+cpp to Bias\+Value.\+cpp
+\end{DoxyItemize}
+
+\subsection*{Version 2.\+0.\+5 (Dec 15, 2014) }
+
+Notice that branch 2.\+0 will not be longer maintained! All users are invited to switch to version 2.\+1.
+
+For users\+:
+\begin{DoxyItemize}
+\item Fixed a bug in replica exchange with different Hamiltonians (either lamdba-\/dynamics or plumed X\+X-\/hrex branch) possibly occuring when using charge or mass dependent variables.
+\item Fixed a bug in analysis (e.\+g. \hyperlink{HISTOGRAM}{H\+I\+S\+T\+O\+G\+R\+A\+M}) leading to wrong accumulation of statistics when running a replica exchange simulation.
+\item Fixed a bug in the calculation of derivatives in histograms. This should be harmless since people usually only consider the value in histograms and not the derivatives.
+\item Fixed an issue in Makefile that could results in problems when patching an M\+D code with --shared option (pointed out by Abhi Acharya). This fixes a regression introduced in 2.\+0.\+2.
+\item Small fixes in documentation.
+\end{DoxyItemize}
+
+For developers\+:
+\begin{DoxyItemize}
+\item Added warning when performing regtests using an instance of plumed from a different directory 
+\end{DoxyItemize}\hypertarget{CHANGES-2-1}{}\section{Version 2.1}\label{CHANGES-2-1}
+\subsection*{Version 2.\+1.\+0 (Sep 15, 2014) }
+
+Version 2.\+1 contains several improvements with respect to 2.\+0. Users currently working with 2.\+0 should have a look at the section \char`\"{}\+Changes leading to incompatible behavior\char`\"{} below and might need tiny adjustments in their input files. In 2.\+1 we restored more features of 1.\+3 that were missing in 2.\+0, so users still working with 1.\+3 could opt for an upgrade. A tutorial explaining how to move from P\+L\+U\+M\+E\+D 1 to P\+L\+U\+M\+E\+D 2 is available (see \hyperlink{moving}{Moving from Plumed 1 to Plumed 2}).
+
+Below you find a list of all the changes with respect to version 2.\+0. Notice that version 2.\+1 includes already all the fixes in branch 2.\+0 up to 2.\+0.\+4.
+
+Changes from version 2.\+0 which are relevant for users\+:
+\begin{DoxyItemize}
+\item Changes leading to incompatible behavior\+:
+\begin{DoxyItemize}
+\item \hyperlink{COORDINATION}{C\+O\+O\+R\+D\+I\+N\+A\+T\+I\+O\+N} now skips pairs of one atom with itself.
+\item Labels of quantities calculated by \hyperlink{BIASVALUE}{B\+I\+A\+S\+V\+A\+L\+U\+E} have changed from {\itshape label}.bias.{\itshape argname} to {\itshape label}.{\itshape argname}\+\_\+bias, which is more consistent with steered M\+D
+\item Labels of quantities calculated by \hyperlink{ABMD}{A\+B\+M\+D} have change from {\itshape label}.min\+\_\+{\itshape argname} to {\itshape label}.{\itshape argname}\+\_\+min, which is more consistent with steered M\+D
+\item Labels of quantities calculated by \hyperlink{PIECEWISE}{P\+I\+E\+C\+E\+W\+I\+S\+E} have change from {\itshape label}.{\itshape argnumber} to {\itshape label}.{\itshape argname}\+\_\+pfunc, which is more consistent with steered M\+D
+\item For multicolvars components calculated with L\+E\+S\+S\+\_\+\+T\+H\+A\+N and M\+O\+R\+E\+\_\+\+T\+H\+A\+N keywords are now labelled lessthan and morethan. This change is necessary as the underscore character now has a special usage in component names.
+\item In \hyperlink{CONTACTMAP}{C\+O\+N\+T\+A\+C\+T\+M\+A\+P} components are now labelled {\itshape label}.contact-\/ $n$.
+\item The command S\+P\+H\+E\+R\+E has been replaced by \hyperlink{UWALLS}{U\+W\+A\+L\+L\+S}.
+\end{DoxyItemize}
+\item New configuration system based on autoconf (use ./configure from root directory). Optional packages are detected at compile time and correctly enabled or disabled. An internal version of lapack and blas will be used if these libraries are not installed.
+\item New actions\+:
+\begin{DoxyItemize}
+\item \hyperlink{SPRINT}{S\+P\+R\+I\+N\+T} topological collective variables.
+\item \hyperlink{CH3SHIFTS}{C\+H3\+S\+H\+I\+F\+T\+S} collective variable.
+\item \hyperlink{POSITION}{P\+O\+S\+I\+T\+I\+O\+N} collective variable.
+\item \hyperlink{FIT_TO_TEMPLATE}{F\+I\+T\+\_\+\+T\+O\+\_\+\+T\+E\+M\+P\+L\+A\+T\+E}.
+\item \hyperlink{COMMITTOR}{C\+O\+M\+M\+I\+T\+T\+O\+R} analysis.
+\item \hyperlink{LOCAL_AVERAGE}{L\+O\+C\+A\+L\+\_\+\+A\+V\+E\+R\+A\+G\+E}.
+\item \hyperlink{NLINKS}{N\+L\+I\+N\+K\+S}.
+\item \hyperlink{DIHCOR}{D\+I\+H\+C\+O\+R}.
+\item \hyperlink{NOE}{N\+O\+E}.
+\item \hyperlink{RDC}{R\+D\+C}.
+\item \hyperlink{CLASSICAL_MDS}{C\+L\+A\+S\+S\+I\+C\+A\+L\+\_\+\+M\+D\+S}.
+\item \hyperlink{XDISTANCES}{X\+D\+I\+S\+T\+A\+N\+C\+E\+S}.
+\item \hyperlink{YDISTANCES}{Y\+D\+I\+S\+T\+A\+N\+C\+E\+S}.
+\item \hyperlink{ZDISTANCES}{Z\+D\+I\+S\+T\+A\+N\+C\+E\+S}.
+\item \hyperlink{DUMPMULTICOLVAR}{D\+U\+M\+P\+M\+U\+L\+T\+I\+C\+O\+L\+V\+A\+R}.
+\item Crystallization module, including \hyperlink{Q3}{Q3}, \hyperlink{LOCAL_Q3}{L\+O\+C\+A\+L\+\_\+\+Q3}, \hyperlink{Q4}{Q4}, \hyperlink{Q6}{Q6}, \hyperlink{LOCAL_Q4}{L\+O\+C\+A\+L\+\_\+\+Q4}, \hyperlink{LOCAL_Q6}{L\+O\+C\+A\+L\+\_\+\+Q6}, \hyperlink{MOLECULES}{M\+O\+L\+E\+C\+U\+L\+E\+S}, \hyperlink{SIMPLECUBIC}{S\+I\+M\+P\+L\+E\+C\+U\+B\+I\+C}, \hyperlink{TETRAHEDRAL}{T\+E\+T\+R\+A\+H\+E\+D\+R\+A\+L} and \hyperlink{FCCUBIC}{F\+C\+C\+U\+B\+I\+C}.
+\item \hyperlink{ENSEMBLE}{E\+N\+S\+E\+M\+B\+L\+E} to perform Replica-\/\+Averaging on any collective variable.
+\end{DoxyItemize}
+\item New features for existing actions\+:
+\begin{DoxyItemize}
+\item \hyperlink{METAD}{M\+E\+T\+A\+D} \+: W\+A\+L\+K\+E\+R\+S\+\_\+\+M\+P\+I flag (multiple walkers in a mpi-\/based multi-\/replica framework), A\+C\+C\+E\+L\+E\+R\+A\+T\+I\+O\+N flag (calculate on the fly the Metadynamics acceleration factor), T\+A\+U option (alternative way to set Gaussian height in well-\/tempered metadynamics), G\+R\+I\+D\+\_\+\+S\+P\+A\+C\+I\+N\+G (alternative to G\+R\+I\+D\+\_\+\+B\+I\+N to set grid spacing). Notice that now one can also omit G\+R\+I\+D\+\_\+\+B\+I\+N and G\+R\+I\+D\+\_\+\+S\+P\+A\+C\+I\+N\+G when using fixed size Gaussian, and the grid spacing will be automatically set.
+\item \hyperlink{DISTANCE}{D\+I\+S\+T\+A\+N\+C\+E} \+: added S\+C\+A\+L\+E\+D\+\_\+\+C\+O\+M\+P\+O\+N\+E\+N\+T\+S
+\item \hyperlink{COORDINATION}{C\+O\+O\+R\+D\+I\+N\+A\+T\+I\+O\+N} \+: if a single group is provided, it avoids permuted atom indexes and runs at twice the speed.
+\item \hyperlink{DUMPATOMS}{D\+U\+M\+P\+A\+T\+O\+M\+S} \+: P\+R\+E\+C\+I\+S\+I\+O\+N option to set number of digits in output file.
+\item \hyperlink{GROUP}{G\+R\+O\+U\+P} \+: N\+D\+X\+\_\+\+F\+I\+L\+E and N\+D\+X\+\_\+\+G\+R\+O\+U\+P options to import atom lists from ndx (gromacs) files.
+\item In many multicolvars, M\+I\+N and M\+A\+X options can be used.
+\item \hyperlink{HISTOGRAM}{H\+I\+S\+T\+O\+G\+R\+A\+M} \+: G\+R\+I\+D\+\_\+\+S\+P\+A\+C\+I\+N\+G (alternative to G\+R\+I\+D\+\_\+\+B\+I\+N to set grid spacing), F\+R\+E\+E-\/\+E\+N\+E\+R\+G\+Y flags in addition to standard probability density, additional option for K\+E\+R\+N\+E\+L=D\+I\+S\+C\+R\+E\+T\+E to accumulate standard histograms.
+\item \hyperlink{sum_hills}{sum\+\_\+hills} \+: added options --spacing (alternative to --bin to set grid spacing) and --setmintozero to translate the minimum of the output files to zero.
+\item \hyperlink{CONTACTMAP}{C\+O\+N\+T\+A\+C\+T\+M\+A\+P} \+: parallelised and added weights.
+\end{DoxyItemize}
+\item New features in M\+D patches (require repatch)\+:
+\begin{DoxyItemize}
+\item New patch for Gromacs 5.\+0
+\item Gromacs 4.\+6.\+X patch updated to 4.\+6.\+7
+\item Gromacs 4.\+6.\+7 supports \hyperlink{COMMITTOR}{C\+O\+M\+M\+I\+T\+T\+O\+R} analysis; can be now be used to perform energy minimization; now passes temperature to P\+L\+U\+M\+E\+D (this allows temperature to be omitted in some actions, namely \hyperlink{METAD}{M\+E\+T\+A\+D} and analysis actions).
+\end{DoxyItemize}Notice that if you use runtime binding it is not compulsory to repatch, and that all combinations should work correctly (new/old P\+L\+U\+M\+E\+D with repatched/non-\/repatched M\+D code).
+\item Other new features\+:
+\begin{DoxyItemize}
+\item \hyperlink{driver}{driver} can now read trajectories in many formats using V\+M\+D molfile plugin (requires V\+M\+D plugins to be compiled and installed). In case V\+M\+D plugins are not installed, the configuration system falls back to an internal version which implements a minimal list of plugins (gromacs and dcd) (kindly provided by T. Giorgino).
+\item \hyperlink{switchingfunction}{switchingfunction} \+: added S\+T\+R\+E\+T\+C\+H flag.
+\item Negative strides in atom ranges (e.\+g. A\+T\+O\+M\+S=10-\/1\+:-\/3 is expanded to A\+T\+O\+M\+S=10,7,4,1).
+\item \hyperlink{COORDINATION}{C\+O\+O\+R\+D\+I\+N\+A\+T\+I\+O\+N} and \hyperlink{DHENERGY}{D\+H\+E\+N\+E\+R\+G\+Y} with N\+L\+I\+S\+T now work correctly in replica exchange simulations.
+\item Multicolvars with neighbor lists now work correctly in replica exchange simulations.
+\item Improved multicolvar neighbor lists.
+\end{DoxyItemize}
+\item Optimizations\+:
+\begin{DoxyItemize}
+\item Root-\/mean-\/square devations with align weights different from displace weights are now considerably faster. This will affect \hyperlink{RMSD}{R\+M\+S\+D} calculations plus other variables based on R\+M\+S\+D.
+\item \hyperlink{WHOLEMOLECULES}{W\+H\+O\+L\+E\+M\+O\+L\+E\+C\+U\+L\+E\+S} is slighlty faster.
+\item \hyperlink{COORDINATION}{C\+O\+O\+R\+D\+I\+N\+A\+T\+I\+O\+N} is slighlty faster when N\+N and M\+M are even and D\+\_\+0=0.
+\item Atom scattering with domain decomposition is slightly faster.
+\item Link cells are now exploited in some multicolvars.
+\item Derivatives are not calculated unless they are specifically required, because for instance you are adding a bias.
+\end{DoxyItemize}
+\item Documentation\+:
+\begin{DoxyItemize}
+\item All tutorial material from the recent plumed meeting in Belfast is now in the manual
+\item Improvements to documentation, including lists of referenceable quantities outputted by each action
+\item Manual has been re-\/organized following suggestions received at the plumed meeting.
+\item An experimental P\+D\+F version of the manual is now provided (a link can be found in the documentation homepage).
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+Changes from version 2.\+0 which are relevant for developers\+:
+\begin{DoxyItemize}
+\item Added regtests for plumed as a library (e.\+g. basic/rt-\/make-\/0). plumed command has an additional flag (--is-\/installed) to probe if running from a compilation directory or from a fully installed copy (this is needed for regtests to work properly).
+\item Improved class Communicator. Many operations can now be done directly on Vectors, Tensors, std\+::vector and P\+L\+M\+D\+::\+Matrix.
+\item Modified class R\+M\+S\+D.
+\item Patches for G\+P\+L codes (Quantum\+Espresso and Gromacs) now also include original code so as to simplify their modification.
+\item Fixed dependencies among actions such that it is now possible (and reliable) to use M\+P\+I calls inside Action\+::prepare()
+\item colvar/\+Coordination\+Base.\+cpp has been changed to make it faster. If you devised a class which inherits from here, consider that Coordination\+Base\+::pairing now needs {\itshape squared} distance instead of distance
+\item It is possible to run \char`\"{}make install\char`\"{} from subdirectories (e.\+g. from src/colvar)
+\item There is a small script which disables/enables all optional modules (make mod-\/light/mod-\/heavy/mod-\/reset)
+\item Added \char`\"{}-\/q\char`\"{} option to plumed patch
+\item You can now create new metrics to measure distances from a reference configurations. If you do so such metrics can then be used in paths straightforwardly
+\item You can now use multicolvars in tandem with manyrestraints in order to add a large numbers of restraints.
+\item Can now do multicolvar like things in which each colvar is a vector rather than a scalar.
+\item Updated script that generated header files so that they properly show years. Notice that the script should new be run from within a git repository
+\end{DoxyItemize}
+
+This list is likely incompleted, if you are developing in P\+L\+U\+M\+E\+D you are encouraged to follow changes on github.
+
+\subsection*{Version 2.\+1.\+1 (Dec 15, 2014) }
+
+This release includes all the fixes available in branch 2.\+0 until 2.\+0.\+5.
+
+For users\+:
+\begin{DoxyItemize}
+\item New patch for A\+M\+B\+E\+R 14 (sander module only). This patch should be compatible with any P\+L\+U\+M\+E\+D 2 version (including 2.\+0). It includes most P\+L\+U\+M\+E\+D features with the notable exception of multi-\/replica framework.
+\item Changed definition in arbitrary phase of eigenvectors. This will change the result of some analysis method where the phase does matter (e.\+g. \hyperlink{CLASSICAL_MDS}{C\+L\+A\+S\+S\+I\+C\+A\+L\+\_\+\+M\+D\+S}) and make some regression test better reproducible.
+\item Fixed a portability issue in B\+G/\+P where gettimeofday is not implemented. Notice that this fix implies that one should execute again ./configure to have plumed timing working correctly.
+\item C\+S2\+Backbone\+: fixed a bug that resulted in only a fraction of the chemical shifts being printed with W\+R\+I\+T\+E\+\_\+\+C\+S and parallel simulations (requires to get the last almost updated from S\+V\+N)
+\item N\+O\+E\+: fixed a bug in the replica-\/averaging
+\item Fixed a linking issue with A\+L\+M\+O\+S\+T, where bz2 was always used to link A\+L\+M\+O\+S\+T to P\+L\+U\+M\+E\+D even if it is not compulsory to build A\+L\+M\+O\+S\+T.
+\item Fixed a wrong include in the G\+M\+X5 patch.
+\item \hyperlink{FUNCPATHMSD}{F\+U\+N\+C\+P\+A\+T\+H\+M\+S\+D} can now be used together with \hyperlink{CONTACTMAP}{C\+O\+N\+T\+A\+C\+T\+M\+A\+P} to define pathways in contactmaps space
+\item Configuration is more verbose, a warning is given if a default option cannot be enabled and an error is given if an option explicitly enabled cannot be enabled.
+\item Compilation is less verbose (use \char`\"{}make V\+E\+R\+B\+O\+S\+E=1\char`\"{} to have old behavior)
+\item Small fixes in documentation.
+\end{DoxyItemize}
+
+For developers\+:
+\begin{DoxyItemize}
+\item Tests are now performed at every single push on travis-\/ci.\+org
+\item Manual is built and pushed to the online server from travis-\/ci.\+org (see developer doc)
+\item Fixes in developer doc.
+\end{DoxyItemize}
+
+\subsection*{Unreleased changes (will be included in 2.\+1.\+2) }
+
+See \href{http://github.com/plumed/plumed2/commits/v2.1}{\tt branch v2.\+1 on git repository}.
+
+For users\+:
+\begin{DoxyItemize}
+\item Fixed a bug affecting L\+A\+M\+M\+P\+S patch used with a single processor. Notice that the fixed is inside P\+L\+U\+M\+E\+D, thus it does not necessarily requires repatching.
+\item Fixed a severe bug on \hyperlink{DRMSD}{D\+R\+M\+S\+D} -\/ cutoff values were ignored by P\+L\+U\+M\+E\+D. Notice that this bug was introduced in 2.\+1.\+0, so that it should not affect the 2.\+0.\+x series.
+\item Patching system now checks for the availabity of shared/static/runtime version of plumed before patching
+\item G\+M\+X5 patch was not working for bias-\/exchange like cases
+\item Sander patch now works with multiple replica (no replica exchange yet). 
+\end{DoxyItemize}

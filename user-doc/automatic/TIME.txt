@@ -1,0 +1,29 @@
+/**
+\page TIME TIME
+<table  align=center frame=void width=95%% celpadding=5%%>
+<tr> <td width=70%%> </td> <td>
+<b> This is part of the generic \link mymodules module \endlink</b>
+</td> </tr> </table>
+retrieve the time of the simulation to be used elsewere
+
+\par Options
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> NUMERICAL_DERIVATIVES </b></td>
+<td> ( default=off ) calculate the derivatives for these quantities numerically </td>
+</tr>
+
+</table>
+
+</table>
+
+\par Examples
+
+\verbatim
+TIME            LABEL=t1
+PRINT ARG=t1
+\endverbatim
+(See also \ref PRINT).
+
+*/

@@ -1,0 +1,13 @@
+/**
+\page TARGET TARGET
+<table  align=center frame=void width=95%% celpadding=5%%>
+<tr> <td width=70%%> </td> <td>
+<b> This is part of the function \link mymodules module \endlink</b>
+</td> </tr> </table>
+This function measures the pythagorean distance from a particular structure measured in the space defined by some 
+set of collective variables.
+
+\par Examples
+
+
+*/

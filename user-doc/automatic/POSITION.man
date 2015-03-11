@@ -1,0 +1,68 @@
+\par Description of components
+
+By default this Action calculates the following quantities. These quanties can be referenced elsewhere in the input by using this Action's label followed by a dot and the name of the quantity required from the list below.
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr> <td width=5%> <b> Quantity </b> </td> <td> <b> Description </b> </td> </tr>
+<tr>
+<td width=15%> <b> x </b></td>
+<td> the x-component of the atom position </td>
+</tr>
+<tr>
+<td width=15%> <b> y </b></td>
+<td> the y-component of the atom position </td>
+</tr>
+<tr>
+<td width=15%> <b> z </b></td>
+<td> the z-component of the atom position </td>
+</tr>
+</table>
+
+In addition the following quantities can be calculated by employing the keywords listed below
+
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr> <td width=5%> <b> Quantity </b> </td> <td> <b> Keyword </b> </td> <td> <b> Description </b> </td> </tr>
+<tr>
+<td width=5%> <b> a </b></td> <td width=10%> <b> SCALED_COMPONENTS </b> </td> 
+<td> the normalized projection on the first lattice vector of the atom position </td>
+</tr>
+<tr>
+<td width=5%> <b> b </b></td> <td width=10%> <b> SCALED_COMPONENTS </b> </td> 
+<td> the normalized projection on the second lattice vector of the atom position </td>
+</tr>
+<tr>
+<td width=5%> <b> c </b></td> <td width=10%> <b> SCALED_COMPONENTS </b> </td> 
+<td> the normalized projection on the third lattice vector of the atom position </td>
+</tr>
+</table>
+
+\par The atoms involved can be specified using
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> ATOM </b></td>
+<td> the atom number.  For more information on how to specify lists of atoms see \ref Group </td>
+</tr>
+</table>
+
+\par Options
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> NUMERICAL_DERIVATIVES </b></td>
+<td> ( default=off ) calculate the derivatives for these quantities numerically </td>
+</tr>
+<tr>
+<td width=15%> <b> NOPBC </b></td>
+<td> ( default=off ) ignore the periodic boundary conditions when calculating distances </td>
+</tr>
+<tr>
+<td width=15%> <b> SCALED_COMPONENTS </b></td>
+<td> ( default=off ) calculate the a, b and c scaled components of the position separately and store them as label.a, label.b and label.c </td>
+</tr>
+
+</table>
+
+</table>
+

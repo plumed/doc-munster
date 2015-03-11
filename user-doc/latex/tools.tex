@@ -1,0 +1,503 @@
+P\+L\+U\+M\+E\+D contains a number of simple command line tools. To use one of these tools you issue a command something like\+:
+
+\begin{DoxyVerb}plumed <toolname> <list of input flags for that tool>
+\end{DoxyVerb}
+
+
+The following is a list of the various standalone tools that P\+L\+U\+M\+E\+D contains.
+
+\begin{TabularC}{2}
+\hline
+\hyperlink{driver}{driver}  &driver is a tool that allows one to to use plumed to post-\/process an existing trajectory.  \\\cline{1-2}
+\hyperlink{gentemplate}{gentemplate}  &gentemplate is a tool that you can use to construct template inputs for the variousactions  \\\cline{1-2}
+\hyperlink{info}{info}  &This tool allows you to obtain information about your plumed version  \\\cline{1-2}
+\hyperlink{kt}{kt}  &Print out the value of $k_BT$ at a particular temperature  \\\cline{1-2}
+\hyperlink{manual}{manual}  &manual is a tool that you can use to construct the manual page for a particular action  \\\cline{1-2}
+\hyperlink{simplemd}{simplemd}  &simplemd allows one to do molecular dynamics on systems of Lennard-\/\+Jones atoms.  \\\cline{1-2}
+\hyperlink{sum_hills}{sum\+\_\+hills}  &sum\+\_\+hills is a tool that allows one to to use plumed to post-\/process an existing hills/colvar file   \\\cline{1-2}
+\end{TabularC}
+
+
+For all these tools and to use P\+L\+U\+M\+E\+D as a plugin in an M\+D calculation you will need an input file. \hypertarget{driver}{}\section{driver}\label{driver}
+\begin{TabularC}{2}
+\hline
+&{\bfseries  This is part of the cltools \hyperlink{mymodules}{module }}   \\\cline{1-2}
+\end{TabularC}
+driver is a tool that allows one to to use plumed to post-\/process an existing trajectory.
+
+The input to driver is specified using the command line arguments described below.
+
+In addition, you can use the special \hyperlink{READ}{R\+E\+A\+D} command inside your plumed input to read in colvar files that were generated during your M\+D simulation. The values read in can then be treated like calculated colvars.
+
+\begin{DoxyParagraph}{The input trajectory is specified using one of the following}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  {\ttfamily -\/-\/ixyz} } &the trajectory in xyz format   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/igro} } &the trajectory in gro format   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/mf\+\_\+dcd} } &molfile\+: the trajectory in dcd format   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/mf\+\_\+gro} } &molfile\+: the trajectory in gro format   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/mf\+\_\+g96} } &molfile\+: the trajectory in g96 format   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/mf\+\_\+trr} } &molfile\+: the trajectory in trr format   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/mf\+\_\+trj} } &molfile\+: the trajectory in trj format   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/mf\+\_\+xtc} } &molfile\+: the trajectory in xtc format   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/mf\+\_\+pdb} } &molfile\+: the trajectory in pdb format   \\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{The following must be present}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  {\ttfamily -\/-\/plumed} } &( default=plumed.\+dat ) specify the name of the plumed input file   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/timestep} } &( default=1.\+0 ) the timestep that was used in the calculation that produced this trajectory in picoseconds   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/trajectory-\/stride} } &( default=1 ) the frequency with which frames were output to this trajectory during the simulation   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/multi} } &( default=0 ) set number of replicas for multi environment (needs mpi)   \\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{The following options are available}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  {\ttfamily -\/-\/help/-\/h} } &( default=off ) print this help   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/help-\/debug} } &( default=off ) print special options that can be used to create regtests   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/noatoms} } &( default=off ) don't read in a trajectory. Just use colvar files as specified in plumed.\+dat  
+
+\\\cline{1-2}
+\end{TabularC}
+
+
+\begin{TabularC}{2}
+\hline
+{\bfseries  {\ttfamily -\/-\/length-\/units} } &units for length, either as a string or a number   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/dump-\/forces} } &dump the forces on a file   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/dump-\/forces-\/fmt} } &( default=\%f ) the format to use to dump the forces   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/pdb} } &provides a pdb with masses and charges   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/box} } &comma-\/separated box dimensions (3 for orthorombic, 9 for generic)  
+
+\\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Examples}
+
+\end{DoxyParagraph}
+The following command tells plumed to postprocess the trajectory contained in trajectory.\+xyz by performing the actions described in the input file plumed.\+dat. If an action that takes the stride keyword is given a stride equal to $n$ then it will be performed only on every $n$th frame in the trajectory file. \begin{DoxyVerb}plumed driver --plumed plumed.dat --ixyz trajectory.xyz
+\end{DoxyVerb}
+
+
+The following command tells plumed to postprocess the trajectory contained in trajectory.\+xyz. by performing the actions described in the input file plumed.\+dat. Here though --trajectory-\/stride is set equal to the frequency with which frames were output during the trajectory and the --timestep is equal to the simulation timestep. As such the S\+T\+R\+I\+D\+E parameters in the plumed.\+dat files are no longer ignored and any files output resemble those that would have been generated had we run the calculation we are running with driver when the M\+D simulation was running. \begin{DoxyVerb}plumed driver --plumed plumed.dat --ixyz trajectory.xyz --trajectory-stride 100 --timestep 0.001
+\end{DoxyVerb}
+
+
+By default you have access to a subset of the trajectory file formats supported by V\+M\+D, e.\+g. xtc and dcd\+:
+
+\begin{DoxyVerb}plumed driver --plumed plumed.dat --pdb diala.pdb --mf_xtc traj.xtc --trajectory-stride 100 --timestep 0.001
+\end{DoxyVerb}
+
+
+where --mf\+\_\+ prefixes the extension of one of the accepted molfile plugin format.
+
+To have support of all of V\+M\+D's plugins you need to recompile P\+L\+U\+M\+E\+D. You need to download the S\+O\+U\+R\+C\+E of V\+M\+D, which contains a plugins directory. Adapt build.\+sh and compile it. At the end, you should get the molfile plugins compiled as a static library libmolfile\+\_\+plugin.\+a. Locate said file and libmolfile\+\_\+plugin.\+h, and customize the configure command with something along the lines of\+:
+
+\begin{DoxyVerb}configure [...] LDFLAGS="-ltcl8.5 -L/mypathtomolfilelibrary/ -L/mypathtotcl" CPPFLAGS="-I/mypathtolibmolfile_plugin.h/"
+\end{DoxyVerb}
+
+
+and rebuild. Check the available molfile plugins and limitations at \href{http://www.ks.uiuc.edu/Research/vmd/plugins/molfile/}{\tt http\+://www.\+ks.\+uiuc.\+edu/\+Research/vmd/plugins/molfile/}. \hypertarget{READ}{}\subsection{R\+E\+A\+D}\label{READ}
+\begin{TabularC}{2}
+\hline
+&{\bfseries  This is part of the generic \hyperlink{mymodules}{module }}   \\\cline{1-2}
+\end{TabularC}
+Read quantities from a colvar file.
+
+This Action can be used with driver to read in a colvar file that was generated during an M\+D simulation
+
+\begin{DoxyParagraph}{Description of components}
+
+\end{DoxyParagraph}
+The R\+E\+A\+D command will read those fields that are labelled with the text string given to the V\+A\+L\+U\+E keyword. It will also read in any fields that are labelleled with the text string given to the V\+A\+L\+U\+E keyword followed by a dot and a further string. If a single Value is read in this value can be referenced using the label of the Action. Alternatively, if multiple quanties are read in, they can be referenced elsewhere in the input by using the label for the Action followed by a dot and the character string that appeared after the dot in the title of the field.
+
+\begin{DoxyParagraph}{Compulsory keywords}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  S\+T\+R\+I\+D\+E } &( default=1 ) the frequency with which the file should be read.   \\\cline{1-2}
+{\bfseries  E\+V\+E\+R\+Y } &( default=1 ) only read every ith line of the colvar file. This should be used if the colvar was written more frequently than the trajectory.   \\\cline{1-2}
+{\bfseries  V\+A\+L\+U\+E\+S } &the values to read from the file   \\\cline{1-2}
+{\bfseries  F\+I\+L\+E } &the name of the file from which to read these quantities   \\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Options}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  I\+G\+N\+O\+R\+E\+\_\+\+T\+I\+M\+E } &( default=off ) ignore the time in the colvar file. When this flag is not present read will be quite strict about the start time of the simulation and the stride between frames  
+
+\\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Examples}
+
+\end{DoxyParagraph}
+This input reads in data from a file called input\+\_\+colvar.\+data that was generated in a calculation that involved P\+L\+U\+M\+E\+D. The first command reads in the data from the column headed phi1 while the second reads in the data from the column headed phi2.
+
+\begin{DoxyVerb}rphi1:       READ FILE=input_colvar.data  VALUES=phi1
+rphi2:       READ FILE=input_colvar.data  VALUES=phi2
+PRINT ARG=rphi1,rphi2 STRIDE=500  FILE=output_colvar.data
+\end{DoxyVerb}
+ \hypertarget{gentemplate}{}\section{gentemplate}\label{gentemplate}
+\begin{TabularC}{2}
+\hline
+&{\bfseries  This is part of the cltools \hyperlink{mymodules}{module }}   \\\cline{1-2}
+\end{TabularC}
+gentemplate is a tool that you can use to construct template inputs for the various actions
+
+The templates generated by this tool are primarily for use with Toni Giorgino's vmd gui. It may be useful however to use this tool as a quick aid memoir.
+
+\begin{DoxyParagraph}{Options}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  {\ttfamily -\/-\/help/-\/h} } &( default=off ) print this help   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/list} } &( default=off ) print a list of the available actions   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/include-\/optional} } &( default=off ) also print optional modifiers  
+
+\\\cline{1-2}
+\end{TabularC}
+
+
+\begin{TabularC}{2}
+\hline
+{\bfseries  {\ttfamily -\/-\/action} } &print the template for this particular action  
+
+\\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Examples}
+
+\end{DoxyParagraph}
+The following generates template input for the action D\+I\+S\+T\+A\+N\+C\+E. \begin{DoxyVerb}plumed gentemplate --action DISTANCE
+\end{DoxyVerb}
+ \hypertarget{info}{}\section{info}\label{info}
+\begin{TabularC}{2}
+\hline
+&{\bfseries  This is part of the cltools \hyperlink{mymodules}{module }}   \\\cline{1-2}
+\end{TabularC}
+This tool allows you to obtain information about your plumed version
+
+You can specify the information you require using the following command line arguments
+
+\begin{DoxyParagraph}{Options}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  {\ttfamily -\/-\/help/-\/h} } &( default=off ) print this help   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/configuration} } &( default=off ) prints the configuration file   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/root} } &( default=off ) print the location of the root directory for the plumed source   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/user-\/doc} } &( default=off ) print the location of user manual (html)   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/developer-\/doc} } &( default=off ) print the location of user manual (html)   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/version} } &( default=off ) print the version number   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/long-\/version} } &( default=off ) print the version number (long version)   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/git-\/version} } &( default=off ) print the version number (git version, if available)  
+
+\\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Examples}
+
+\end{DoxyParagraph}
+The following command returns the root directory for your plumed distribution. \begin{DoxyVerb}plumed info --root
+\end{DoxyVerb}
+ \hypertarget{kt}{}\section{kt}\label{kt}
+\begin{TabularC}{2}
+\hline
+&{\bfseries  This is part of the cltools \hyperlink{mymodules}{module }}   \\\cline{1-2}
+\end{TabularC}
+Print out the value of $k_BT$ at a particular temperature
+
+\begin{DoxyParagraph}{Compulsory keywords}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  {\ttfamily -\/-\/temp} } &print the manual for this particular action   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/units} } &( default=kj/mol ) the units of energy can be kj/mol, kcal/mol, j/mol, e\+V or the conversion factor from kj/mol   \\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Options}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  {\ttfamily -\/-\/help/-\/h} } &( default=off ) print this help  
+
+\\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Examples}
+
+\end{DoxyParagraph}
+The following command will tell you the value of $k_BT$ when T is equal to 300 K in e\+V
+
+\begin{DoxyVerb}plumed kt --temp 300 --units eV
+\end{DoxyVerb}
+ \hypertarget{manual}{}\section{manual}\label{manual}
+\begin{TabularC}{2}
+\hline
+&{\bfseries  This is part of the cltools \hyperlink{mymodules}{module }}   \\\cline{1-2}
+\end{TabularC}
+manual is a tool that you can use to construct the manual page for a particular action
+
+The manual constructed by this action is in html. In all probability you will never need to use this tool. However, it is used within the scripts that generate plumed's html manual. If you need to use this tool outside those scripts the input is specified using the following command line arguments.
+
+\begin{DoxyParagraph}{Compulsory keywords}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  {\ttfamily -\/-\/action} } &print the manual for this particular action   \\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Options}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  {\ttfamily -\/-\/help/-\/h} } &( default=off ) print this help  
+
+\\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Examples}
+
+\end{DoxyParagraph}
+The following generates the html manual for the action D\+I\+S\+T\+A\+N\+C\+E. \begin{DoxyVerb}plumed manual --action DISTANCE
+\end{DoxyVerb}
+ \hypertarget{simplemd}{}\section{simplemd}\label{simplemd}
+\begin{TabularC}{2}
+\hline
+&{\bfseries  This is part of the cltools \hyperlink{mymodules}{module }}   \\\cline{1-2}
+\end{TabularC}
+simplemd allows one to do molecular dynamics on systems of Lennard-\/\+Jones atoms.
+
+The input to simplemd is spcified in an input file. Configurations are input and output in xyz format. The input file should contain one directive per line. The directives available are as follows\+:
+
+\begin{DoxyParagraph}{Compulsory keywords}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  nstep } &The number of steps of dynamics you want to run   \\\cline{1-2}
+{\bfseries  temperature } &( default=N\+V\+E ) the temperature at which you wish to run the simulation in L\+J units   \\\cline{1-2}
+{\bfseries  friction } &( default=off ) The friction (in L\+J units) for the langevin thermostat that is used to keep the temperature constant   \\\cline{1-2}
+{\bfseries  tstep } &( default=0.\+005 ) the integration timestep in L\+J units   \\\cline{1-2}
+{\bfseries  inputfile } &An xyz file containing the initial configuration of the system   \\\cline{1-2}
+{\bfseries  forcecutoff } &( default=2.\+5 )   \\\cline{1-2}
+{\bfseries  listcutoff } &( default=3.\+0 )   \\\cline{1-2}
+{\bfseries  outputfile } &An output xyz file containing the final configuration of the system   \\\cline{1-2}
+{\bfseries  nconfig } &( default=10 ) The frequency with which to write configurations to the trajectory file followed by the name of the trajectory file   \\\cline{1-2}
+{\bfseries  nstat } &( default=1 ) The frequency with which to write the statistics to the statistics file followed by the name of the statistics file   \\\cline{1-2}
+{\bfseries  maxneighbours } &( default=10000 ) The maximum number of neighbours an atom can have   \\\cline{1-2}
+{\bfseries  idum } &( default=0 ) The random number seed   \\\cline{1-2}
+{\bfseries  ndim } &( default=3 ) The dimensionality of the system (some interesting L\+J clusters are two dimensional)   \\\cline{1-2}
+{\bfseries  wrapatoms } &( default=false ) If true, atomic coordinates are written wrapped in minimal cell   \\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Examples}
+
+\end{DoxyParagraph}
+You run an M\+D simulation using simplemd with the following command\+: \begin{DoxyVerb}plumed simplemd < in
+\end{DoxyVerb}
+
+
+The following is an example of an input file for a simplemd calculation. This file instructs simplemd to do 50 steps of M\+D at a temperature of 0.\+722 \begin{DoxyVerb}nputfile input.xyz
+outputfile output.xyz
+temperature 0.722
+tstep 0.005
+friction 1
+forcecutoff 2.5
+listcutoff  3.0
+nstep 50
+nconfig 10 trajectory.xyz
+nstat   10 energies.dat
+\end{DoxyVerb}
+
+
+If you run the following a description of all the directives that can be used in the input file will be output. \begin{DoxyVerb}plumed simplemd --help
+\end{DoxyVerb}
+ \hypertarget{sum_hills}{}\section{sum\+\_\+hills}\label{sum_hills}
+\begin{TabularC}{2}
+\hline
+&{\bfseries  This is part of the cltools \hyperlink{mymodules}{module }}   \\\cline{1-2}
+\end{TabularC}
+sum\+\_\+hills is a tool that allows one to to use plumed to post-\/process an existing hills/colvar file
+
+\begin{DoxyParagraph}{Options}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  {\ttfamily -\/-\/help/-\/h} } &( default=off ) print this help   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/help-\/debug} } &( default=off ) print special options that can be used to create regtests   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/negbias} } &( default=off ) print the negative bias instead of the free energy (only needed with welltempered runs and flexible hills)   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/nohistory} } &( default=off ) to be used with --stride\+: it splits the bias/histogram in pieces without previous history   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/mintozero} } &( default=off ) it translate all the minimum value in bias/histogram to zero (usefull to compare results)  
+
+\\\cline{1-2}
+\end{TabularC}
+
+
+\begin{TabularC}{2}
+\hline
+{\bfseries  {\ttfamily -\/-\/hills} } &specify the name of the hills file   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/histo} } &specify the name of the file for histogram a colvar/hills file is good   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/stride} } &specify the stride for integrating hills file (default 0=never)   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/min} } &the lower bounds for the grid   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/max} } &the upper bounds for the grid   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/bin} } &the number of bins for the grid   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/spacing} } &grid spacing, alternative to the number of bins   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/idw} } &specify the variables to be used for the free-\/energy/histogram (default is all). With --hills the other variables will be integrated out, with --histo the other variables won't be considered   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/outfile} } &specify the outputfile for sumhills   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/outhisto} } &specify the outputfile for the histogram   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/kt} } &specify temperature in energy units for integrating out variables   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/sigma} } &a vector that specify the sigma for binning (only needed when doing histogram   \\\cline{1-2}
+{\bfseries  {\ttfamily -\/-\/fmt} } &specify the output format  
+
+\\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Examples}
+
+\end{DoxyParagraph}
+a typical case is about the integration of a hills file\+:
+
+\begin{DoxyVerb}plumed sum_hills  --hills PATHTOMYHILLSFILE 
+\end{DoxyVerb}
+
+
+The default name for the output file will be fes.\+dat Note that starting from this version plumed will automatically detect the number of the variables you have and their periodicity. Additionally, if you use flexible hills (multivariate gaussians), plumed will understand it from the H\+I\+L\+L\+S file.
+
+now sum\+\_\+hills tool accepts als multiple files that will be integrated one after the other
+
+\begin{DoxyVerb}plumed sum_hills  --hills PATHTOMYHILLSFILE1,PATHTOMYHILLSFILE2,PATHTOMYHILLSFILE3 
+\end{DoxyVerb}
+
+
+if you want to integrate out some variable you do
+
+\begin{DoxyVerb}plumed sum_hills  --hills PATHTOMYHILLSFILE   --idw t1 --kt 0.6 
+\end{DoxyVerb}
+
+
+where with --idw you define the variables that you want all the others will be integrated out. --kt defines the temperature of the system in energy units. (be consistent with the units you have in your hills\+: plumed will not check this for you) If you need more variables then you may use a comma separated syntax
+
+\begin{DoxyVerb}plumed sum_hills  --hills PATHTOMYHILLSFILE   --idw t1,t2 --kt 0.6  
+\end{DoxyVerb}
+
+
+You can define the output grid only with the number of bins you want while min/max will be detected for you
+
+\begin{DoxyVerb}plumed sum_hills --bin 99,99 --hills PATHTOMYHILLSFILE   
+\end{DoxyVerb}
+
+
+or full grid specification
+
+\begin{DoxyVerb}plumed sum_hills --bin 99,99 --min -pi,-pi --max pi,pi --hills PATHTOMYHILLSFILE   
+\end{DoxyVerb}
+
+
+You can of course use numbers instead of -\/pi/pi.
+
+You can use a --stride keyword to have a dump each bunch of hills you read \begin{DoxyVerb}plumed sum_hills --stride 300 --hills PATHTOMYHILLSFILE   
+\end{DoxyVerb}
+
+
+You can also have, in case of welltempered metadynamics, only the negative bias instead of the free energy through the keyword --negbias
+
+\begin{DoxyVerb}plumed sum_hills --negbias --hills PATHTOMYHILLSFILE   
+\end{DoxyVerb}
+
+
+Here the default name will be negativebias.\+dat
+
+From time to time you might need to use H\+I\+L\+L\+S or a C\+O\+L\+V\+A\+R file as it was just a simple set of points from which you want to build a free energy by using -\/(1/beta)log(\+P) then you use --histo
+
+\begin{DoxyVerb}plumed sum_hills --histo PATHTOMYCOLVARORHILLSFILE  --sigma 0.2,0.2 --kt 0.6  
+\end{DoxyVerb}
+
+
+in this case you need a --kt to do the reweighting and then you need also some width (with the --sigma keyword) for the histogram calculation (actually will be done with gaussians, so it will be a continuous histogram) Here the default output will be histo.\+dat. Note that also here you can have multiple input files separated by a comma.
+
+Additionally, if you want to do histogram and hills from the same file you can do as this \begin{DoxyVerb}plumed sum_hills --hills --histo PATHTOMYCOLVARORHILLSFILE  --sigma 0.2,0.2 --kt 0.6  
+\end{DoxyVerb}
+ The two files can be eventually the same
+
+Another interesting thing one can do is monitor the difference in blocks as a metadynamics goes on. When the bias deposited is constant over the whole domain one can consider to be at convergence. This can be done with the --nohistory keyword
+
+\begin{DoxyVerb}plumed sum_hills --stride 300 --hills PATHTOMYHILLSFILE  --nohistory 
+\end{DoxyVerb}
+
+
+and similarly one can do the same for an histogram file
+
+\begin{DoxyVerb}plumed sum_hills --histo PATHTOMYCOLVARORHILLSFILE  --sigma 0.2,0.2 --kt 0.6 --nohistory 
+\end{DoxyVerb}
+
+
+just to check the hypothetical free energy calculated in single blocks of time during a simulation and not in a cumulative way
+
+Output format can be controlled via the --fmt field
+
+\begin{DoxyVerb}plumed sum_hills --hills PATHTOMYHILLSFILE  --fmt %8.3f 
+\end{DoxyVerb}
+
+
+where here we chose a float with length of 8 and 3 digits
+
+The output can be named in a arbitrary way \+:
+
+\begin{DoxyVerb}plumed sum_hills --hills PATHTOMYHILLSFILE  --outfile myfes.dat 
+\end{DoxyVerb}
+
+
+will produce a file myfes.\+dat which contains the free energy.
+
+If you use stride, this keyword is the suffix
+
+\begin{DoxyVerb}plumed sum_hills --hills PATHTOMYHILLSFILE  --outfile myfes_ --stride 100
+\end{DoxyVerb}
+
+
+will produce myfes\+\_\+0.\+dat, myfes\+\_\+1.\+dat, myfes\+\_\+2.\+dat etc.
+
+The same is true for the output coming from histogram \begin{DoxyVerb}plumed sum_hills --histo HILLS --kt 2.5 --sigma 0.01 --outhisto myhisto.dat
+\end{DoxyVerb}
+
+
+is producing a file myhisto.\+dat while, when using stride, this is the suffix
+
+\begin{DoxyVerb}plumed sum_hills --histo HILLS --kt 2.5 --sigma 0.01 --outhisto myhisto_ --stride 100 
+\end{DoxyVerb}
+
+
+that gives myhisto\+\_\+0.\+dat, myhisto\+\_\+1.\+dat, myhisto\+\_\+3.\+dat etc.. 

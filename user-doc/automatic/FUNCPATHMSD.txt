@@ -1,0 +1,117 @@
+/**
+\page FUNCPATHMSD FUNCPATHMSD
+<table  align=center frame=void width=95%% celpadding=5%%>
+<tr> <td width=70%%> </td> <td>
+<b> This is part of the function \link mymodules module \endlink</b>
+</td> </tr> </table>
+This function calculates path collective variables. 
+
+This is the Path Collective Variables implementation 
+( see \cite brand07 ).
+This variable computes the progress along a given set of frames that is provided  
+in input ("s" component) and the distance from them ("z" component). 
+It is a function of MSD that are obtained by the joint use of MSD variable and SQUARED flag 
+(see below).
+
+\par Description of components
+
+By default this Action calculates the following quantities. These quanties can be referenced elsewhere in the input by using this Action's label followed by a dot and the name of the quantity required from the list below.
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr> <td width=5%> <b> Quantity </b> </td> <td> <b> Description </b> </td> </tr>
+<tr>
+<td width=15%> <b> s </b></td>
+<td> the position on the path </td>
+</tr>
+<tr>
+<td width=15%> <b> z </b></td>
+<td> the distance from the path </td>
+</tr>
+</table>
+
+\par Compulsory keywords
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> ARG </b></td>
+<td> the input for this action is the scalar output from one or more other actions. The particular scalars that you will use are referenced using the label of the action. If the label appears on its own then it is assumed that the Action calculates a single scalar value.  The value of this scalar is thus used as the input to this new action.  If * or *.* appears the scalars calculated by all the proceding actions in the input file are taken.  Some actions have multi-component outputs and each component of the output has a specific label.  For example a \ref DISTANCE action labelled dist may have three componets x, y and z.  To take just the x component you should use dist.x, if you wish to take all three components then use dist.*.More information on the referencing of Actions can be found in the section of the manual on the PLUMED \ref Syntax.  Scalar values can also be referenced using POSIX regular expressions as detailed in the section on \ref Regex. To use this feature you you must compile PLUMED with the appropriate flag. </td>
+</tr>
+<tr>
+<td width=15%> <b> LAMBDA </b></td>
+<td> the lambda parameter is needed for smoothing, is in the units of plumed </td>
+</tr>
+</table>
+
+\par Options
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> NUMERICAL_DERIVATIVES </b></td>
+<td> ( default=off ) calculate the derivatives for these quantities numerically </td>
+</tr>
+
+</table>
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> NEIGH_SIZE </b></td>
+<td> size of the neighbor list </td>
+</tr>
+<tr>
+<td width=15%> <b> NEIGH_STRIDE </b></td>
+<td> how often the neighbor list needs to be calculated in time units </td>
+</tr>
+
+</table>
+
+\par Examples
+
+Here below is a case where you have defined three frames and you want to  
+calculate the progress alng the path and the distance from it in p1
+
+\verbatim
+t1: RMSD REFERENCE=frame_1.dat TYPE=OPTIMAL SQUARED
+t2: RMSD REFERENCE=frame_21.dat TYPE=OPTIMAL SQUARED
+t3: RMSD REFERENCE=frame_42.dat TYPE=OPTIMAL SQUARED
+p1: FUNCPATHMSD ARG=t1,t2,t3 LAMBDA=500.0 
+PRINT ARG=t1,t2,t3,p1.s,p1.z STRIDE=1 FILE=colvar FMT=%8.4f
+\endverbatim
+
+In this second example is shown how to define a PATH in the \ref CONTACTMAP space:
+
+\verbatim
+CONTACTMAP ...
+ATOMS1=1,2 REFERENCE1=0.1  
+ATOMS2=3,4 REFERENCE2=0.5  
+ATOMS3=4,5 REFERENCE3=0.25  
+ATOMS4=5,6 REFERENCE4=0.0  
+SWITCH=(RATIONAL R_0=1.5) 
+LABEL=c1
+CMDIST
+... CONTACTMAP
+
+CONTACTMAP ...
+ATOMS1=1,2 REFERENCE1=0.3  
+ATOMS2=3,4 REFERENCE2=0.9  
+ATOMS3=4,5 REFERENCE3=0.45  
+ATOMS4=5,6 REFERENCE4=0.1  
+SWITCH=(RATIONAL R_0=1.5) 
+LABEL=c2
+CMDIST
+... CONTACTMAP
+
+CONTACTMAP ...
+ATOMS1=1,2 REFERENCE1=1.0  
+ATOMS2=3,4 REFERENCE2=1.0  
+ATOMS3=4,5 REFERENCE3=1.0  
+ATOMS4=5,6 REFERENCE4=1.0  
+SWITCH=(RATIONAL R_0=1.5) 
+LABEL=c3
+CMDIST
+... CONTACTMAP
+
+p1: FUNCPATHMSD ARG=c1,c2,c3 LAMBDA=500.0 
+PRINT ARG=c1,c2,c3,p1.s,p1.z STRIDE=1 FILE=colvar FMT=%8.4f
+\endverbatim
+
+*/

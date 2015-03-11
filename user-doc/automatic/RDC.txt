@@ -1,0 +1,148 @@
+/**
+\page RDC RDC
+<table  align=center frame=void width=95%% celpadding=5%%>
+<tr> <td width=70%%> </td> <td>
+<b> This is part of the colvar \link mymodules module \endlink</b>
+</td> </tr> </table>
+Calculates the Residual Dipolar Coupling between two atoms. 
+
+The RDC between two atomic nuclei depends on the \f$\theta\f$ angle between 
+the inter-nuclear vector and the external magnetic field. In isotropic media RDCs average to zero because of the orientational 
+averaging, but when the rotational symmetry is broken, either through the introduction of an alignment medium or for molecules 
+with highly anisotropic paramagnetic susceptibility, RDCs become measurable.
+
+\f[
+D=D_{max}0.5(3\cos^2(\theta)-1)
+\f]
+
+where
+
+\f[
+D_{max}=-\mu_0\gamma_1\gamma_2h/(8\pi^3r^3)
+\f]
+
+that is the maximal value of the dipolar coupling for the two nuclear spins with gyromagnetic ratio \f$\gamma\f$. 
+\f$\mu\f$ is the magnetic constant and h is the Planck constant. 
+
+Common Gyromagnetic Ratios (C.G.S)
+- H(1) 26.7513
+- C(13) 6.7261
+- N(15) -2.7116
+- NH -72.5388
+- CH 179.9319
+- CN -18.2385
+- CC 45.2404
+
+This collective variable calculates the Residual Dipolar Coupling for a set of couple of atoms using the above definition. 
+From the calculated RDCs and a set of experimental values it calculates either their correlation or the squared quality factor 
+
+\f[
+Q^2=\frac{\sum_i(D_i-D^{exp}_i)^2}{\sum_i(D^{exp}_i)^2}
+\f]
+
+RDCs report only on the fraction of molecules that is aligned, this means that comparing the RDCs from a single structure in
+a MD simulation to the experimental values is not particularly meaningfull, from this point of view it is better to compare
+their correlation. The fraction of aligned molecules can be obtained by maximising the correlation between the calculated and 
+the experimental RDCs. This fraction can be used as a scaling factor in the calculation of the RDCs in order to compare their
+values. The averaging of the RDCs calculated with the above definition from a standard MD should result to 0 because of
+the rotational diffusion, but this variable can be used to break the rotational symmetry.
+
+RDCs can also be calculated using a Single Value Decomposition approach, in this case the code rely on the
+a set of function from the GNU Scientific Library (GSL). (With SVD forces are not currently implemented).
+
+Replica-Averaged restrained simulations can be performed with this CV using the ENSEMBLE flag.
+
+Additional material and examples can be also found in the tutorial \ref belfast-9
+
+\par The atoms involved can be specified using
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> ATOMS </b></td>
+<td> the couple of atoms involved in each of the bonds for which you wish to calculate the RDC. Keywords like ATOMS1, ATOMS2, ATOMS3,... should be listed and one dipolar coupling will be calculated for each ATOMS keyword you specify. You can use multiple instances of this keyword i.e. ATOMS1, ATOMS2, ATOMS3... </td>
+</tr>
+</table>
+
+\par Compulsory keywords
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> WRITE_DC </b></td>
+<td> ( default=0 ) Write the back-calculated dipolar couplings every # steps. </td>
+</tr>
+</table>
+
+\par Options
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> NUMERICAL_DERIVATIVES </b></td>
+<td> ( default=off ) calculate the derivatives for these quantities numerically </td>
+</tr>
+<tr>
+<td width=15%> <b> NOPBC </b></td>
+<td> ( default=off ) ignore the periodic boundary conditions when calculating distances </td>
+</tr>
+<tr>
+<td width=15%> <b> ENSEMBLE </b></td>
+<td> ( default=off ) Set to TRUE if you want to average over multiple replicas. </td>
+</tr>
+<tr>
+<td width=15%> <b> CORRELATION </b></td>
+<td> ( default=off ) Set to TRUE if you want to kept constant the bonds distances. </td>
+</tr>
+<tr>
+<td width=15%> <b> SERIAL </b></td>
+<td> ( default=off ) Set to TRUE if you want to run the CV in serial. </td>
+</tr>
+<tr>
+<td width=15%> <b> SVD </b></td>
+<td> ( default=off ) Set to TRUE if you want to backcalculate using Single Value Decomposition (need GSL at compilation time). </td>
+</tr>
+
+</table>
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> COUPLING </b></td>
+<td> Add an experimental value for each coupling.  You can use multiple instances of this keyword i.e. COUPLING1, COUPLING2, COUPLING3... </td>
+</tr>
+<tr>
+<td width=15%> <b> GYROM </b></td>
+<td> Add the product of the gyromagnetic constants for each bond.  You can use multiple instances of this keyword i.e. GYROM1, GYROM2, GYROM3... </td>
+</tr>
+<tr>
+<td width=15%> <b> SCALE </b></td>
+<td> Add a scaling factor to take into account concentration and other effects.  You can use multiple instances of this keyword i.e. SCALE1, SCALE2, SCALE3... </td>
+</tr>
+<tr>
+<td width=15%> <b> BONDLENGTH </b></td>
+<td> Set a fixed length for for the bonds distances. You can use multiple instances of this keyword i.e. BONDLENGTH1, BONDLENGTH2, BONDLENGTH3... </td>
+</tr>
+
+</table>
+
+\par Examples
+In the following example five N-H RDCs are defined and their correlation with
+respect to a set of experimental data is calculated.  
+
+\verbatim
+RDC ...
+GYROM=-72.5388
+SCALE=1.0 
+CORRELATION
+ATOMS1=20,21 COUPLING1=8.17
+ATOMS2=37,38 COUPLING2=-8.271
+ATOMS3=56,57 COUPLING3=-10.489
+ATOMS4=76,77 COUPLING4=-9.871
+ATOMS5=92,93 COUPLING5=-9.152
+LABEL=nh
+... RDC 
+
+rdce: RESTRAINT ARG=nh KAPPA=0. SLOPE=-25000.0 AT=1.
+
+PRINT ARG=nh,rdce.bias FILE=colvar
+\endverbatim
+(See also \ref PRINT, \ref RESTRAINT) 
+
+*/

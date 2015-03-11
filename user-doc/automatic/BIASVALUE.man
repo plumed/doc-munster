@@ -1,0 +1,37 @@
+\par Description of components
+
+By default this Action calculates the following quantities. These quanties can be referenced elsewhere in the input by using this Action's label followed by a dot and the name of the quantity required from the list below.
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr> <td width=5%> <b> Quantity </b> </td> <td> <b> Description </b> </td> </tr>
+<tr>
+<td width=15%> <b> _bias </b></td>
+<td> one or multiple instances of this quantity will be refereceable elsewhere in the input file. these quantities will named with  the arguments of the bias followed by the character string _bias. These quantities tell the user how much the bias is due to each of the colvars. </td>
+</tr>
+<tr>
+<td width=15%> <b> bias </b></td>
+<td> total bias </td>
+</tr>
+</table>
+
+\par Compulsory keywords
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> ARG </b></td>
+<td> the input for this action is the scalar output from one or more other actions. The particular scalars that you will use are referenced using the label of the action. If the label appears on its own then it is assumed that the Action calculates a single scalar value.  The value of this scalar is thus used as the input to this new action.  If * or *.* appears the scalars calculated by all the proceding actions in the input file are taken.  Some actions have multi-component outputs and each component of the output has a specific label.  For example a \ref DISTANCE action labelled dist may have three componets x, y and z.  To take just the x component you should use dist.x, if you wish to take all three components then use dist.*.More information on the referencing of Actions can be found in the section of the manual on the PLUMED \ref Syntax.  Scalar values can also be referenced using POSIX regular expressions as detailed in the section on \ref Regex. To use this feature you you must compile PLUMED with the appropriate flag. </td>
+</tr>
+</table>
+
+\par Options
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> NUMERICAL_DERIVATIVES </b></td>
+<td> ( default=off ) calculate the derivatives for these quantities numerically </td>
+</tr>
+
+</table>
+
+</table>
+

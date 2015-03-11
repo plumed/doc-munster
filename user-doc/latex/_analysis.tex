@@ -1,0 +1,504 @@
+P\+L\+U\+M\+E\+D can be used to analyse trajectories either on the fly during an M\+D run or via postprocessing a trajectory using \hyperlink{driver}{driver}. The following is a list of the various methods for analysing trajectories contained in P\+L\+U\+M\+E\+D.
+
+\begin{TabularC}{2}
+\hline
+\hyperlink{CLASSICAL_MDS}{C\+L\+A\+S\+S\+I\+C\+A\+L\+\_\+\+M\+D\+S}  &Create a low-\/dimensional projection of a trajectory using the classical multidimensional scaling algorithm.  \\\cline{1-2}
+\hyperlink{COMMITTOR}{C\+O\+M\+M\+I\+T\+T\+O\+R}  &Does a committor analysis.  \\\cline{1-2}
+\hyperlink{DUMPATOMS}{D\+U\+M\+P\+A\+T\+O\+M\+S}  &Dump selected atoms on a file.  \\\cline{1-2}
+\hyperlink{DUMPDERIVATIVES}{D\+U\+M\+P\+D\+E\+R\+I\+V\+A\+T\+I\+V\+E\+S}  &Dump the derivatives with respect to the input parameters for one or more objects (generally C\+Vs, functions or biases).  \\\cline{1-2}
+\hyperlink{DUMPFORCES}{D\+U\+M\+P\+F\+O\+R\+C\+E\+S}  &Dump the force acting on one of a values in a file.   \\\cline{1-2}
+\hyperlink{DUMPMULTICOLVAR}{D\+U\+M\+P\+M\+U\+L\+T\+I\+C\+O\+L\+V\+A\+R}  &Dump atom positions and multicolvar on a file.  \\\cline{1-2}
+\hyperlink{DUMPPROJECTIONS}{D\+U\+M\+P\+P\+R\+O\+J\+E\+C\+T\+I\+O\+N\+S}  &Dump the derivatives with respect to the input parameters for one or more objects (generally C\+Vs, functions or biases).  \\\cline{1-2}
+\hyperlink{HISTOGRAM}{H\+I\+S\+T\+O\+G\+R\+A\+M}  &Calculate the probability density as a function of a few C\+Vs either using kernel density estimation, or a discretehistogram estimation.   \\\cline{1-2}
+\hyperlink{PRINT}{P\+R\+I\+N\+T}  &Print quantities to a file.  \\\cline{1-2}
+\end{TabularC}
+\hypertarget{CLASSICAL_MDS}{}\section{C\+L\+A\+S\+S\+I\+C\+A\+L\+\_\+\+M\+D\+S}\label{CLASSICAL_MDS}
+\begin{TabularC}{2}
+\hline
+&{\bfseries  This is part of the analysis \hyperlink{mymodules}{module }}   \\\cline{1-2}
+\end{TabularC}
+Create a low-\/dimensional projection of a trajectory using the classical multidimensional scaling algorithm.
+
+Multidimensional scaling (M\+D\+S) is similar to what is done when you make a map. You start with distances between London, Belfast, Paris and Dublin and then you try to arrange points on a piece of paper so that the (suitably scaled) distances between the points in your map representing each of those cities are related to the true distances between the cities. Stating this more mathematically M\+D\+S endeavors to find an \href{http://en.wikipedia.org/wiki/Isometry}{\tt isometry} between points distributed in a high-\/dimensional space and a set of points distributed in a low-\/dimensional plane. In other words, if we have $M$ $D$-\/dimensional points, $\mathbf{X}$, and we can calculate dissimilarities between pairs them, $D_{ij}$, we can, with an M\+D\+S calculation, try to create $M$ projections, $\mathbf{x}$, of the high dimensionality points in a $d$-\/dimensional linear space by trying to arrange the projections so that the Euclidean distances between pairs of them, $d_{ij}$, resemble the dissimilarities between the high dimensional points. In short we minimize\+:
+
+\[ \chi^2 = \sum_{i \ne j} \left( D_{ij} - d_{ij} \right)^2 \]
+
+where $D_{ij}$ is the distance between point $X^{i}$ and point $X^{j}$ and $d_{ij}$ is the distance between the projection of $X^{i}$, $x^i$, and the projection of $X^{j}$, $x^j$. A tutorial on this approach can be used to analyse simulations can be found in the tutorial \hyperlink{belfast-3}{Belfast tutorial\+: Adaptive variables I\+I} and in the following \href{https://www.youtube.com/watch?v=ofC2qz0_9_A&feature=youtu.be}{\tt short video.}
+
+\begin{DoxyParagraph}{The atoms involved can be specified using}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  A\+T\+O\+M\+S } &the atoms whose positions we are tracking for the purpose of analysing the data. For more information on how to specify lists of atoms see \hyperlink{Group}{Groups and Virtual Atoms}   \\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Compulsory keywords}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  M\+E\+T\+R\+I\+C } &( default=E\+U\+C\+L\+I\+D\+E\+A\+N ) how are we measuring the distances between configurations   \\\cline{1-2}
+{\bfseries  S\+T\+R\+I\+D\+E } &( default=1 ) the frequency with which data should be stored for analysis   \\\cline{1-2}
+{\bfseries  R\+U\+N } &the frequency with which to run the analysis algorithm. This is not required if you specify U\+S\+E\+\_\+\+A\+L\+L\+\_\+\+D\+A\+T\+A   \\\cline{1-2}
+{\bfseries  L\+A\+N\+D\+M\+A\+R\+K\+S } &( default=A\+L\+L ) only use a subset of the data that was collected. For more information on the landmark selection algorithms that are available in plumed see \hyperlink{landmarkselection}{landmarkselection}.   \\\cline{1-2}
+{\bfseries  N\+L\+O\+W\+\_\+\+D\+I\+M } &number of low-\/dimensional coordinates required   \\\cline{1-2}
+{\bfseries  O\+U\+T\+P\+U\+T\+\_\+\+F\+I\+L\+E } &file on which to output the final embedding coordinates   \\\cline{1-2}
+{\bfseries  E\+M\+B\+E\+D\+D\+I\+N\+G\+\_\+\+O\+F\+I\+L\+E } &( default=dont output ) file on which to output the embedding in plumed input format   \\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Options}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  U\+S\+E\+\_\+\+A\+L\+L\+\_\+\+D\+A\+T\+A } &( default=off ) use the data from the entire trajectory to perform the analysis   \\\cline{1-2}
+{\bfseries  R\+E\+W\+E\+I\+G\+H\+T\+\_\+\+B\+I\+A\+S } &( default=off ) reweight the data using all the biases acting on the dynamics. For more information see \hyperlink{reweighting}{reweighting}.   \\\cline{1-2}
+{\bfseries  W\+R\+I\+T\+E\+\_\+\+C\+H\+E\+C\+K\+P\+O\+I\+N\+T } &( default=off ) write out a checkpoint so that the analysis can be restarted in a later run   \\\cline{1-2}
+{\bfseries  S\+E\+R\+I\+A\+L } &( default=off ) do the calculation in serial. Do not parallelize   \\\cline{1-2}
+{\bfseries  L\+O\+W\+M\+E\+M } &( default=off ) lower the memory requirements  
+
+\\\cline{1-2}
+\end{TabularC}
+
+
+\begin{TabularC}{2}
+\hline
+{\bfseries  A\+R\+G } &the input for this action is the scalar output from one or more other actions. The particular scalars that you will use are referenced using the label of the action. If the label appears on its own then it is assumed that the Action calculates a single scalar value. The value of this scalar is thus used as the input to this new action. If $\ast$ or $\ast$.$\ast$ appears the scalars calculated by all the proceding actions in the input file are taken. Some actions have multi-\/component outputs and each component of the output has a specific label. For example a \hyperlink{DISTANCE}{D\+I\+S\+T\+A\+N\+C\+E} action labelled dist may have three componets x, y and z. To take just the x component you should use dist.\+x, if you wish to take all three components then use dist.$\ast$.More information on the referencing of Actions can be found in the section of the manual on the P\+L\+U\+M\+E\+D \hyperlink{_syntax}{Getting started}. Scalar values can also be referenced using P\+O\+S\+I\+X regular expressions as detailed in the section on \hyperlink{Regex}{Regular Expressions}. To use this feature you you must compile P\+L\+U\+M\+E\+D with the appropriate flag.   \\\cline{1-2}
+{\bfseries  F\+M\+T } &the format that should be used in analysis output files   \\\cline{1-2}
+{\bfseries  T\+E\+M\+P } &the system temperature. This is required if you are reweighting or doing free energies.   \\\cline{1-2}
+{\bfseries  R\+E\+W\+E\+I\+G\+H\+T\+\_\+\+T\+E\+M\+P } &reweight data from a trajectory at one temperature and output the probability distribution at a second temperature. For more information see \hyperlink{reweighting}{reweighting}. This is not possible during postprocessing.  
+
+\\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Examples}
+
+\end{DoxyParagraph}
+The following command instructs plumed to construct a classical multidimensional scaling projection of a trajectory. The R\+M\+S\+D distance between atoms 1-\/256 have moved is used to measure the distances in the high-\/dimensional space.
+
+\begin{DoxyVerb}CLASSICAL_MDS ...
+  ATOMS=1-256
+  METRIC=OPTIMAL-FAST 
+  USE_ALL_DATA
+  NLOW_DIM=2
+  OUTPUT_FILE=rmsd-embed
+... CLASSICAL_MDS
+\end{DoxyVerb}
+
+
+The following section is for people who are interested in how this method works in detail. A solid understanding of this material is not necessary to use M\+D\+S.\hypertarget{_c_l_a_s_s_i_c_a_l__m_d_s_dim-sec}{}\subsection{Method of optimisation}\label{_c_l_a_s_s_i_c_a_l__m_d_s_dim-sec}
+The stress function can be minimized using a standard optimization algorithm such as conjugate gradients or steepest descent. However, it is more common to do this minimization using a technique known as classical scaling. Classical scaling works by recognizing that each of the distances \$\+D\+\_\+\{ij\}\$ in the above sum can be written as\+:
+
+\[ D_{ij}^2 = \sum_{\alpha} (X^i_\alpha - X^j_\alpha)^2 = \sum_\alpha (X^i_\alpha)^2 + (X^j_\alpha)^2 - 2X^i_\alpha X^j_\alpha \]
+
+We can use this expression and matrix algebra to calculate multiple distances at once. For instance if we have three points, $\mathbf{X}$, we can write distances between them as\+:
+
+\begin{eqnarray*} D^2(\mathbf{X}) &=& \left[ \begin{array}{ccc} 0 & d_{12}^2 & d_{13}^2 \\ d_{12}^2 & 0 & d_{23}^2 \\ d_{13}^2 & d_{23}^2 & 0 \end{array}\right] \\ &=& \sum_\alpha \left[ \begin{array}{ccc} (X^1_\alpha)^2 & (X^1_\alpha)^2 & (X^1_\alpha)^2 \\ (X^2_\alpha)^2 & (X^2_\alpha)^2 & (X^2_\alpha)^2 \\ (X^3_\alpha)^2 & (X^3_\alpha)^2 & (X^3_\alpha)^2 \\ \end{array}\right] + \sum_\alpha \left[ \begin{array}{ccc} (X^1_\alpha)^2 & (X^2_\alpha)^2 & (X^3_\alpha)^2 \\ (X^1_\alpha)^2 & (X^2_\alpha)^2 & (X^3_\alpha)^2 \\ (X^1_\alpha)^2 & (X^2_\alpha)^2 & (X^3_\alpha)^2 \\ \end{array}\right] - 2 \sum_\alpha \left[ \begin{array}{ccc} X^1_\alpha X^1_\alpha & X^1_\alpha X^2_\alpha & X^1_\alpha X^3_\alpha \\ X^2_\alpha X^1_\alpha & X^2_\alpha X^2_\alpha & X^2_\alpha X^3_\alpha \\ X^1_\alpha X^3_\alpha & X^3_\alpha X^2_\alpha & X^3_\alpha X^3_\alpha \end{array}\right] \nonumber \\ &=& \mathbf{c 1^T} + \mathbf{1 c^T} - 2 \sum_\alpha \mathbf{x}_a \mathbf{x}^T_a = \mathbf{c 1^T} + \mathbf{1 c^T} - 2\mathbf{X X^T} \end{eqnarray*}
+
+This last equation can be extended to situations when we have more than three points. In it $\mathbf{X}$ is a matrix that has one high-\/dimensional point on each of its rows and $\mathbf{X^T}$ is its transpose. $\mathbf{1}$ is an $M \times 1$ vector of ones and $\mathbf{c}$ is a vector with components given by\+:
+
+\[ c_i = \sum_\alpha (x_\alpha^i)^2 \]
+
+These quantities are the diagonal elements of $\mathbf{X X^T}$, which is a dot product or Gram Matrix that contains the dot product of the vector $X_i$ with the vector $X_j$ in element $i,j$.
+
+In classical scaling we introduce a centering matrix $\mathbf{J}$ that is given by\+:
+
+\[ \mathbf{J} = \mathbf{I} - \frac{1}{M} \mathbf{11^T} \]
+
+where $\mathbf{I}$ is the identity. Multiplying the equations above from the front and back by this matrix and a factor of a $-\frac{1}{2}$ gives\+:
+
+\begin{eqnarray*} -\frac{1}{2} \mathbf{J} \mathbf{D}^2(\mathbf{X}) \mathbf{J} &=& -\frac{1}{2}\mathbf{J}( \mathbf{c 1^T} + \mathbf{1 c^T} - 2\mathbf{X X^T})\mathbf{J} \\ &=& -\frac{1}{2}\mathbf{J c 1^T J} - \frac{1}{2} \mathbf{J 1 c^T J} + \frac{1}{2} \mathbf{J}(2\mathbf{X X^T})\mathbf{J} \\ &=& \mathbf{ J X X^T J } = \mathbf{X X^T } \label{eqn:scaling} \end{eqnarray*}
+
+The fist two terms in this expression disappear because $\mathbf{1^T J}=\mathbf{J 1} =\mathbf{0}$, where $\mathbf{0}$ is a matrix containing all zeros. In the final step meanwhile we use the fact that the matrix of squared distances will not change when we translate all the points. We can thus assume that the mean value, $\mu$, for each of the components, $\alpha$\+: \[ \mu_\alpha = \frac{1}{M} \sum_{i=1}^N \mathbf{X}^i_\alpha \] is equal to 0 so the columns of $\mathbf{X}$ add up to 0. This in turn means that each of the columns of $\mathbf{X X^T}$ adds up to zero, which is what allows us to write $\mathbf{ J X X^T J } = \mathbf{X X^T }$.
+
+The matrix of squared distances is symmetric and positive-\/definite we can thus use the spectral decomposition to decompose it as\+:
+
+\[ \Phi= \mathbf{V} \Lambda \mathbf{V}^T \]
+
+Furthermore, because the matrix we are diagonalizing, $\mathbf{X X^T}$, is the product of a matrix and its transpose we can use this decomposition to write\+:
+
+\[ \mathbf{X} =\mathbf{V} \Lambda^\frac{1}{2} \]
+
+Much as in P\+C\+A there are generally a small number of large eigenvalues in $\Lambda$ and many small eigenvalues. We can safely use only the large eigenvalues and their corresponding eigenvectors to express the relationship between the coordinates $\mathbf{X}$. This gives us our set of low-\/dimensional projections.
+
+This derivation makes a number of assumptions about the how the low dimensional points should best be arranged to minimise the stress. If you use an interative optimization algorithm such as S\+M\+A\+C\+O\+F you may thus be able to find a better (lower-\/stress) projection of the points. For more details on the assumptions made see \href{http://quest4rigor.com/tag/multidimensional-scaling/}{\tt this website.} \hypertarget{COMMITTOR}{}\section{C\+O\+M\+M\+I\+T\+T\+O\+R}\label{COMMITTOR}
+\begin{TabularC}{2}
+\hline
+&{\bfseries  This is part of the analysis \hyperlink{mymodules}{module }}   \\\cline{1-2}
+\end{TabularC}
+Does a committor analysis.
+
+\begin{DoxyParagraph}{Compulsory keywords}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  A\+R\+G } &the input for this action is the scalar output from one or more other actions. The particular scalars that you will use are referenced using the label of the action. If the label appears on its own then it is assumed that the Action calculates a single scalar value. The value of this scalar is thus used as the input to this new action. If $\ast$ or $\ast$.$\ast$ appears the scalars calculated by all the proceding actions in the input file are taken. Some actions have multi-\/component outputs and each component of the output has a specific label. For example a \hyperlink{DISTANCE}{D\+I\+S\+T\+A\+N\+C\+E} action labelled dist may have three componets x, y and z. To take just the x component you should use dist.\+x, if you wish to take all three components then use dist.$\ast$.More information on the referencing of Actions can be found in the section of the manual on the P\+L\+U\+M\+E\+D \hyperlink{_syntax}{Getting started}. Scalar values can also be referenced using P\+O\+S\+I\+X regular expressions as detailed in the section on \hyperlink{Regex}{Regular Expressions}. To use this feature you you must compile P\+L\+U\+M\+E\+D with the appropriate flag.   \\\cline{1-2}
+{\bfseries  S\+T\+R\+I\+D\+E } &( default=1 ) the frequency with which the C\+Vs are analysed   \\\cline{1-2}
+{\bfseries  B\+A\+S\+I\+N\+\_\+\+A\+\_\+\+L\+O\+W\+E\+R } &the lower bounds of Basin A   \\\cline{1-2}
+{\bfseries  B\+A\+S\+I\+N\+\_\+\+A\+\_\+\+U\+P\+P\+E\+R } &the upper bounds of Basin A   \\\cline{1-2}
+{\bfseries  B\+A\+S\+I\+N\+\_\+\+B\+\_\+\+L\+O\+W\+E\+R } &the lower bounds of Basin B   \\\cline{1-2}
+{\bfseries  B\+A\+S\+I\+N\+\_\+\+B\+\_\+\+U\+P\+P\+E\+R } &the upper bounds of Basin B   \\\cline{1-2}
+\end{TabularC}
+
+
+\begin{TabularC}{2}
+\hline
+{\bfseries  F\+I\+L\+E } &the name of the file on which to output these quantities   \\\cline{1-2}
+{\bfseries  F\+M\+T } &the format that should be used to output real numbers  
+
+\\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Examples}
+The following input monitors two torsional angles during a simulation, defines two basins (A and B) as a function of the two torsions and stops the simulation when it falls in one of the two. In the log file will be shown the latest values for the C\+Vs and the basin reached. \begin{DoxyVerb}TORSION ATOMS=1,2,3,4 LABEL=r1
+TORSION ATOMS=2,3,4,5 LABEL=r2
+COMMITTOR ...
+  ARG=r1,r2 
+  STRIDE=10
+  BASIN_A_LOWER=0.15,0.20 
+  BASIN_A_UPPER=0.25,0.40 
+  BASIN_B_LOWER=-0.15,-0.20 
+  BASIN_B_UPPER=-0.25,-0.40 
+... COMMITTOR 
+\end{DoxyVerb}
+ 
+\end{DoxyParagraph}
+\hypertarget{DUMPATOMS}{}\section{D\+U\+M\+P\+A\+T\+O\+M\+S}\label{DUMPATOMS}
+\begin{TabularC}{2}
+\hline
+&{\bfseries  This is part of the generic \hyperlink{mymodules}{module }}   \\\cline{1-2}
+\end{TabularC}
+Dump selected atoms on a file.
+
+This command can be used to output the positions of a particular set of atoms. The atoms required are ouput in a xyz or gro formatted file. The type of file is automatically detected from the file extension, but can be also enforced with T\+Y\+P\+E. Importantly, if your input file contains actions that edit the atoms position (e.\+g. \hyperlink{WHOLEMOLECULES}{W\+H\+O\+L\+E\+M\+O\+L\+E\+C\+U\+L\+E\+S}) and the D\+U\+M\+P\+A\+T\+O\+M\+S command appears after this instruction, then the edited atom positions are output. You can control the buffering of output using the \hyperlink{FLUSH}{F\+L\+U\+S\+H} keyword on a separate line.
+
+Units of the printed file can be controlled with the U\+N\+I\+T\+S keyword. By default P\+L\+U\+M\+E\+D units as controlled in the \hyperlink{UNITS}{U\+N\+I\+T\+S} command are used, but one can override it e.\+g. with U\+N\+I\+T\+S=A. Notice that gro files can only contain coordinates in nm.
+
+\begin{DoxyParagraph}{The atoms involved can be specified using}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  A\+T\+O\+M\+S } &the atom indices whose positions you would like to print out. For more information on how to specify lists of atoms see \hyperlink{Group}{Groups and Virtual Atoms}   \\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Compulsory keywords}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  S\+T\+R\+I\+D\+E } &( default=1 ) the frequency with which the atoms should be output   \\\cline{1-2}
+{\bfseries  F\+I\+L\+E } &file on which to output coordinates. .gro extension is automatically detected   \\\cline{1-2}
+{\bfseries  U\+N\+I\+T\+S } &( default=P\+L\+U\+M\+E\+D ) the units in which to print out the coordinates. P\+L\+U\+M\+E\+D means internal P\+L\+U\+M\+E\+D units   \\\cline{1-2}
+\end{TabularC}
+
+
+\begin{TabularC}{2}
+\hline
+{\bfseries  P\+R\+E\+C\+I\+S\+I\+O\+N } &The number of digits in trajectory file   \\\cline{1-2}
+{\bfseries  T\+Y\+P\+E } &file type, either xyz or gro, can override an automatically detected file extension  
+
+\\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Examples}
+
+\end{DoxyParagraph}
+The following input instructs plumed to print out the positions of atoms 1-\/10 together with the position of the center of mass of atoms 11-\/20 every 10 steps to a file called file.\+xyz. \begin{DoxyVerb}COM ATOMS=11-20 LABEL=c1
+DUMPATOMS STRIDE=10 FILE=file.xyz ATOMS=1-10,c1
+\end{DoxyVerb}
+ (see also \hyperlink{COM}{C\+O\+M})
+
+The following input is very similar but dumps a .gro (gromacs) file, which also contains atom and residue names. \begin{DoxyVerb}# this is required to have proper atom names:
+MOLINFO STRUCTURE=reference.pdb
+# if omitted, atoms will have "X" name...
+
+COM ATOMS=11-20 LABEL=c1
+DUMPATOMS STRIDE=10 FILE=file.gro ATOMS=1-10,c1
+# notice that last atom is a virtual one and will not have
+# a correct name in the resulting gro file
+\end{DoxyVerb}
+ (see also \hyperlink{COM}{C\+O\+M} and \hyperlink{MOLINFO}{M\+O\+L\+I\+N\+F\+O}) \hypertarget{DUMPDERIVATIVES}{}\section{D\+U\+M\+P\+D\+E\+R\+I\+V\+A\+T\+I\+V\+E\+S}\label{DUMPDERIVATIVES}
+\begin{TabularC}{2}
+\hline
+&{\bfseries  This is part of the generic \hyperlink{mymodules}{module }}   \\\cline{1-2}
+\end{TabularC}
+Dump the derivatives with respect to the input parameters for one or more objects (generally C\+Vs, functions or biases).
+
+For a C\+V this line in input instructs plumed to print the derivative of the C\+V with respect to the atom positions and the cell vectors (virial-\/like form). In contrast, for a function or bias the derivative with respect to the input \char`\"{}\+C\+Vs\char`\"{} will be output. This command is most often used to test whether or not analytic derivatives have been implemented correctly. This can be done by outputting the derivatives calculated analytically and numerically. You can control the buffering of output using the \hyperlink{FLUSH}{F\+L\+U\+S\+H} keyword.
+
+\begin{DoxyParagraph}{Compulsory keywords}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  A\+R\+G } &the input for this action is the scalar output from one or more other actions. The particular scalars that you will use are referenced using the label of the action. If the label appears on its own then it is assumed that the Action calculates a single scalar value. The value of this scalar is thus used as the input to this new action. If $\ast$ or $\ast$.$\ast$ appears the scalars calculated by all the proceding actions in the input file are taken. Some actions have multi-\/component outputs and each component of the output has a specific label. For example a \hyperlink{DISTANCE}{D\+I\+S\+T\+A\+N\+C\+E} action labelled dist may have three componets x, y and z. To take just the x component you should use dist.\+x, if you wish to take all three components then use dist.$\ast$.More information on the referencing of Actions can be found in the section of the manual on the P\+L\+U\+M\+E\+D \hyperlink{_syntax}{Getting started}. Scalar values can also be referenced using P\+O\+S\+I\+X regular expressions as detailed in the section on \hyperlink{Regex}{Regular Expressions}. To use this feature you you must compile P\+L\+U\+M\+E\+D with the appropriate flag.   \\\cline{1-2}
+{\bfseries  S\+T\+R\+I\+D\+E } &( default=1 ) the frequency with which the derivatives should be output   \\\cline{1-2}
+{\bfseries  F\+I\+L\+E } &the name of the file on which to output the derivatives   \\\cline{1-2}
+{\bfseries  F\+M\+T } &( default=\%15.\+10f ) the format with which the derivatives should be output   \\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Examples}
+The following input instructs plumed to write a file called deriv that contains both the analytical and numerical derivatives of the distance between atoms 1 and 2. \begin{DoxyVerb}DISTANCE ATOM=1,2 LABEL=distance
+DISTANCE ATOM=1,2 LABEL=distanceN NUMERICAL_DERIVATIVES
+DUMPDERIVATIVES ARG=distance,distanceN STRIDE=1 FILE=deriv
+\end{DoxyVerb}
+
+\end{DoxyParagraph}
+(See also \hyperlink{DISTANCE}{D\+I\+S\+T\+A\+N\+C\+E}) \hypertarget{DUMPFORCES}{}\section{D\+U\+M\+P\+F\+O\+R\+C\+E\+S}\label{DUMPFORCES}
+\begin{TabularC}{2}
+\hline
+&{\bfseries  This is part of the generic \hyperlink{mymodules}{module }}   \\\cline{1-2}
+\end{TabularC}
+Dump the force acting on one of a values in a file.
+
+For a C\+V this command will dump the force on the C\+V itself. Be aware that in order to have the forces on the atoms you should multiply the output from this argument by the output from D\+U\+M\+P\+D\+E\+R\+I\+V\+A\+T\+I\+V\+E\+S. Furthermore, also note that you can output the forces on multiple quantities simultaneously by specifying more than one argument. You can control the buffering of output using the \hyperlink{FLUSH}{F\+L\+U\+S\+H} keyword.
+
+\begin{DoxyParagraph}{Compulsory keywords}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  A\+R\+G } &the input for this action is the scalar output from one or more other actions. The particular scalars that you will use are referenced using the label of the action. If the label appears on its own then it is assumed that the Action calculates a single scalar value. The value of this scalar is thus used as the input to this new action. If $\ast$ or $\ast$.$\ast$ appears the scalars calculated by all the proceding actions in the input file are taken. Some actions have multi-\/component outputs and each component of the output has a specific label. For example a \hyperlink{DISTANCE}{D\+I\+S\+T\+A\+N\+C\+E} action labelled dist may have three componets x, y and z. To take just the x component you should use dist.\+x, if you wish to take all three components then use dist.$\ast$.More information on the referencing of Actions can be found in the section of the manual on the P\+L\+U\+M\+E\+D \hyperlink{_syntax}{Getting started}. Scalar values can also be referenced using P\+O\+S\+I\+X regular expressions as detailed in the section on \hyperlink{Regex}{Regular Expressions}. To use this feature you you must compile P\+L\+U\+M\+E\+D with the appropriate flag.   \\\cline{1-2}
+{\bfseries  S\+T\+R\+I\+D\+E } &( default=1 ) the frequency with which the forces should be output   \\\cline{1-2}
+{\bfseries  F\+I\+L\+E } &the name of the file on which to output the forces   \\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Examples}
+The following input instructs plumed to write a file called forces that contains the force acting on the distance between atoms 1 and 2. \begin{DoxyVerb}DISTANCE ATOM=1,2 LABEL=distance
+DUMPFORCES ARG=distance STRIDE=1 FILE=forces
+\end{DoxyVerb}
+
+\end{DoxyParagraph}
+(See also \hyperlink{DISTANCE}{D\+I\+S\+T\+A\+N\+C\+E}) \hypertarget{DUMPMULTICOLVAR}{}\section{D\+U\+M\+P\+M\+U\+L\+T\+I\+C\+O\+L\+V\+A\+R}\label{DUMPMULTICOLVAR}
+\begin{TabularC}{2}
+\hline
+&{\bfseries  This is part of the multicolvar \hyperlink{mymodules}{module }}   \\\cline{1-2}
+\end{TabularC}
+Dump atom positions and multicolvar on a file.
+
+\begin{DoxyParagraph}{Compulsory keywords}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  D\+A\+T\+A } &certain actions in plumed work by calculating a list of variables and summing over them. This particular action can be used to calculate functions of these base variables or prints them to a file. This keyword thus takes the label of one of those such variables as input.   \\\cline{1-2}
+{\bfseries  S\+T\+R\+I\+D\+E } &( default=1 ) the frequency with which the atoms should be output   \\\cline{1-2}
+{\bfseries  F\+I\+L\+E } &file on which to output coordinates   \\\cline{1-2}
+{\bfseries  U\+N\+I\+T\+S } &( default=P\+L\+U\+M\+E\+D ) the units in which to print out the coordinates. P\+L\+U\+M\+E\+D means internal P\+L\+U\+M\+E\+D units   \\\cline{1-2}
+\end{TabularC}
+
+
+\begin{TabularC}{2}
+\hline
+{\bfseries  P\+R\+E\+C\+I\+S\+I\+O\+N } &The number of digits in trajectory file  
+
+\\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Examples}
+In this examples we calculate the distances between the atoms of the first and the second group and we write them in the file M\+U\+L\+T\+I\+C\+O\+L\+V\+A\+R.\+xyz. For each couple it writes the coordinates of their geometric center and their distance.
+\end{DoxyParagraph}
+\begin{DoxyVerb}pos:   GROUP ATOMS=220,221,235,236,247,248,438,439,450,451,534,535
+neg:   GROUP ATOMS=65,68,138,182,185,267,270,291,313,316,489,583,621,711
+DISTANCES GROUPA=pos GROUPB=neg LABEL=slt
+
+DUMPMULTICOLVAR DATA=slt FILE=MULTICOLVAR.xyz
+\end{DoxyVerb}
+
+
+(see also \hyperlink{DISTANCES}{D\+I\+S\+T\+A\+N\+C\+E\+S}) \hypertarget{DUMPPROJECTIONS}{}\section{D\+U\+M\+P\+P\+R\+O\+J\+E\+C\+T\+I\+O\+N\+S}\label{DUMPPROJECTIONS}
+\begin{TabularC}{2}
+\hline
+&{\bfseries  This is part of the generic \hyperlink{mymodules}{module }}   \\\cline{1-2}
+\end{TabularC}
+Dump the derivatives with respect to the input parameters for one or more objects (generally C\+Vs, functions or biases). \hypertarget{HISTOGRAM}{}\section{H\+I\+S\+T\+O\+G\+R\+A\+M}\label{HISTOGRAM}
+\begin{TabularC}{2}
+\hline
+&{\bfseries  This is part of the analysis \hyperlink{mymodules}{module }}   \\\cline{1-2}
+\end{TabularC}
+Calculate the probability density as a function of a few C\+Vs either using kernel density estimation, or a discrete histogram estimation.
+
+In case a kernel density estimation is used the probability density is estimated as a continuos function on the grid with a B\+A\+N\+D\+W\+I\+D\+T\+H defined by the user. In this case the normalisation is such that the I\+N\+T\+E\+G\+R\+A\+L over the grid is 1. In case a discrete density estimation is used the probabilty density is estimated as a discrete function on the grid. In this case the normalisation is such that the S\+U\+M of over the grid is 1.
+
+Additional material and examples can be also found in the tutorial \hyperlink{belfast-1}{Belfast tutorial\+: Analyzing C\+Vs}.
+
+\begin{DoxyParagraph}{Compulsory keywords}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  A\+R\+G } &the input for this action is the scalar output from one or more other actions. The particular scalars that you will use are referenced using the label of the action. If the label appears on its own then it is assumed that the Action calculates a single scalar value. The value of this scalar is thus used as the input to this new action. If $\ast$ or $\ast$.$\ast$ appears the scalars calculated by all the proceding actions in the input file are taken. Some actions have multi-\/component outputs and each component of the output has a specific label. For example a \hyperlink{DISTANCE}{D\+I\+S\+T\+A\+N\+C\+E} action labelled dist may have three componets x, y and z. To take just the x component you should use dist.\+x, if you wish to take all three components then use dist.$\ast$.More information on the referencing of Actions can be found in the section of the manual on the P\+L\+U\+M\+E\+D \hyperlink{_syntax}{Getting started}. Scalar values can also be referenced using P\+O\+S\+I\+X regular expressions as detailed in the section on \hyperlink{Regex}{Regular Expressions}. To use this feature you you must compile P\+L\+U\+M\+E\+D with the appropriate flag.   \\\cline{1-2}
+{\bfseries  S\+T\+R\+I\+D\+E } &( default=1 ) the frequency with which data should be stored for analysis   \\\cline{1-2}
+{\bfseries  R\+U\+N } &the frequency with which to run the analysis algorithm. This is not required if you specify U\+S\+E\+\_\+\+A\+L\+L\+\_\+\+D\+A\+T\+A   \\\cline{1-2}
+{\bfseries  G\+R\+I\+D\+\_\+\+M\+I\+N } &the lower bounds for the grid   \\\cline{1-2}
+{\bfseries  G\+R\+I\+D\+\_\+\+M\+A\+X } &the upper bounds for the grid   \\\cline{1-2}
+{\bfseries  K\+E\+R\+N\+E\+L } &( default=gaussian ) the kernel function you are using. Use discrete/\+D\+I\+S\+C\+R\+E\+T\+E if you want to accumulate a discrete histogram. More details on the kernels available in plumed can be found in \hyperlink{kernelfunctions}{kernelfunctions}.   \\\cline{1-2}
+{\bfseries  G\+R\+I\+D\+\_\+\+W\+F\+I\+L\+E } &( default=histogram ) the file on which to write the grid   \\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Options}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  U\+S\+E\+\_\+\+A\+L\+L\+\_\+\+D\+A\+T\+A } &( default=off ) use the data from the entire trajectory to perform the analysis   \\\cline{1-2}
+{\bfseries  R\+E\+W\+E\+I\+G\+H\+T\+\_\+\+B\+I\+A\+S } &( default=off ) reweight the data using all the biases acting on the dynamics. For more information see \hyperlink{reweighting}{reweighting}.   \\\cline{1-2}
+{\bfseries  W\+R\+I\+T\+E\+\_\+\+C\+H\+E\+C\+K\+P\+O\+I\+N\+T } &( default=off ) write out a checkpoint so that the analysis can be restarted in a later run   \\\cline{1-2}
+{\bfseries  S\+E\+R\+I\+A\+L } &( default=off ) do the calculation in serial. Do not parallelize   \\\cline{1-2}
+{\bfseries  L\+O\+W\+M\+E\+M } &( default=off ) lower the memory requirements   \\\cline{1-2}
+{\bfseries  F\+R\+E\+E-\/\+E\+N\+E\+R\+G\+Y } &( default=off ) Set to T\+R\+U\+E if you want a F\+R\+E\+E E\+N\+E\+R\+G\+Y instead of a probabilty density (you need to set T\+E\+M\+P).   \\\cline{1-2}
+{\bfseries  N\+O\+M\+E\+M\+O\+R\+Y } &( default=off ) analyse each block of data separately  
+
+\\\cline{1-2}
+\end{TabularC}
+
+
+\begin{TabularC}{2}
+\hline
+{\bfseries  F\+M\+T } &the format that should be used in analysis output files   \\\cline{1-2}
+{\bfseries  T\+E\+M\+P } &the system temperature. This is required if you are reweighting or doing free energies.   \\\cline{1-2}
+{\bfseries  R\+E\+W\+E\+I\+G\+H\+T\+\_\+\+T\+E\+M\+P } &reweight data from a trajectory at one temperature and output the probability distribution at a second temperature. For more information see \hyperlink{reweighting}{reweighting}. This is not possible during postprocessing.   \\\cline{1-2}
+{\bfseries  G\+R\+I\+D\+\_\+\+B\+I\+N } &the number of bins for the grid   \\\cline{1-2}
+{\bfseries  G\+R\+I\+D\+\_\+\+S\+P\+A\+C\+I\+N\+G } &the approximate grid spacing (to be used as an alternative or together with G\+R\+I\+D\+\_\+\+B\+I\+N)   \\\cline{1-2}
+{\bfseries  B\+A\+N\+D\+W\+I\+D\+T\+H } &the bandwdith for kernel density estimation  
+
+\\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Examples}
+
+\end{DoxyParagraph}
+The following input monitors two torsional angles during a simulation and outputs a continuos histogram as a function of them at the end of the simulation. \begin{DoxyVerb}TORSION ATOMS=1,2,3,4 LABEL=r1
+TORSION ATOMS=2,3,4,5 LABEL=r2
+HISTOGRAM ...
+  ARG=r1,r2 
+  USE_ALL_DATA 
+  GRID_MIN=-3.14,-3.14 
+  GRID_MAX=3.14,3.14 
+  GRID_BIN=200,200
+  BANDWIDTH=0.05,0.05 
+  GRID_WFILE=histo
+... HISTOGRAM
+\end{DoxyVerb}
+
+
+The following input monitors two torsional angles during a simulation and outputs a discrete histogram as a function of them at the end of the simulation. \begin{DoxyVerb}TORSION ATOMS=1,2,3,4 LABEL=r1
+TORSION ATOMS=2,3,4,5 LABEL=r2
+HISTOGRAM ...
+  ARG=r1,r2 
+  USE_ALL_DATA
+  KERNEL=discrete 
+  GRID_MIN=-3.14,-3.14 
+  GRID_MAX=3.14,3.14 
+  GRID_BIN=200,200
+  GRID_WFILE=histo
+... HISTOGRAM
+\end{DoxyVerb}
+
+
+The following input monitors two torsional angles during a simulation and outputs the histogram accumulated thus far every 100000 steps. \begin{DoxyVerb}TORSION ATOMS=1,2,3,4 LABEL=r1
+TORSION ATOMS=2,3,4,5 LABEL=r2
+HISTOGRAM ...
+  ARG=r1,r2 
+  RUN=100000
+  GRID_MIN=-3.14,-3.14  
+  GRID_MAX=3.14,3.14 
+  GRID_BIN=200,200
+  BANDWIDTH=0.05,0.05 
+  GRID_WFILE=histo
+... HISTOGRAM
+\end{DoxyVerb}
+
+
+The following input monitors two torsional angles during a simulation and outputs a separate histogram for each 100000 steps worth of trajectory. \begin{DoxyVerb}TORSION ATOMS=1,2,3,4 LABEL=r1
+TORSION ATOMS=2,3,4,5 LABEL=r2
+HISTOGRAM ...
+  ARG=r1,r2 
+  RUN=100000 NOMEMORY
+  GRID_MIN=-3.14,-3.14  
+  GRID_MAX=3.14,3.14 
+  GRID_BIN=200,200
+  BANDWIDTH=0.05,0.05 
+  GRID_WFILE=histo
+... HISTOGRAM
+\end{DoxyVerb}
+ \hypertarget{PRINT}{}\section{P\+R\+I\+N\+T}\label{PRINT}
+\begin{TabularC}{2}
+\hline
+&{\bfseries  This is part of the generic \hyperlink{mymodules}{module }}   \\\cline{1-2}
+\end{TabularC}
+Print quantities to a file.
+
+This directive can be used multiple times in the input so you can print files with different strides or print different quantities to different files. You can control the buffering of output using the \hyperlink{FLUSH}{F\+L\+U\+S\+H} keyword.
+
+\begin{DoxyParagraph}{Compulsory keywords}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  A\+R\+G } &the input for this action is the scalar output from one or more other actions. The particular scalars that you will use are referenced using the label of the action. If the label appears on its own then it is assumed that the Action calculates a single scalar value. The value of this scalar is thus used as the input to this new action. If $\ast$ or $\ast$.$\ast$ appears the scalars calculated by all the proceding actions in the input file are taken. Some actions have multi-\/component outputs and each component of the output has a specific label. For example a \hyperlink{DISTANCE}{D\+I\+S\+T\+A\+N\+C\+E} action labelled dist may have three componets x, y and z. To take just the x component you should use dist.\+x, if you wish to take all three components then use dist.$\ast$.More information on the referencing of Actions can be found in the section of the manual on the P\+L\+U\+M\+E\+D \hyperlink{_syntax}{Getting started}. Scalar values can also be referenced using P\+O\+S\+I\+X regular expressions as detailed in the section on \hyperlink{Regex}{Regular Expressions}. To use this feature you you must compile P\+L\+U\+M\+E\+D with the appropriate flag.   \\\cline{1-2}
+{\bfseries  S\+T\+R\+I\+D\+E } &( default=1 ) the frequency with which the quantities of interest should be output   \\\cline{1-2}
+\end{TabularC}
+
+
+\begin{TabularC}{2}
+\hline
+{\bfseries  F\+I\+L\+E } &the name of the file on which to output these quantities   \\\cline{1-2}
+{\bfseries  F\+M\+T } &the format that should be used to output real numbers  
+
+\\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Examples}
+The following input instructs plumed to print the distance between atoms 3 and 5 on a file called C\+O\+L\+V\+A\+R every 10 steps, and the distance and total energy on a file called C\+O\+L\+V\+A\+R\+\_\+\+A\+L\+L every 1000 steps. \begin{DoxyVerb}DISTANCE ATOMS=2,5 LABEL=distance
+ENERGY             LABEL=energy
+PRINT ARG=distance          STRIDE=10   FILE=COLVAR
+PRINT ARG=distance,energy   STRIDE=1000 FILE=COLVAR_ALL
+\end{DoxyVerb}
+ (See also \hyperlink{DISTANCE}{D\+I\+S\+T\+A\+N\+C\+E} and \hyperlink{ENERGY}{E\+N\+E\+R\+G\+Y}). 
+\end{DoxyParagraph}
+\hypertarget{FLUSH}{}\subsection{F\+L\+U\+S\+H}\label{FLUSH}
+\begin{TabularC}{2}
+\hline
+&{\bfseries  This is part of the generic \hyperlink{mymodules}{module }}   \\\cline{1-2}
+\end{TabularC}
+This command instructs plumed to flush all the open files with a user specified frequency. Notice that all files are flushed anyway every 10000 steps.
+
+This is useful for preventing data loss that would otherwise arrise as a consequence of the code storing data for printing in the buffers. Notice that wherever it is written in the plumed input file, it will flush all the open files.
+
+\begin{DoxyParagraph}{Compulsory keywords}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  S\+T\+R\+I\+D\+E } &the frequency with which all the open files should be flushed   \\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Examples}
+A command like this in the input will instruct plumed to flush all the output files every 100 steps \begin{DoxyVerb}d1: DISTANCE ATOMS=1,10
+PRINT ARG=d1 STRIDE=5 FILE=colvar1
+
+FLUSH STRIDE=100
+
+d2: DISTANCE ATOMS=2,11
+# also this print is flushed every 100 steps:
+PRINT ARG=d2 STRIDE=10 FILE=colvar2
+\end{DoxyVerb}
+ (see also \hyperlink{DISTANCE}{D\+I\+S\+T\+A\+N\+C\+E} and \hyperlink{PRINT}{P\+R\+I\+N\+T}). 
+\end{DoxyParagraph}

@@ -1,0 +1,28 @@
+/**
+\page IMD IMD
+<table  align=center frame=void width=95%% celpadding=5%%>
+<tr> <td width=70%%> </td> <td>
+<b> This is part of the imd \link mymodules module \endlink</b>
+</td> </tr> </table>
+Use interactive molecular dynamics with VMD
+
+\par Examples
+
+\verbatim
+# listen to port 1112 of localhost
+IMD PORT=1112
+\endverbatim
+\verbatim
+# listen to port 1112 of pippo
+IMD HOST=pippo PORT=1112
+\endverbatim
+\verbatim
+# listen to port 1112 of localhost and run only when connected
+IMD PORT=1112 WAIT
+\endverbatim
+
+\attention
+The IMB object only works if the IMD routines have been downloaded
+and properly linked with PLUMED
+
+*/

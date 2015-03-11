@@ -1,0 +1,22 @@
+/**
+
+\page Analysis Analysis
+
+PLUMED can be used to analyse trajectories either on the fly during an MD run or via
+postprocessing a trajectory using \ref driver.  The following is a list of the various
+methods for analysing trajectories contained in PLUMED.
+
+<table align=center frame=void width=95%% cellpadding=5%%>
+<tr> <td width=5%> \subpage CLASSICAL_MDS </td> <td>Create a low-dimensional projection of a trajectory using the classical multidimensional scaling algorithm.</td> </tr>
+<tr> <td width=5%> \subpage COMMITTOR </td> <td>Does a committor analysis.</td> </tr>
+<tr> <td width=5%> \subpage DUMPATOMS </td> <td>Dump selected atoms on a file.</td> </tr>
+<tr> <td width=5%> \subpage DUMPDERIVATIVES </td> <td>Dump the derivatives with respect to the input parameters for one or more objects (generally CVs, functions or biases).</td> </tr>
+<tr> <td width=5%> \subpage DUMPFORCES </td> <td>Dump the force acting on one of a values in a file.  </td> </tr>
+<tr> <td width=5%> \subpage DUMPMULTICOLVAR </td> <td>Dump atom positions and multicolvar on a file.</td> </tr>
+<tr> <td width=5%> \subpage DUMPPROJECTIONS </td> <td>Dump the derivatives with respect to the input parameters for one or more objects (generally CVs, functions or biases).</td> </tr>
+<tr> <td width=5%> \subpage HISTOGRAM </td> <td>Calculate the probability density as a function of a few CVs either using kernel density estimation, or a discretehistogram estimation. </td> </tr>
+<tr> <td width=5%> \subpage PRINT </td> <td>Print quantities to a file.</td> </tr>
+</table>
+
+*/
+

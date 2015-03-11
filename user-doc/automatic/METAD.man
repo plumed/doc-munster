@@ -1,0 +1,158 @@
+\par Description of components
+
+By default this Action calculates the following quantities. These quanties can be referenced elsewhere in the input by using this Action's label followed by a dot and the name of the quantity required from the list below.
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr> <td width=5%> <b> Quantity </b> </td> <td> <b> Description </b> </td> </tr>
+<tr>
+<td width=15%> <b> bias </b></td>
+<td> the instantaneous value of the bias potential </td>
+</tr>
+</table>
+
+In addition the following quantities can be calculated by employing the keywords listed below
+
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr> <td width=5%> <b> Quantity </b> </td> <td> <b> Keyword </b> </td> <td> <b> Description </b> </td> </tr>
+<tr>
+<td width=5%> <b> acc </b></td> <td width=10%> <b> ACCELERATION </b> </td> 
+<td> the metadynamics acceleration factor </td>
+</tr>
+</table>
+
+\par Compulsory keywords
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> ARG </b></td>
+<td> the input for this action is the scalar output from one or more other actions. The particular scalars that you will use are referenced using the label of the action. If the label appears on its own then it is assumed that the Action calculates a single scalar value.  The value of this scalar is thus used as the input to this new action.  If * or *.* appears the scalars calculated by all the proceding actions in the input file are taken.  Some actions have multi-component outputs and each component of the output has a specific label.  For example a \ref DISTANCE action labelled dist may have three componets x, y and z.  To take just the x component you should use dist.x, if you wish to take all three components then use dist.*.More information on the referencing of Actions can be found in the section of the manual on the PLUMED \ref Syntax.  Scalar values can also be referenced using POSIX regular expressions as detailed in the section on \ref Regex. To use this feature you you must compile PLUMED with the appropriate flag. </td>
+</tr>
+<tr>
+<td width=15%> <b> SIGMA </b></td>
+<td> the widths of the Gaussian hills </td>
+</tr>
+<tr>
+<td width=15%> <b> PACE </b></td>
+<td> the frequency for hill addition </td>
+</tr>
+<tr>
+<td width=15%> <b> FILE </b></td>
+<td> ( default=HILLS ) a file in which the list of added hills is stored </td>
+</tr>
+</table>
+
+\par Options
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> NUMERICAL_DERIVATIVES </b></td>
+<td> ( default=off ) calculate the derivatives for these quantities numerically </td>
+</tr>
+<tr>
+<td width=15%> <b> GRID_SPARSE </b></td>
+<td> ( default=off ) use a sparse grid to store hills </td>
+</tr>
+<tr>
+<td width=15%> <b> GRID_NOSPLINE </b></td>
+<td> ( default=off ) don't use spline interpolation with grids </td>
+</tr>
+<tr>
+<td width=15%> <b> STORE_GRIDS </b></td>
+<td> ( default=off ) store all the grid files the calculation generates. They will be deleted if this keyword is not present </td>
+</tr>
+<tr>
+<td width=15%> <b> WALKERS_MPI </b></td>
+<td> ( default=off ) Switch on MPI version of multiple walkers - not compatible with other WALKERS_* options </td>
+</tr>
+<tr>
+<td width=15%> <b> ACCELERATION </b></td>
+<td> ( default=off ) Set to TRUE if you want to compute the metadynamics acceleration factor. </td>
+</tr>
+
+</table>
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> HEIGHT </b></td>
+<td> the heights of the Gaussian hills. Compulsory unless TAU, TEMP and BIASFACTOR are given </td>
+</tr>
+<tr>
+<td width=15%> <b> FMT </b></td>
+<td> specify format for HILLS files (useful for decrease the number of digits in regtests) </td>
+</tr>
+<tr>
+<td width=15%> <b> BIASFACTOR </b></td>
+<td> use well tempered metadynamics and use this biasfactor.  Please note you must also specify temp </td>
+</tr>
+<tr>
+<td width=15%> <b> TEMP </b></td>
+<td> the system temperature - this is only needed if you are doing well-tempered metadynamics </td>
+</tr>
+<tr>
+<td width=15%> <b> TAU </b></td>
+<td> in well tempered metadynamics, sets height to (kb*DeltaT*pace*timestep)/tau </td>
+</tr>
+<tr>
+<td width=15%> <b> GRID_MIN </b></td>
+<td> the lower bounds for the grid </td>
+</tr>
+<tr>
+<td width=15%> <b> GRID_MAX </b></td>
+<td> the upper bounds for the grid </td>
+</tr>
+<tr>
+<td width=15%> <b> GRID_BIN </b></td>
+<td> the number of bins for the grid </td>
+</tr>
+<tr>
+<td width=15%> <b> GRID_SPACING </b></td>
+<td> the approximate grid spacing (to be used as an alternative or together with GRID_BIN) </td>
+</tr>
+<tr>
+<td width=15%> <b> GRID_WSTRIDE </b></td>
+<td> write the grid to a file every N steps </td>
+</tr>
+<tr>
+<td width=15%> <b> GRID_WFILE </b></td>
+<td> the file on which to write the grid </td>
+</tr>
+<tr>
+<td width=15%> <b> ADAPTIVE </b></td>
+<td> use a geometric (=GEOM) or diffusion (=DIFF) based hills width scheme. Sigma is one number that has distance units or timestep dimensions </td>
+</tr>
+<tr>
+<td width=15%> <b> WALKERS_ID </b></td>
+<td> walker id </td>
+</tr>
+<tr>
+<td width=15%> <b> WALKERS_N </b></td>
+<td> number of walkers </td>
+</tr>
+<tr>
+<td width=15%> <b> WALKERS_DIR </b></td>
+<td> shared directory with the hills files from all the walkers </td>
+</tr>
+<tr>
+<td width=15%> <b> WALKERS_RSTRIDE </b></td>
+<td> stride for reading hills files </td>
+</tr>
+<tr>
+<td width=15%> <b> INTERVAL </b></td>
+<td> monodimensional lower and upper limits, outside the limits the system will not feel the biasing force. </td>
+</tr>
+<tr>
+<td width=15%> <b> GRID_RFILE </b></td>
+<td> a grid file from which the bias should be read at the initial step of the simulation </td>
+</tr>
+<tr>
+<td width=15%> <b> SIGMA_MAX </b></td>
+<td> the upper bounds for the sigmas (in CV units) when using adaptive hills. Negative number means no bounds  </td>
+</tr>
+<tr>
+<td width=15%> <b> SIGMA_MIN </b></td>
+<td> the lower bounds for the sigmas (in CV units) when using adaptive hills. Negative number means no bounds  </td>
+</tr>
+
+</table>
+

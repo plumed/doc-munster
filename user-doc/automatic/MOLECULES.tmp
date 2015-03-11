@@ -1,0 +1,25 @@
+/**
+\page MOLECULES MOLECULES
+<table  align=center frame=void width=95%% celpadding=5%%>
+<tr> <td width=70%%> </td> <td>
+<b> This is part of the crystallization \link mymodules module \endlink</b>
+</td> </tr> </table>
+Calculate the vectors connecting a pair of atoms in order to represent the orientation of a molecule.
+
+At its simplest this command can be used to calculate the average length of an internal vector in a 
+collection of different molecules.  When used in conjunction with MutiColvarFunctions in can be used
+to do a variety of more complex tasks.
+
+\par Examples
+
+The following input tells plumed to calculate the distances between two of the atoms in a molecule.
+This is done for the same set of atoms four different molecules and the average separation is then
+calculated.
+
+\verbatim
+MOLECULES MOL1=1,2 MOL2=3,4 MOL3=5,6 MOL4=7,8 MEAN LABEL=mm
+PRINT ARG=mm.mean FILE=colvar
+\endverbatim
+
+
+*/

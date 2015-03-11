@@ -1,0 +1,20 @@
+/**
+\page DENSITY DENSITY
+<table  align=center frame=void width=95%% celpadding=5%%>
+<tr> <td width=70%%> </td> <td>
+<b> This is part of the multicolvar \link mymodules module \endlink</b>
+</td> </tr> </table>
+Calculate functions of the density of atoms as a function of the box.  This allows one to calculate
+the number of atoms in half the box.
+
+\par Examples 
+
+The following example calculates the number of atoms in one half of the simulation box. 
+
+\verbatim
+DENSITY SPECIES=1-100 LABEL=d
+SUBCELL ARG=d XLOWER=0.0 XUPPER=0.5 LABEL=d1
+PRINT ARG=d1.* FILE=colvar1 FMT=%8.4f
+\endverbatim
+
+*/

@@ -1,0 +1,55 @@
+/**
+\page DUMPMULTICOLVAR DUMPMULTICOLVAR
+<table  align=center frame=void width=95%% celpadding=5%%>
+<tr> <td width=70%%> </td> <td>
+<b> This is part of the multicolvar \link mymodules module \endlink</b>
+</td> </tr> </table>
+Dump atom positions and multicolvar on a file.
+
+\par Compulsory keywords
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> DATA </b></td>
+<td> certain actions in plumed work by calculating a list of variables and summing over them. This particular action can be used to calculate functions of these base variables or prints them to a file. This keyword thus takes the label of one of those such variables as input. </td>
+</tr>
+<tr>
+<td width=15%> <b> STRIDE </b></td>
+<td> ( default=1 ) the frequency with which the atoms should be output </td>
+</tr>
+<tr>
+<td width=15%> <b> FILE </b></td>
+<td> file on which to output coordinates </td>
+</tr>
+<tr>
+<td width=15%> <b> UNITS </b></td>
+<td> ( default=PLUMED ) the units in which to print out the coordinates. PLUMED means internal PLUMED units </td>
+</tr>
+</table>
+
+</table>
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> PRECISION </b></td>
+<td> The number of digits in trajectory file </td>
+</tr>
+
+</table>
+
+\par Examples
+In this examples we calculate the distances between the  atoms of the first and the second 
+group and we write them in the file MULTICOLVAR.xyz. For each couple it writes the 
+coordinates of their geometric center and their distance.
+
+\verbatim
+pos:   GROUP ATOMS=220,221,235,236,247,248,438,439,450,451,534,535
+neg:   GROUP ATOMS=65,68,138,182,185,267,270,291,313,316,489,583,621,711
+DISTANCES GROUPA=pos GROUPB=neg LABEL=slt
+
+DUMPMULTICOLVAR DATA=slt FILE=MULTICOLVAR.xyz
+\endverbatim
+
+(see also \ref DISTANCES)
+
+*/

@@ -1,0 +1,116 @@
+\par Description of components
+
+By default the value of the calculated quantity can be referenced elsewhere in the input file by using the label of the action.  Alternatively this Action can be used to be used to calculate the following quantities by employing the keywords listed below.  These quanties can be referenced elsewhere in the input by using this Action's label followed by a dot and the name of the quantity required from the list below.
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr> <td width=5%> <b> Quantity </b> </td> <td> <b> Description </b> </td> </tr>
+<tr>
+<td width=15%> <b> bias </b></td>
+<td> the instantaneous value of the bias potentials </td>
+</tr>
+</table>
+
+In addition the following quantities can be calculated by employing the keywords listed below
+
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr> <td width=5%> <b> Quantity </b> </td> <td> <b> Keyword </b> </td> <td> <b> Description </b> </td> </tr>
+<tr>
+<td width=5%> <b> vmean </b></td> <td width=10%> <b> VMEAN </b> </td> 
+<td> the norm of the mean vector. The output component can be refererred to elsewhere in the input file by using the label.vmean </td>
+</tr>
+<tr>
+<td width=5%> <b> spath </b></td> <td width=10%> <b> SPATH </b> </td> 
+<td> the position on the path </td>
+</tr>
+<tr>
+<td width=5%> <b> zpath </b></td> <td width=10%> <b> ZPATH </b> </td> 
+<td> the distance from the path </td>
+</tr>
+<tr>
+<td width=5%> <b> dhenergy </b></td> <td width=10%> <b> DHENERGY </b> </td> 
+<td> the Debye-Huckel interaction energy. You can calculate this quantity multiple times using different parameters </td>
+</tr>
+<tr>
+<td width=5%> <b> between </b></td> <td width=10%> <b> BETWEEN </b> </td> 
+<td> the number/fraction of values within a certain range. This is calculated using one of the formula described in the description of the keyword so as to make it continuous. You can calculate this quantity multiple times using different parameters. </td>
+</tr>
+<tr>
+<td width=5%> <b> lessthan </b></td> <td width=10%> <b> LESS_THAN </b> </td> 
+<td> the number of values less than a target value. This is calculated using one of the formula described in the description of the keyword so as to make it continuous. You can calculate this quantity multiple times using different parameters. </td>
+</tr>
+<tr>
+<td width=5%> <b> max </b></td> <td width=10%> <b> MAX </b> </td> 
+<td> the maximum value. This is calculated using the formula described in the description of the keyword so as to make it continuous. </td>
+</tr>
+<tr>
+<td width=5%> <b> mean </b></td> <td width=10%> <b> MEAN </b> </td> 
+<td> the mean value. The output component can be refererred to elsewhere in the input file by using the label.mean </td>
+</tr>
+<tr>
+<td width=5%> <b> min </b></td> <td width=10%> <b> MIN </b> </td> 
+<td> the minimum value. This is calculated using the formula described in the description of the keyword so as to make it continuous. </td>
+</tr>
+<tr>
+<td width=5%> <b> moment </b></td> <td width=10%> <b> MOMENTS </b> </td> 
+<td> the central moments of the distribution of values. The second moment would be referenced elsewhere in the input file using <em>label</em>.moment-2, the third as <em>label</em>.moment-3, etc. </td>
+</tr>
+<tr>
+<td width=5%> <b> morethan </b></td> <td width=10%> <b> MORE_THAN </b> </td> 
+<td> the number of values more than a target value. This is calculated using one of the formula described in the description of the keyword so as to make it continuous. You can calculate this quantity multiple times using different parameters. </td>
+</tr>
+<tr>
+<td width=5%> <b> sum </b></td> <td width=10%> <b> SUM </b> </td> 
+<td> the sum of values </td>
+</tr>
+</table>
+
+\par Compulsory keywords
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> DATA </b></td>
+<td> certain actions in plumed work by calculating a list of variables and summing over them. This particular action can be used to calculate functions of these base variables or prints them to a file. This keyword thus takes the label of one of those such variables as input. </td>
+</tr>
+<tr>
+<td width=15%> <b> AT </b></td>
+<td> the radius of the sphere </td>
+</tr>
+<tr>
+<td width=15%> <b> KAPPA </b></td>
+<td> the force constant for the wall.  The k_i in the expression for a wall. </td>
+</tr>
+<tr>
+<td width=15%> <b> OFFSET </b></td>
+<td> ( default=0.0 ) the offset for the start of the wall.  The o_i in the expression for a wall. </td>
+</tr>
+<tr>
+<td width=15%> <b> EXP </b></td>
+<td> ( default=2.0 ) the powers for the walls.  The e_i in the expression for a wall. </td>
+</tr>
+<tr>
+<td width=15%> <b> EPS </b></td>
+<td> ( default=1.0 ) the values for s_i in the expression for a wall </td>
+</tr>
+</table>
+
+\par Options
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> NUMERICAL_DERIVATIVES </b></td>
+<td> ( default=off ) calculate the derivatives for these quantities numerically </td>
+</tr>
+<tr>
+<td width=15%> <b> SERIAL </b></td>
+<td> ( default=off ) do the calculation in serial.  Do not parallelize </td>
+</tr>
+<tr>
+<td width=15%> <b> LOWMEM </b></td>
+<td> ( default=off ) lower the memory requirements </td>
+</tr>
+
+</table>
+
+</table>
+

@@ -1,0 +1,21 @@
+\par Compulsory keywords
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> STRIDE </b></td>
+<td> ( default=1 ) the frequency with which molecules are reassembled.  Unless you are completely certain about what you are doing leave this set equal to 1! </td>
+</tr>
+<tr>
+<td width=15%> <b> REFERENCE </b></td>
+<td> a file in pdb format containing the reference structure and the atoms involved in the CV. </td>
+</tr>
+<tr>
+<td width=15%> <b> TYPE </b></td>
+<td> ( default=SIMPLE ) the manner in which RMSD alignment is performed.  Should be OPTIMAL or SIMPLE. Currently only SIMPLE is implemented </td>
+</tr>
+</table>
+
+</table>
+
+</table>
+

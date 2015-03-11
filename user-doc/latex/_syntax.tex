@@ -1,0 +1,77 @@
+To run P\+L\+U\+M\+E\+D 2 you need to provide one input file. In this file you specify what it is that P\+L\+U\+M\+E\+D should do during the course of the run. Typically this will involve calculating one or more collective variables, perhaps calculating a function of these C\+Vs and then doing some analysis of values of your collective variables/functions or running some free energy method. A very brief introduction to the syntax used in the P\+L\+U\+M\+E\+D input file is provided in this \href{http://www.youtube.com/watch?v=PxJP16qNCYs}{\tt 10-\/minute video }.
+
+Additional material and examples can be also found in the tutorial \hyperlink{belfast-1}{Belfast tutorial\+: Analyzing C\+Vs}.
+
+Within this input file every line is an instruction for P\+L\+U\+M\+E\+D to perform some particular action. This could be the calculation of a colvar, an occasional analysis of the trajectory or a biassing of the dynamics. The first word in these lines specify what particular action is to be performed. This is then followed by a number of keywords which provide P\+L\+U\+M\+E\+D with more details as to how the action is to be performed. These keywords are either single words (in which they tell P\+L\+U\+M\+E\+D to do the calculation in a particular way -\/ for example N\+O\+P\+B\+C tells P\+L\+U\+M\+E\+D to not use the periodic bounadry conditions when calculating a particular colvar) or they can be words followed by an equals sign and a comma separated list {\itshape with no spaces} of numbers or characters (so for example A\+T\+O\+M\+S=1,2,3,4 tells P\+L\+U\+M\+E\+D to use atom numbers 1,2,3 and 4 in the calculation of a particular colvar). Space separated lists can be used instead of commma separated list if the entire list is enclosed in curly braces (e.\+g. A\+T\+O\+M\+S=\{1 2 3 4\}). Please note that you can split commands over multiple lines by using \hyperlink{ContinuationLines}{Continuation lines}.
+
+The most important of these keywords is the label keyword as it is only by using these labels that we can pass data from one action to another. As an example if you do\+:
+
+\begin{DoxyVerb}DISTANCE ATOMS=1,2
+\end{DoxyVerb}
+ (see \hyperlink{DISTANCE}{D\+I\+S\+T\+A\+N\+C\+E})
+
+Then P\+L\+U\+M\+E\+D will do nothing other than read in your input file. In contrast if you do\+:
+
+\begin{DoxyVerb}DISTANCE ATOMS=1,2 LABEL=d1
+PRINT ARG=d1 FILE=colvar STRIDE=10
+\end{DoxyVerb}
+ (see \hyperlink{PRINT}{P\+R\+I\+N\+T})
+
+then P\+L\+U\+M\+E\+D will print out the value of the distance between atoms 1 and 2 every 10 steps to the file colvar as you have told P\+L\+U\+M\+E\+D to take the value calculated by the action d1 and to print it. You can use any character string to label your actions as long as it does not begin with the symbol @. Strings beginning with @ are used by within P\+L\+U\+M\+E\+D to reference special, code-\/generated groups of atoms and to give labels to any Actions for which the user does not provide a label in the input.
+
+Notice that if a word followed by a column is added at the beginning of the line (e.\+g. pippo\+:), P\+L\+U\+M\+E\+D automatically removes it and adds an equivalent label (L\+A\+B\+E\+L=pippo). Thus, a completely equivalent result can be obtained with the following shortcut\+: \begin{DoxyVerb}d1: DISTANCE ATOMS=1,2
+PRINT ARG=d1 FILE=colvar STRIDE=10
+\end{DoxyVerb}
+
+
+Also notice that all the actions can be labeled, and that many actions besides normal collective variables can define one or more value, which can be then referred using the corresponding label.
+
+Actions can be referred also with P\+O\+S\+I\+X regular expressions (see \hyperlink{Regex}{Regular Expressions}) if regex library is available on your system and detected at configure time. You can also add \hyperlink{comments}{Comments} to the input or set up your input over multiple files and then create a composite input by \hyperlink{includes}{Including other files}.\hypertarget{_syntax_units}{}\section{Plumed units}\label{_syntax_units}
+By default the P\+L\+U\+M\+E\+D inputs and outputs quantities in the following units\+:
+
+
+\begin{DoxyItemize}
+\item Energy -\/ k\+J/mol
+\item Length -\/ nanometers
+\item Time -\/ picoseconds
+\end{DoxyItemize}
+
+Unlike P\+L\+U\+M\+E\+D 1 the units used are independent of the M\+D engine you are using. If you want to change these units you can do this using the \hyperlink{UNITS}{U\+N\+I\+T\+S} keyword. \hypertarget{UNITS}{}\section{U\+N\+I\+T\+S}\label{UNITS}
+\begin{TabularC}{2}
+\hline
+&{\bfseries  This is part of the setup \hyperlink{mymodules}{module }}   \\\cline{1-2}
+\end{TabularC}
+This command sets the internal units for the code. A new unit can be set by either specifying how to convert from the plumed default unit into that new unit or by using the shortcuts described below. This directive M\+U\+S\+T appear at the B\+E\+G\+I\+N\+N\+I\+N\+G of the plumed.\+dat file. The same units must be used througout the plumed.\+dat file.
+
+Notice that all input/output will then be made using the specified units. That is\+: all the input parameters, all the output files, etc. The only exceptions are file formats for which there is a specific convention concerning the units. For example, trajectories written in .gro format (with \hyperlink{DUMPATOMS}{D\+U\+M\+P\+A\+T\+O\+M\+S}) are going to be always in nm.
+
+\begin{DoxyParagraph}{Options}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  N\+A\+T\+U\+R\+A\+L } &( default=off ) use natural units  
+
+\\\cline{1-2}
+\end{TabularC}
+
+
+\begin{TabularC}{2}
+\hline
+{\bfseries  L\+E\+N\+G\+T\+H } &the units of lengths. Either specify a conversion factor from the default, nm, or A (for angstroms) or um   \\\cline{1-2}
+{\bfseries  E\+N\+E\+R\+G\+Y } &the units of energy. Either specify a conversion factor from the default, kj/mol, or use j/mol or kcal/mol   \\\cline{1-2}
+{\bfseries  T\+I\+M\+E } &the units of time. Either specify a conversion factor from the default, ps, or use ns or fs  
+
+\\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Examples}
+\begin{DoxyVerb}# this is using nm - kj/mol - fs
+UNITS LENGTH=nm TIME=fs
+\end{DoxyVerb}
+ If a number, x, is found, the new unit is equal to x (default units) \begin{DoxyVerb}# this is using nm - kj/mol - fs
+UNITS LENGTH=nm TIME=0.001
+\end{DoxyVerb}
+ 
+\end{DoxyParagraph}

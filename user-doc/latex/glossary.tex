@@ -1,0 +1,115 @@
+The following page contains an alphabetically ordered list of all the Actions and command line tools that are available in P\+L\+U\+M\+E\+D 2. For lists of Actions classified in accordance with the particular tasks that are being performed see\+:
+
+
+\begin{DoxyItemize}
+\item \hyperlink{colvarintro}{Collective variables} tells you about the ways that you can calculate functions of the positions of the atoms.
+\item \hyperlink{_analysis}{Analysis} tells you about the various forms of analysis you can run on trajectories using P\+L\+U\+M\+E\+D.
+\item \hyperlink{_bias}{Bias} tells you about the methods that you can use to bias molecular dynamics simulations with P\+L\+U\+M\+E\+D.
+\end{DoxyItemize}\hypertarget{glossary_ActionList}{}\section{Full list of actions}\label{glossary_ActionList}
+\begin{TabularC}{3}
+\hline
+\hyperlink{ABMD}{A\+B\+M\+D} &B\+I\+A\+S &Adds a ratchet-\/and-\/pawl like restraint on one or more variables.  \\\cline{1-3}
+\hyperlink{ALPHABETA}{A\+L\+P\+H\+A\+B\+E\+T\+A} &C\+O\+L\+V\+A\+R &Measures a distance including pbc between the instantaneous values of a set of torsional angles and set of reference values.  \\\cline{1-3}
+\hyperlink{ALPHARMSD}{A\+L\+P\+H\+A\+R\+M\+S\+D} &C\+O\+L\+V\+A\+R &Probe the alpha helical content of a protein structure.  \\\cline{1-3}
+\hyperlink{ANGLES}{A\+N\+G\+L\+E\+S} &M\+C\+O\+L\+V\+A\+R &Calculate functions of the distribution of angles .  \\\cline{1-3}
+\hyperlink{ANGLE}{A\+N\+G\+L\+E} &C\+O\+L\+V\+A\+R &Calculate an angle.  \\\cline{1-3}
+\hyperlink{ANTIBETARMSD}{A\+N\+T\+I\+B\+E\+T\+A\+R\+M\+S\+D} &C\+O\+L\+V\+A\+R &Probe the antiparallel beta sheet content of your protein structure.  \\\cline{1-3}
+\hyperlink{AROUND}{A\+R\+O\+U\+N\+D} &M\+C\+O\+L\+V\+A\+R\+F &This quantity can be used to calculate functions of the distribution of collective variables for the atoms that lie in a particular, user-\/specified part of of the cell.  \\\cline{1-3}
+\hyperlink{BIASVALUE}{B\+I\+A\+S\+V\+A\+L\+U\+E} &B\+I\+A\+S &Takes the value of one variable and use it as a bias  \\\cline{1-3}
+\hyperlink{BRIDGE}{B\+R\+I\+D\+G\+E} &M\+C\+O\+L\+V\+A\+R &Calculate the number of atoms that bridge two parts of a structure  \\\cline{1-3}
+\hyperlink{CELL}{C\+E\+L\+L} &C\+O\+L\+V\+A\+R &Calculate the components of the simulation cell  \\\cline{1-3}
+\hyperlink{CENTER}{C\+E\+N\+T\+E\+R} &V\+A\+T\+O\+M &Calculate the center for a group of atoms, with arbitrary weights.  \\\cline{1-3}
+\hyperlink{CH3SHIFTS}{C\+H3\+S\+H\+I\+F\+T\+S} &C\+O\+L\+V\+A\+R &This collective variable calculates a scoring function based on the comparison of calculated andexperimental methyl chemical shifts.   \\\cline{1-3}
+\hyperlink{CLASSICAL_MDS}{C\+L\+A\+S\+S\+I\+C\+A\+L\+\_\+\+M\+D\+S} &A\+N\+A\+L\+Y\+S\+I\+S &Create a low-\/dimensional projection of a trajectory using the classical multidimensional scaling algorithm.  \\\cline{1-3}
+\hyperlink{COMBINE}{C\+O\+M\+B\+I\+N\+E} &F\+U\+N\+C\+T\+I\+O\+N &Calculate a polynomial combination of a set of other variables.  \\\cline{1-3}
+\hyperlink{COMMITTOR}{C\+O\+M\+M\+I\+T\+T\+O\+R} &A\+N\+A\+L\+Y\+S\+I\+S &Does a committor analysis.  \\\cline{1-3}
+\hyperlink{COM}{C\+O\+M} &V\+A\+T\+O\+M &Calculate the center of mass for a group of atoms.  \\\cline{1-3}
+\hyperlink{CONSTANT}{C\+O\+N\+S\+T\+A\+N\+T} &C\+O\+L\+V\+A\+R &Return a constant quantity.  \\\cline{1-3}
+\hyperlink{CONTACTMAP}{C\+O\+N\+T\+A\+C\+T\+M\+A\+P} &C\+O\+L\+V\+A\+R &Calculate the distances between a number of pairs of atoms and transform each distance by a switching function.\+The transformed distance can be compared with a reference value in order to calculate the squared distancebetween two contact maps. Each distance can also be weighted for a given value. C\+O\+N\+T\+A\+C\+T\+M\+A\+P can be used togetherwith \hyperlink{FUNCPATHMSD}{F\+U\+N\+C\+P\+A\+T\+H\+M\+S\+D} to define a path in the contactmap space.  \\\cline{1-3}
+\hyperlink{COORDINATIONNUMBER}{C\+O\+O\+R\+D\+I\+N\+A\+T\+I\+O\+N\+N\+U\+M\+B\+E\+R} &M\+C\+O\+L\+V\+A\+R &Calculate the coordination numbers of atoms so that you can then calculate functions of the distribution ofcoordination numbers such as the minimum, the number less than a certain quantity and so on.   \\\cline{1-3}
+\hyperlink{COORDINATION}{C\+O\+O\+R\+D\+I\+N\+A\+T\+I\+O\+N} &C\+O\+L\+V\+A\+R &Calculate coordination numbers.  \\\cline{1-3}
+\hyperlink{CS2BACKBONE}{C\+S2\+B\+A\+C\+K\+B\+O\+N\+E} &C\+O\+L\+V\+A\+R &This collective variable calculates a scoring function based on the comparison of backcalculated andexperimental backbone chemical shifts for a protein (C\+A, C\+B, C', H, H\+A, N).  \\\cline{1-3}
+\hyperlink{DEBUG}{D\+E\+B\+U\+G} &G\+E\+N\+E\+R\+I\+C &Set some debug options.  \\\cline{1-3}
+\hyperlink{DENSITY}{D\+E\+N\+S\+I\+T\+Y} &M\+C\+O\+L\+V\+A\+R &Calculate functions of the density of atoms as a function of the box. This allows one to calculatethe number of atoms in half the box.  \\\cline{1-3}
+\hyperlink{DHENERGY}{D\+H\+E\+N\+E\+R\+G\+Y} &C\+O\+L\+V\+A\+R &Calculate Debye-\/\+Huckel interaction energy among G\+R\+O\+U\+P\+A and G\+R\+O\+U\+P\+B.  \\\cline{1-3}
+\hyperlink{DIHCOR}{D\+I\+H\+C\+O\+R} &C\+O\+L\+V\+A\+R &Measures the degree of similarity between dihedral angles.  \\\cline{1-3}
+\hyperlink{DIPOLE}{D\+I\+P\+O\+L\+E} &C\+O\+L\+V\+A\+R &Calculate the dipole moment for a group of atoms.  \\\cline{1-3}
+\hyperlink{DISTANCES}{D\+I\+S\+T\+A\+N\+C\+E\+S} &M\+C\+O\+L\+V\+A\+R &Calculate the distances between one or many pairs of atoms. You can then calculate functions of the distribution ofdistances such as the minimum, the number less than a certain quantity and so on.   \\\cline{1-3}
+\hyperlink{DISTANCE}{D\+I\+S\+T\+A\+N\+C\+E} &C\+O\+L\+V\+A\+R &Calculate the distance between a pair of atoms.  \\\cline{1-3}
+\hyperlink{driver}{driver} &T\+O\+O\+L\+S &driver is a tool that allows one to to use plumed to post-\/process an existing trajectory.  \\\cline{1-3}
+\hyperlink{DRMSD}{D\+R\+M\+S\+D} &D\+C\+O\+L\+V\+A\+R &Calculate the distance R\+M\+S\+D with respect to a reference structure.   \\\cline{1-3}
+\hyperlink{DUMPATOMS}{D\+U\+M\+P\+A\+T\+O\+M\+S} &A\+N\+A\+L\+Y\+S\+I\+S &Dump selected atoms on a file.  \\\cline{1-3}
+\hyperlink{DUMPDERIVATIVES}{D\+U\+M\+P\+D\+E\+R\+I\+V\+A\+T\+I\+V\+E\+S} &A\+N\+A\+L\+Y\+S\+I\+S &Dump the derivatives with respect to the input parameters for one or more objects (generally C\+Vs, functions or biases).  \\\cline{1-3}
+\hyperlink{DUMPFORCES}{D\+U\+M\+P\+F\+O\+R\+C\+E\+S} &A\+N\+A\+L\+Y\+S\+I\+S &Dump the force acting on one of a values in a file.   \\\cline{1-3}
+\hyperlink{DUMPMULTICOLVAR}{D\+U\+M\+P\+M\+U\+L\+T\+I\+C\+O\+L\+V\+A\+R} &A\+N\+A\+L\+Y\+S\+I\+S &Dump atom positions and multicolvar on a file.  \\\cline{1-3}
+\hyperlink{DUMPPROJECTIONS}{D\+U\+M\+P\+P\+R\+O\+J\+E\+C\+T\+I\+O\+N\+S} &A\+N\+A\+L\+Y\+S\+I\+S &Dump the derivatives with respect to the input parameters for one or more objects (generally C\+Vs, functions or biases).  \\\cline{1-3}
+\hyperlink{ENERGY}{E\+N\+E\+R\+G\+Y} &C\+O\+L\+V\+A\+R &Calculate the total energy of the simulation box.  \\\cline{1-3}
+\hyperlink{ENSEMBLE}{E\+N\+S\+E\+M\+B\+L\+E} &F\+U\+N\+C\+T\+I\+O\+N &Calculates the replica averaging of a collective variable over multiple replicas.  \\\cline{1-3}
+\hyperlink{EXTERNAL}{E\+X\+T\+E\+R\+N\+A\+L} &B\+I\+A\+S &Calculate a restraint that is defined on a grid that is read during start up  \\\cline{1-3}
+\hyperlink{FAKE}{F\+A\+K\+E} &C\+O\+L\+V\+A\+R &This is a fake colvar container used by cltools or various other actionsand just support input and period definition  \\\cline{1-3}
+\hyperlink{FCCUBIC}{F\+C\+C\+U\+B\+I\+C} &M\+C\+O\+L\+V\+A\+R &\\\cline{1-3}
+\hyperlink{MOLECULES}{M\+O\+L\+E\+C\+U\+L\+E\+S} &M\+C\+O\+L\+V\+A\+R &Calculate the vectors connecting a pair of atoms in order to represent the orientation of a molecule.  \\\cline{1-3}
+\hyperlink{FIT_TO_TEMPLATE}{F\+I\+T\+\_\+\+T\+O\+\_\+\+T\+E\+M\+P\+L\+A\+T\+E} &G\+E\+N\+E\+R\+I\+C &This action is used to align a molecule to a template.  \\\cline{1-3}
+\hyperlink{FLUSH}{F\+L\+U\+S\+H} &G\+E\+N\+E\+R\+I\+C &This command instructs plumed to flush all the open files with a user specified frequency.\+Notice that all files are flushed anyway every 10000 steps.  \\\cline{1-3}
+\hyperlink{FUNCPATHMSD}{F\+U\+N\+C\+P\+A\+T\+H\+M\+S\+D} &F\+U\+N\+C\+T\+I\+O\+N &This function calculates path collective variables.   \\\cline{1-3}
+\hyperlink{FUNCSUMHILLS}{F\+U\+N\+C\+S\+U\+M\+H\+I\+L\+L\+S} &F\+U\+N\+C\+T\+I\+O\+N &This function is intended to be called by the command line tool sum\+\_\+hillsand it is meant to integrate a H\+I\+L\+L\+S file or an H\+I\+L\+L\+S file interpreted as a histogram i a variety of ways. Therefore it is not expected that you use this during your dynamics (it will crash!)  \\\cline{1-3}
+\hyperlink{gentemplate}{gentemplate} &T\+O\+O\+L\+S &gentemplate is a tool that you can use to construct template inputs for the variousactions  \\\cline{1-3}
+\hyperlink{GHOST}{G\+H\+O\+S\+T} &V\+A\+T\+O\+M &Calculate the absolute position of a ghost atom with fixed coordinatesin the local reference frame formed by three atoms. The computed ghost atom is stored as a virtual atom that can be accessed inan atom list through the the label for the G\+H\+O\+S\+T action that creates it.  \\\cline{1-3}
+\hyperlink{GPROPERTYMAP}{G\+P\+R\+O\+P\+E\+R\+T\+Y\+M\+A\+P} &C\+O\+L\+V\+A\+R &Property maps but with a more flexible framework for the distance metric being used.   \\\cline{1-3}
+\hyperlink{GROUP}{G\+R\+O\+U\+P} &G\+E\+N\+E\+R\+I\+C &Define a group of atoms so that a particular list of atoms can be referenced with a single labelin definitions of C\+Vs or virtual atoms.   \\\cline{1-3}
+\hyperlink{GYRATION}{G\+Y\+R\+A\+T\+I\+O\+N} &C\+O\+L\+V\+A\+R &Calculate the radius of gyration, or other properties related to it.  \\\cline{1-3}
+\hyperlink{HISTOGRAM}{H\+I\+S\+T\+O\+G\+R\+A\+M} &A\+N\+A\+L\+Y\+S\+I\+S &Calculate the probability density as a function of a few C\+Vs either using kernel density estimation, or a discretehistogram estimation.   \\\cline{1-3}
+\hyperlink{IMD}{I\+M\+D} &G\+E\+N\+E\+R\+I\+C &Use interactive molecular dynamics with V\+M\+D  \\\cline{1-3}
+\hyperlink{INCLUDE}{I\+N\+C\+L\+U\+D\+E} &G\+E\+N\+E\+R\+I\+C &Includes an external input file, similar to \char`\"{}\#include\char`\"{} in C preprocessor.  \\\cline{1-3}
+\hyperlink{info}{info} &T\+O\+O\+L\+S &This tool allows you to obtain information about your plumed version  \\\cline{1-3}
+\hyperlink{kt}{kt} &T\+O\+O\+L\+S &Print out the value of $k_BT$ at a particular temperature  \\\cline{1-3}
+\hyperlink{LOAD}{L\+O\+A\+D} &G\+E\+N\+E\+R\+I\+C &Loads a library, possibly defining new actions.  \\\cline{1-3}
+\hyperlink{LOCAL_AVERAGE}{L\+O\+C\+A\+L\+\_\+\+A\+V\+E\+R\+A\+G\+E} &M\+C\+O\+L\+V\+A\+R\+F &Calculate averages over spherical regions centered on atoms  \\\cline{1-3}
+\hyperlink{LOCAL_Q3}{L\+O\+C\+A\+L\+\_\+\+Q3} &M\+C\+O\+L\+V\+A\+R\+F &Calculate the local degree of order around an atoms by taking the average dot product between the $q_3$ vector on the central atom and the $q_3$ vectoron the atoms in the first coordination sphere.  \\\cline{1-3}
+\hyperlink{LOCAL_Q4}{L\+O\+C\+A\+L\+\_\+\+Q4} &M\+C\+O\+L\+V\+A\+R\+F &Calculate the local degree of order around an atoms by taking the average dot product between the $q_4$ vector on the central atom and the $q_4$ vectoron the atoms in the first coordination sphere.  \\\cline{1-3}
+\hyperlink{LOCAL_Q6}{L\+O\+C\+A\+L\+\_\+\+Q6} &M\+C\+O\+L\+V\+A\+R\+F &Calculate the local degree of order around an atoms by taking the average dot product between the $q_6$ vector on the central atom and the $q_6$ vectoron the atoms in the first coordination sphere.  \\\cline{1-3}
+\hyperlink{LOWER_WALLS}{L\+O\+W\+E\+R\+\_\+\+W\+A\+L\+L\+S} &B\+I\+A\+S &Defines a wall for the value of one or more collective variables, which limits the region of the phase space accessible during the simulation.   \\\cline{1-3}
+\hyperlink{manual}{manual} &T\+O\+O\+L\+S &manual is a tool that you can use to construct the manual page for a particular action  \\\cline{1-3}
+\hyperlink{MATHEVAL}{M\+A\+T\+H\+E\+V\+A\+L} &F\+U\+N\+C\+T\+I\+O\+N &Calculate a combination of variables using a matheval expression.  \\\cline{1-3}
+\hyperlink{METAD}{M\+E\+T\+A\+D} &B\+I\+A\+S &Used to performed Meta\+Dynamics on one or more collective variables.  \\\cline{1-3}
+\hyperlink{MOLINFO}{M\+O\+L\+I\+N\+F\+O} &T\+O\+P\+O\+L\+O\+G\+Y &This command is used to provide information on the molecules that are present in your system.  \\\cline{1-3}
+\hyperlink{MOVINGRESTRAINT}{M\+O\+V\+I\+N\+G\+R\+E\+S\+T\+R\+A\+I\+N\+T} &B\+I\+A\+S &Add a time-\/dependent, harmonic restraint on one or more variables.  \\\cline{1-3}
+\hyperlink{MULTI-RMSD}{M\+U\+L\+T\+I-\/\+R\+M\+S\+D} &D\+C\+O\+L\+V\+A\+R &Calculate the R\+M\+S\+D distance moved by a number of separated domains from their positions in a reference structure.   \\\cline{1-3}
+\hyperlink{NLINKS}{N\+L\+I\+N\+K\+S} &M\+C\+O\+L\+V\+A\+R\+F &Calculate number of pairs of atoms/molecules that are \char`\"{}linked\char`\"{}  \\\cline{1-3}
+\hyperlink{NOE}{N\+O\+E} &C\+O\+L\+V\+A\+R &Calculates the deviation of current distances from experimental N\+O\+E derived distances.  \\\cline{1-3}
+\hyperlink{PARABETARMSD}{P\+A\+R\+A\+B\+E\+T\+A\+R\+M\+S\+D} &C\+O\+L\+V\+A\+R &Probe the parallel beta sheet content of your protein structure.  \\\cline{1-3}
+\hyperlink{PATHMSD}{P\+A\+T\+H\+M\+S\+D} &C\+O\+L\+V\+A\+R &This Colvar calculates path collective variables.   \\\cline{1-3}
+\hyperlink{PATH}{P\+A\+T\+H} &C\+O\+L\+V\+A\+R &Path collective variables with a more flexible framework for the distance metric being used.   \\\cline{1-3}
+\hyperlink{PIECEWISE}{P\+I\+E\+C\+E\+W\+I\+S\+E} &F\+U\+N\+C\+T\+I\+O\+N &Compute a piecewise straight line through its arguments that passes througha set of ordered control points.   \\\cline{1-3}
+\hyperlink{POSITION}{P\+O\+S\+I\+T\+I\+O\+N} &C\+O\+L\+V\+A\+R &Calculate the components of the position of an atom.  \\\cline{1-3}
+\hyperlink{PRINT}{P\+R\+I\+N\+T} &A\+N\+A\+L\+Y\+S\+I\+S &Print quantities to a file.  \\\cline{1-3}
+\hyperlink{PROPERTYMAP}{P\+R\+O\+P\+E\+R\+T\+Y\+M\+A\+P} &C\+O\+L\+V\+A\+R &Calculate generic property maps.  \\\cline{1-3}
+\hyperlink{Q3}{Q3} &M\+C\+O\+L\+V\+A\+R &Calculate 3rd order Steinhardt parameters.  \\\cline{1-3}
+\hyperlink{Q4}{Q4} &M\+C\+O\+L\+V\+A\+R &Calculate 4th order Steinhardt parameters.  \\\cline{1-3}
+\hyperlink{Q6}{Q6} &M\+C\+O\+L\+V\+A\+R &Calculate 6th order Steinhardt parameters.  \\\cline{1-3}
+\hyperlink{RANDOM_EXCHANGES}{R\+A\+N\+D\+O\+M\+\_\+\+E\+X\+C\+H\+A\+N\+G\+E\+S} &G\+E\+N\+E\+R\+I\+C &Set random pattern for exchanges.  \\\cline{1-3}
+\hyperlink{RDC}{R\+D\+C} &C\+O\+L\+V\+A\+R &Calculates the Residual Dipolar Coupling between two atoms.   \\\cline{1-3}
+\hyperlink{READ}{R\+E\+A\+D} &G\+E\+N\+E\+R\+I\+C &Read quantities from a colvar file.  \\\cline{1-3}
+\hyperlink{RESTART}{R\+E\+S\+T\+A\+R\+T} &G\+E\+N\+E\+R\+I\+C &Activate restart.  \\\cline{1-3}
+\hyperlink{RESTRAINT}{R\+E\+S\+T\+R\+A\+I\+N\+T} &B\+I\+A\+S &Adds harmonic and/or linear restraints on one or more variables.   \\\cline{1-3}
+\hyperlink{RMSD}{R\+M\+S\+D} &D\+C\+O\+L\+V\+A\+R &Calculate the R\+M\+S\+D with respect to a reference structure.   \\\cline{1-3}
+\hyperlink{SIMPLECUBIC}{S\+I\+M\+P\+L\+E\+C\+U\+B\+I\+C} &M\+C\+O\+L\+V\+A\+R &Calculate whether or not the coordination spheres of atoms are arranged as they would be in a simplecubic structure.  \\\cline{1-3}
+\hyperlink{simplemd}{simplemd} &T\+O\+O\+L\+S &simplemd allows one to do molecular dynamics on systems of Lennard-\/\+Jones atoms.  \\\cline{1-3}
+\hyperlink{SORT}{S\+O\+R\+T} &F\+U\+N\+C\+T\+I\+O\+N &This function can be used to sort colvars according to their magnitudes.  \\\cline{1-3}
+\hyperlink{SPRINT}{S\+P\+R\+I\+N\+T} &M\+C\+O\+L\+V\+A\+R\+F &Calculate S\+P\+R\+I\+N\+T topological variables.  \\\cline{1-3}
+\hyperlink{sum_hills}{sum\+\_\+hills} &T\+O\+O\+L\+S &sum\+\_\+hills is a tool that allows one to to use plumed to post-\/process an existing hills/colvar file   \\\cline{1-3}
+\hyperlink{TARGET}{T\+A\+R\+G\+E\+T} &D\+C\+O\+L\+V\+A\+R &This function measures the pythagorean distance from a particular structure measured in the space defined by some set of collective variables.  \\\cline{1-3}
+\hyperlink{TEMPLATE}{T\+E\+M\+P\+L\+A\+T\+E} &C\+O\+L\+V\+A\+R &This file provides a template for if you want to introduce a new C\+V.  \\\cline{1-3}
+\hyperlink{TETRAHEDRAL}{T\+E\+T\+R\+A\+H\+E\+D\+R\+A\+L} &M\+C\+O\+L\+V\+A\+R &\\\cline{1-3}
+\hyperlink{TIME}{T\+I\+M\+E} &G\+E\+N\+E\+R\+I\+C &retrieve the time of the simulation to be used elsewere  \\\cline{1-3}
+\hyperlink{TORSIONS}{T\+O\+R\+S\+I\+O\+N\+S} &M\+C\+O\+L\+V\+A\+R &Calculate whether or not a set of torsional angles are within a particular range.  \\\cline{1-3}
+\hyperlink{TORSION}{T\+O\+R\+S\+I\+O\+N} &C\+O\+L\+V\+A\+R &Calculate a torsional angle.  \\\cline{1-3}
+\hyperlink{UNITS}{U\+N\+I\+T\+S} &G\+E\+N\+E\+R\+I\+C &This command sets the internal units for the code. A new unit can be set by eitherspecifying how to convert from the plumed default unit into that new unit or by usingthe shortcuts described below. This directive M\+U\+S\+T appear at the B\+E\+G\+I\+N\+N\+I\+N\+G of the plumed.\+dat file. The same units must be used througout the plumed.\+dat file.  \\\cline{1-3}
+\hyperlink{UPPER_WALLS}{U\+P\+P\+E\+R\+\_\+\+W\+A\+L\+L\+S} &B\+I\+A\+S &Defines a wall for the value of one or more collective variables, which limits the region of the phase space accessible during the simulation.   \\\cline{1-3}
+\hyperlink{UWALLS}{U\+W\+A\+L\+L\+S} &M\+C\+O\+L\+V\+A\+R\+B &Add \hyperlink{UPPER_WALLS}{U\+P\+P\+E\+R\+\_\+\+W\+A\+L\+L\+S} restraints on all the multicolvar values  \\\cline{1-3}
+\hyperlink{VOLUME}{V\+O\+L\+U\+M\+E} &C\+O\+L\+V\+A\+R &Calculate the volume of the simulation box.  \\\cline{1-3}
+\hyperlink{WHOLEMOLECULES}{W\+H\+O\+L\+E\+M\+O\+L\+E\+C\+U\+L\+E\+S} &G\+E\+N\+E\+R\+I\+C &This action is used to rebuild molecules that can become split by the periodicboundary conditions.  \\\cline{1-3}
+\hyperlink{XDISTANCES}{X\+D\+I\+S\+T\+A\+N\+C\+E\+S} &M\+C\+O\+L\+V\+A\+R &Calculate the x components of the vectors connecting one or many pairs of atoms. You can then calculate functions of the distribution ofvalues such as the minimum, the number less than a certain quantity and so on.   \\\cline{1-3}
+\hyperlink{YDISTANCES}{Y\+D\+I\+S\+T\+A\+N\+C\+E\+S} &M\+C\+O\+L\+V\+A\+R &Calculate the y components of the vectors connecting one or many pairs of atoms. You can then calculate functions of the distribution ofvalues such as the minimum, the number less than a certain quantity and so on.  \\\cline{1-3}
+\hyperlink{ZDISTANCES}{Z\+D\+I\+S\+T\+A\+N\+C\+E\+S} &M\+C\+O\+L\+V\+A\+R &Calculate the z components of the vectors connecting one or many pairs of atoms. You can then calculate functions of the distribution ofvalues such as the minimum, the number less than a certain quantity and so on.  \\\cline{1-3}
+\end{TabularC}

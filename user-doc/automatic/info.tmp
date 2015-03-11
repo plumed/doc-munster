@@ -1,0 +1,19 @@
+/**
+\page info info
+<table  align=center frame=void width=95%% celpadding=5%%>
+<tr> <td width=70%%> </td> <td>
+<b> This is part of the cltools \link mymodules module \endlink</b>
+</td> </tr> </table>
+This tool allows you to obtain information about your plumed version
+
+You can specify the information you require using the following command line
+arguments
+
+\par Examples
+
+The following command returns the root directory for your plumed distribution.
+\verbatim
+plumed info --root
+\endverbatim
+
+*/

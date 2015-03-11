@@ -1,0 +1,222 @@
+\begin{thebibliography}{10}
+
+\bibitem{baftizadeh2012protein}
+Fahimeh Baftizadeh, Pilar Cossio, Fabio Pietrucci, and Alessandro Laio.
+\newblock Protein folding and ligand-enzyme binding from bias-exchange
+  metadynamics simulations.
+\newblock {\em Curr Phys Chem}, 2:79--91, 2012.
+
+\bibitem{Barducci:2008}
+A~Barducci, G~Bussi, and M~Parrinello.
+\newblock Well-tempered metadynamics: A smoothly converging and tunable
+  free-energy method.
+\newblock {\em Phys. Rev. Lett.}, 100(2):020603, Jan 2008.
+
+\bibitem{WCMS:WCMS31}
+Alessandro Barducci, Massimiliano Bonomi, and Michele Parrinello.
+\newblock Metadynamics.
+\newblock {\em Wiley Interdisciplinary Reviews: Computational Molecular
+  Science}, 1(5):826--843, 2011.
+
+\bibitem{bart-karp98jpcb}
+C.~Bartels and M.~Karplus.
+\newblock {Probability Distributions for Complex Systems: Adaptive Umbrella
+  Sampling of the Potential Energy}.
+\newblock {\em J.~Phys.~Chem.~B}, 102(5):865--880, 1998.
+
+\bibitem{Bonomi:2009p17935}
+M.~Bonomi and M.~Parrinello.
+\newblock Enhanced sampling in the well-tempered ensemble.
+\newblock {\em Phys. Rev. Lett.}, 104:190601, 2010.
+
+\bibitem{plumed1}
+Massimiliano Bonomi, Davide Branduardi, Giovanni Bussi, Carlo Camilloni, Davide
+  Provasi, Paolo Raiteri, Davide Donadio, Fabrizio Marinelli, Fabio Pietrucci,
+  Ricardo~A Broglia, and Michele Parrinello.
+\newblock {PLUMED: A portable plugin for free-energy calculations with
+  molecular dynamics}.
+\newblock {\em Computer Physics Communications}, 180(10):1961--1972, 2009.
+
+\bibitem{Branduardi:2012dl}
+D~Branduardi, G~Bussi, and M~PARRINELLO.
+\newblock {Metadynamics with adaptive Gaussians}.
+\newblock {\em J. Chem. Theory Comput.}, 8(7):2247--2254, 2012.
+
+\bibitem{brand07}
+Davide Branduardi, Francesco~Luigi Gervasio, and Michele Parrinello.
+\newblock From {A} to {B} in free energy space.
+\newblock {\em J. Chem. Phys.}, 126(5):054103, Feb 2007.
+
+\bibitem{bussi_xc}
+Giovanni Bussi, Francesco~Luigi Gervasio, Alessandro Laio, and Michele
+  Parrinello.
+\newblock Free-energy landscape for beta hairpin folding from combined parallel
+  tempering and metadynamics.
+\newblock {\em J. Am. Chem. Soc.}, 128(41):13435--41, 2006.
+
+\bibitem{camilloni11abmd}
+C.~Camilloni, R.~A. Broglia, and G.~Tiana.
+\newblock Hierarchy of folding and unfolding events of protein g, ci2, and acbp
+  from explicit-solvent simulations.
+\newblock {\em J. Chem. Phys.}, 134:045105, 2011.
+
+\bibitem{Camilloni:2013hs}
+Carlo Camilloni, Andrea Cavalli, and Michele Vendruscolo.
+\newblock {Assessment of the Use of NMR Chemical Shifts as Replica-Averaged
+  Structural Restraints in Molecular Dynamics Simulations to Characterize the
+  Dynamics of Proteins}.
+\newblock {\em J. Phys. Chem. B}, 117(6):1838--1843, 2013.
+
+\bibitem{Camilloni:2012je}
+Carlo Camilloni, Paul Robustelli, Alfonso De~Simone, Andrea Cavalli, and
+  Michele Vendruscolo.
+\newblock {Characterization of the Conformational Equilibrium between the Two
+  Major Substates of RNase A Using NMR Chemical Shifts.}
+\newblock {\em J. Am. Chem. Soc.}, 134(9):3968--3971, 2012.
+
+\bibitem{ct300297t}
+Michael Deighan, Massimiliano Bonomi, and Jim Pfaendtner.
+\newblock Efficient simulation of explicitly solvated proteins in the
+  well-tempered ensemble.
+\newblock {\em Journal of Chemical Theory and Computation}, 8(7):2189--2192,
+  2012.
+
+\bibitem{do13jctc}
+Trang~N. Do, Paolo Carloni, Gabriele Varani, and Giovanni Bussi.
+\newblock Rna/peptide binding driven by electrostatics—insight from
+  bidirectional pulling simulations.
+\newblock {\em Journal of Chemical Theory and Computation}, 9(3):1720--1730,
+  2013.
+
+\bibitem{Granata:2013dk}
+Daniele Granata, Carlo Camilloni, Michele Vendruscolo, and Alessandro Laio.
+\newblock {Characterization of the free-energy landscapes of proteins by
+  NMR-guided metadynamics.}
+\newblock {\em Proc. Natl. Acad. Sci. U.S.A.}, 110(17):6817--6822, 2013.
+
+\bibitem{Grubmuller3}
+H.~Grubm{\"u}ller, B.~A. Heymann, and P.~Tavan.
+\newblock {\em Science}, 271:997--999, 1996.
+
+\bibitem{jarzynski}
+C.~Jarzynski.
+\newblock Nonequilibrium equality for free energy differences.
+\newblock {\em Phys. Rev. Lett.}, 78:2690--2693, 1997.
+
+\bibitem{kearsley}
+S.~K. Kearsley.
+\newblock On the orthogonal transformation used for structural comparison.
+\newblock {\em Acta Cryst. A}, 45:208--210, 1989.
+
+\bibitem{Kohlhoff:2009us}
+KJ~Kohlhoff, Paul Robustelli, Andrea Cavalli, Xavier Salvatella, and Michele
+  Vendruscolo.
+\newblock {Fast and accurate predictions of protein NMR chemical shifts from
+  interatomic distances}.
+\newblock {\em J. Am. Chem. Soc.}, 131(39):13894--13895, 2009.
+
+\bibitem{metad}
+A.~Laio and M.~Parrinello.
+\newblock Escaping free energy minima.
+\newblock {\em Proc. Natl. Acad. Sci. USA}, 99:12562--12566, 2002.
+
+\bibitem{gerv-laio09review}
+Alessandrio Laio and Francesco~Luigi Gervasio.
+\newblock Metadynamics: a method to simulate rare events and reconstruct the
+  free energy in biophysics, chemistry and material science.
+\newblock {\em Rep. Prog. Phys.}, 71:126601, 2008.
+
+\bibitem{dellago-q6}
+Wolfgang Lechner and Christoph Dellago.
+\newblock Accurate determination of crystal structures based on averaged local
+  bond order parameters.
+\newblock {\em The Journal of Chemical Physics}, 129(11):--, 2008.
+
+\bibitem{ballone}
+M.~Marchi and P.~Ballone.
+\newblock Adiabatic bias molecular dynamics: A method to navigate the
+  conformational space of complex molecular systems.
+\newblock {\em J. Chem. Phys.}, 110(8):3697--3702, 1999.
+
+\bibitem{piana}
+Stefano Piana and Alessandro Laio.
+\newblock A bias-exchange approach to protein folding.
+\newblock {\em J. Phys. Chem. B}, 111(17):4553--9, 2007.
+
+\bibitem{pietrucci09jctc}
+F.~Pietrucci and A.~Laio.
+\newblock A collective variable for the efficient exploration of protein
+  beta-structures with metadynamics: application to sh3 and gb1.
+\newblock {\em J. Chem. Theory Comput.}, 5(9):2197--2201, 2009.
+
+\bibitem{provasi10abmd}
+D.~Provasi and M.~Filizola.
+\newblock Putative active states of a prototypic g-protein-coupled receptor
+  from biased molecular dynamics.
+\newblock {\em Biophys. J.}, 98:2347--–2355, 2010.
+
+\bibitem{multiplewalkers}
+P.~Raiteri, A.~Laio, F.L. Gervasio, C.~Micheletti, and M.~Parrinello.
+\newblock Efficient reconstruction of complex free energy landscapes by
+  multiple walkers metadynamics.
+\newblock {\em J. Phys. Chem. B}, 110:3533--3539, 2006.
+
+\bibitem{Robustelli:2010dn}
+Paul Robustelli, Kai Kohlhoff, Andrea Cavalli, and Michele Vendruscolo.
+\newblock {Using NMR chemical shifts as structural restraints in molecular
+  dynamics simulations of proteins}.
+\newblock {\em Structure}, 18(8):923--933, 2010.
+
+\bibitem{Sahakyan:2011bn}
+Aleksandr~B Sahakyan, Wim~F Vranken, Andrea Cavalli, and Michele Vendruscolo.
+\newblock {Structure-based prediction of methyl chemical shifts in proteins}.
+\newblock {\em J. Biomol. NMR}, 50(4):331--346, 2011.
+
+\bibitem{Spiwok:2011ce}
+Vojtech Spiwok and Blanka Kr{\'a}lov{\'a}.
+\newblock {Metadynamics in the conformational space nonlinearly dimensionally
+  reduced by Isomap.}
+\newblock {\em Journal of Chemical Physics}, 135(22):224504, December 2011.
+
+\bibitem{sugi-okam99cpl}
+Yuji Sugita and Yuko Okamoto.
+\newblock Replica-exchange molecular dynamics method for protein folding.
+\newblock {\em Chem.~Phys.~Lett.}, 314(1--2):141--151, November 1999.
+
+\bibitem{WCMS:WCMS1103}
+Ludovico Sutto, Simone Marsili, and Francesco~Luigi Gervasio.
+\newblock New advances in metadynamics.
+\newblock {\em Wiley Interdisciplinary Reviews: Computational Molecular
+  Science}, 2(5):771--779, 2012.
+
+\bibitem{PRL230602}
+Pratyush Tiwary and Michele Parrinello.
+\newblock From metadynamics to dynamics.
+\newblock {\em Phys. Rev. Lett.}, 111:230602, Dec 2013.
+
+\bibitem{torrie-valleau}
+G.M. Torrie and J.P. Valleau.
+\newblock Nonphysical sampling distributions in monte carlo free energy
+  estimation: Umbrella sampling.
+\newblock {\em J. Comput. Phys.}, 23:187--199, 1977.
+
+\bibitem{plumed2}
+Gareth~A. Tribello, Massimiliano Bonomi, Davide Branduardi, Carlo Camilloni,
+  and Giovanni Bussi.
+\newblock Plumed 2: New feathers for an old bird.
+\newblock {\em Comput.~Phys.~Commun.}, 185(2):604--613, 2014.
+
+\bibitem{lj-recon}
+Gareth~A. Tribello, Jérôme Cuny, Hagai Eshet, and Michele Parrinello.
+\newblock Exploring the free energy surfaces of clusters using reconnaissance
+  metadynamics.
+\newblock {\em J. Chem. Phys.}, 135(11):114109, 2011.
+
+\bibitem{Vymetal:2011gv}
+Ji{\v r}{\'\i} Vym{\v e}tal and Ji{\v r}{\'\i} Vondr{\'a}{\v s}ek.
+\newblock {Gyration- and Inertia-Tensor-Based Collective Coordinates for
+  Metadynamics. Application on the Conformational Behavior of Polyalanine
+  Peptides and Trp-Cage Folding}.
+\newblock {\em J. Phys. Chem. A}, page 110930112611005, 2011.
+
+\end{thebibliography}

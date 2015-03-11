@@ -1,0 +1,5 @@
+This manual has been compiled from PLUMED version <b> 2.1.munster </b>
+(git version: <b> 727ae3af0cab </b>).
+Manual built on Travis CI for branch munster.
+
+Regtest results for this version can be found <a href="../regtests/report.html">here</a>.

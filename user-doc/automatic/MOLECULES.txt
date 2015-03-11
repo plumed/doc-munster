@@ -1,0 +1,86 @@
+/**
+\page MOLECULES MOLECULES
+<table  align=center frame=void width=95%% celpadding=5%%>
+<tr> <td width=70%%> </td> <td>
+<b> This is part of the crystallization \link mymodules module \endlink</b>
+</td> </tr> </table>
+Calculate the vectors connecting a pair of atoms in order to represent the orientation of a molecule.
+
+At its simplest this command can be used to calculate the average length of an internal vector in a 
+collection of different molecules.  When used in conjunction with MutiColvarFunctions in can be used
+to do a variety of more complex tasks.
+
+\par Description of components
+
+When the label of this action is used as the input for a second you are not referring to a scalar quantity as you are in regular collective variables.  The label is used to reference the full set of quantities calculated by the action.  This is usual when using \ref multicolvarfunction. Generally when doing this the previously calculated multicolvar will be referenced using the DATA keyword rather than ARG.
+
+This Action can be used to calculate the following scalar quantities directly.  These quantities are calculated by employing the keywords listed below. These quantities can then be referenced elsewhere in the input file by using this Action's label followed by a dot and the name of the quantity. Some amongst them can be calculated multiple times with different parameters.  In this case the quantities calculated can be referenced elsewhere in the input by using the name of the quantity followed by a numerical identifier e.g. <em>label</em>.lessthan-1, <em>label</em>.lessthan-2 etc.  When doing this and, for clarity we have made the label of the components customizable. As such by using the LABEL keyword in the description of the keyword input you can customize the component name
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr> <td width=5%> <b> Quantity </b> </td> <td> <b> Keyword </b> </td> <td> <b> Description </b> </td> </tr>
+<tr>
+<td width=5%> <b> vmean </b></td> <td width=10%> <b> VMEAN </b> </td> 
+<td> the norm of the mean vector. The output component can be refererred to elsewhere in the input file by using the label.vmean </td>
+</tr>
+</table>
+
+\par The atoms involved can be specified using
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> MOL </b></td>
+<td> The numerical indices of the atoms in the molecule. The orientation of the molecule is equal to the vector connecting the first two atoms specified.  If a third atom is specified its position is used to specify where the molecule is.  If a third atom is not present the molecule is assumed to be at the center of the vector connecting the first two atoms. You can use multiple instances of this keyword i.e. MOL1, MOL2, MOL3... </td>
+</tr>
+</table>
+
+\par Options
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> NUMERICAL_DERIVATIVES </b></td>
+<td> ( default=off ) calculate the derivatives for these quantities numerically </td>
+</tr>
+<tr>
+<td width=15%> <b> NOPBC </b></td>
+<td> ( default=off ) ignore the periodic boundary conditions when calculating distances </td>
+</tr>
+<tr>
+<td width=15%> <b> SERIAL </b></td>
+<td> ( default=off ) do the calculation in serial.  Do not parallelize </td>
+</tr>
+<tr>
+<td width=15%> <b> LOWMEM </b></td>
+<td> ( default=off ) lower the memory requirements </td>
+</tr>
+<tr>
+<td width=15%> <b> VERBOSE </b></td>
+<td> ( default=off ) write a more detailed output </td>
+</tr>
+<tr>
+<td width=15%> <b> VMEAN </b></td>
+<td> ( default=off ) calculate the norm of the mean vector. The final value can be referenced using <em>label</em>.vmean </td>
+</tr>
+
+</table>
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> TOL </b></td>
+<td> this keyword can be used to speed up your calculation. When accumulating sums in which the individual terms are numbers inbetween zero and one it is assumed that terms less than a certain tolerance make only a small contribution to the sum.  They can thus be safely ignored as can the the derivatives wrt these small quantities. </td>
+</tr>
+
+</table>
+
+\par Examples
+
+The following input tells plumed to calculate the distances between two of the atoms in a molecule.
+This is done for the same set of atoms four different molecules and the average separation is then
+calculated.
+
+\verbatim
+MOLECULES MOL1=1,2 MOL2=3,4 MOL3=5,6 MOL4=7,8 MEAN LABEL=mm
+PRINT ARG=mm.mean FILE=colvar
+\endverbatim
+
+
+*/

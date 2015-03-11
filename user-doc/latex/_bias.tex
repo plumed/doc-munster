@@ -1,0 +1,734 @@
+P\+L\+U\+M\+E\+D allows you to run a number of enhanced sampling algorithms. The list of enhanced sampling algorithms contained in P\+L\+U\+M\+E\+D is as follows\+:
+
+\begin{TabularC}{2}
+\hline
+\hyperlink{ABMD}{A\+B\+M\+D}  &Adds a ratchet-\/and-\/pawl like restraint on one or more variables.  \\\cline{1-2}
+\hyperlink{BIASVALUE}{B\+I\+A\+S\+V\+A\+L\+U\+E}  &Takes the value of one variable and use it as a bias  \\\cline{1-2}
+\hyperlink{EXTERNAL}{E\+X\+T\+E\+R\+N\+A\+L}  &Calculate a restraint that is defined on a grid that is read during start up  \\\cline{1-2}
+\hyperlink{LOWER_WALLS}{L\+O\+W\+E\+R\+\_\+\+W\+A\+L\+L\+S}  &Defines a wall for the value of one or more collective variables, which limits the region of the phase space accessible during the simulation.   \\\cline{1-2}
+\hyperlink{METAD}{M\+E\+T\+A\+D}  &Used to performed Meta\+Dynamics on one or more collective variables.  \\\cline{1-2}
+\hyperlink{MOVINGRESTRAINT}{M\+O\+V\+I\+N\+G\+R\+E\+S\+T\+R\+A\+I\+N\+T}  &Add a time-\/dependent, harmonic restraint on one or more variables.  \\\cline{1-2}
+\hyperlink{RESTRAINT}{R\+E\+S\+T\+R\+A\+I\+N\+T}  &Adds harmonic and/or linear restraints on one or more variables.   \\\cline{1-2}
+\hyperlink{UPPER_WALLS}{U\+P\+P\+E\+R\+\_\+\+W\+A\+L\+L\+S}  &Defines a wall for the value of one or more collective variables, which limits the region of the phase space accessible during the simulation.   \\\cline{1-2}
+\end{TabularC}
+
+
+Methods, such as \hyperlink{METAD}{M\+E\+T\+A\+D}, that work by introducing a history dependent bias can be restarted using the \hyperlink{RESTART}{R\+E\+S\+T\+A\+R\+T} keyword
+
+You can also use P\+L\+U\+M\+E\+D in conjunction with V\+M\+D's interactive M\+D module by taking advantage of the \hyperlink{IMD}{I\+M\+D} action. \hypertarget{ABMD}{}\section{A\+B\+M\+D}\label{ABMD}
+\begin{TabularC}{2}
+\hline
+&{\bfseries  This is part of the bias \hyperlink{mymodules}{module }}   \\\cline{1-2}
+\end{TabularC}
+Adds a ratchet-\/and-\/pawl like restraint on one or more variables.
+
+This action can be used to evolve a system towards a target value in C\+V space using an harmonic potential moving with the thermal fluctuations of the C\+V \cite{ballone} \cite{provasi10abmd} \cite{camilloni11abmd}. The biasing potential in this method is as follows\+:
+
+$ V(\rho(t)) = \left \{ \begin{array}{ll} \frac{K}{2}\left(\rho(t)-\rho_m(t)\right)^2, &\rho(t)>\rho_m(t)\\ 0, & \rho(t)\le\rho_m(t), \end{array} \right . $
+
+where
+
+$ \rho(t)=\left(CV(t)-TO\right)^2 $
+
+and
+
+$ \rho_m(t)=\min_{0\le\tau\le t}\rho(\tau)+\eta(t) $.
+
+The method is based on the introduction of a biasing potential which is zero when the system is moving towards the desired arrival point and which damps the fluctuations when the system attempts to move in the opposite direction. As in the case of the ratchet and pawl system, propelled by thermal motion of the solvent molecules, the biasing potential does not exert work on the system. $\eta(t)$ is an additional white noise acting on the minimum position of the bias.
+
+\begin{DoxyParagraph}{Description of components}
+
+\end{DoxyParagraph}
+By default this Action calculates the following quantities. These quanties can be referenced elsewhere in the input by using this Action's label followed by a dot and the name of the quantity required from the list below.
+
+\begin{TabularC}{2}
+\hline
+{\bfseries  Quantity }  &{\bfseries  Description }   \\\cline{1-2}
+{\bfseries  bias } &the instantaneous value of the bias potential   \\\cline{1-2}
+{\bfseries  force2 } &the instantaneous value of the squared force due to this bias potential   \\\cline{1-2}
+{\bfseries  \+\_\+min } &one or multiple instances of this quantity will be refereceable elsewhere in the input file. These quantities will be named with the arguments of the bias followed by the character string \+\_\+min. These quantities tell the user the minimum value assumed by rho\+\_\+m(t).   \\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Compulsory keywords}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  A\+R\+G } &the input for this action is the scalar output from one or more other actions. The particular scalars that you will use are referenced using the label of the action. If the label appears on its own then it is assumed that the Action calculates a single scalar value. The value of this scalar is thus used as the input to this new action. If $\ast$ or $\ast$.$\ast$ appears the scalars calculated by all the proceding actions in the input file are taken. Some actions have multi-\/component outputs and each component of the output has a specific label. For example a \hyperlink{DISTANCE}{D\+I\+S\+T\+A\+N\+C\+E} action labelled dist may have three componets x, y and z. To take just the x component you should use dist.\+x, if you wish to take all three components then use dist.$\ast$.More information on the referencing of Actions can be found in the section of the manual on the P\+L\+U\+M\+E\+D \hyperlink{_syntax}{Getting started}. Scalar values can also be referenced using P\+O\+S\+I\+X regular expressions as detailed in the section on \hyperlink{Regex}{Regular Expressions}. To use this feature you you must compile P\+L\+U\+M\+E\+D with the appropriate flag.   \\\cline{1-2}
+{\bfseries  T\+O } &The array of target values   \\\cline{1-2}
+{\bfseries  K\+A\+P\+P\+A } &The array of force constants.   \\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Options}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  N\+U\+M\+E\+R\+I\+C\+A\+L\+\_\+\+D\+E\+R\+I\+V\+A\+T\+I\+V\+E\+S } &( default=off ) calculate the derivatives for these quantities numerically  
+
+\\\cline{1-2}
+\end{TabularC}
+
+
+\begin{TabularC}{2}
+\hline
+{\bfseries  M\+I\+N } &Array of starting values for the bias (set rho\+\_\+m(t), otherwise it is set using the current value of A\+R\+G)   \\\cline{1-2}
+{\bfseries  N\+O\+I\+S\+E } &Array of white noise intensities (add a temperature to the A\+B\+M\+D)   \\\cline{1-2}
+{\bfseries  S\+E\+E\+D } &Array of seeds for the white noise (add a temperature to the A\+B\+M\+D)  
+
+\\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Examples}
+The following input sets up two biases, one on the distance between atoms 3 and 5 and another on the distance between atoms 2 and 4. The two target values are defined using T\+O and the two strength using K\+A\+P\+P\+A. The total energy of the bias is printed. \begin{DoxyVerb}DISTANCE ATOMS=3,5 LABEL=d1
+DISTANCE ATOMS=2,4 LABEL=d2
+ABMD ARG=d1,d2 TO=1.0,1.5 KAPPA=5.0,5.0 LABEL=abmd
+PRINT ARG=abmd.bias,abmd.d1_min,abmd.d2_min
+\end{DoxyVerb}
+ (See also \hyperlink{DISTANCE}{D\+I\+S\+T\+A\+N\+C\+E} and \hyperlink{PRINT}{P\+R\+I\+N\+T}). 
+\end{DoxyParagraph}
+\hypertarget{BIASVALUE}{}\section{B\+I\+A\+S\+V\+A\+L\+U\+E}\label{BIASVALUE}
+\begin{TabularC}{2}
+\hline
+&{\bfseries  This is part of the bias \hyperlink{mymodules}{module }}   \\\cline{1-2}
+\end{TabularC}
+Takes the value of one variable and use it as a bias
+
+This is the simplest possible bias\+: the bias potential is equal to a collective variable. It is useful to create custom biasing potential, e.\+g. applying a function (see \hyperlink{Function}{Functions}) to some collective variable then using the value of this function directly as a bias.
+
+\begin{DoxyParagraph}{Description of components}
+
+\end{DoxyParagraph}
+By default this Action calculates the following quantities. These quanties can be referenced elsewhere in the input by using this Action's label followed by a dot and the name of the quantity required from the list below.
+
+\begin{TabularC}{2}
+\hline
+{\bfseries  Quantity }  &{\bfseries  Description }   \\\cline{1-2}
+{\bfseries  \+\_\+bias } &one or multiple instances of this quantity will be refereceable elsewhere in the input file. these quantities will named with the arguments of the bias followed by the character string \+\_\+bias. These quantities tell the user how much the bias is due to each of the colvars.   \\\cline{1-2}
+{\bfseries  bias } &total bias   \\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Compulsory keywords}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  A\+R\+G } &the input for this action is the scalar output from one or more other actions. The particular scalars that you will use are referenced using the label of the action. If the label appears on its own then it is assumed that the Action calculates a single scalar value. The value of this scalar is thus used as the input to this new action. If $\ast$ or $\ast$.$\ast$ appears the scalars calculated by all the proceding actions in the input file are taken. Some actions have multi-\/component outputs and each component of the output has a specific label. For example a \hyperlink{DISTANCE}{D\+I\+S\+T\+A\+N\+C\+E} action labelled dist may have three componets x, y and z. To take just the x component you should use dist.\+x, if you wish to take all three components then use dist.$\ast$.More information on the referencing of Actions can be found in the section of the manual on the P\+L\+U\+M\+E\+D \hyperlink{_syntax}{Getting started}. Scalar values can also be referenced using P\+O\+S\+I\+X regular expressions as detailed in the section on \hyperlink{Regex}{Regular Expressions}. To use this feature you you must compile P\+L\+U\+M\+E\+D with the appropriate flag.   \\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Options}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  N\+U\+M\+E\+R\+I\+C\+A\+L\+\_\+\+D\+E\+R\+I\+V\+A\+T\+I\+V\+E\+S } &( default=off ) calculate the derivatives for these quantities numerically  
+
+\\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Examples}
+
+\end{DoxyParagraph}
+The following input tells plumed to use the value of the distance between atoms 3 and 5 and the value of the distance between atoms 2 and 4 as biases. It then tells plumed to print the energy of the restraint \begin{DoxyVerb}DISTANCE ATOMS=3,5 LABEL=d1
+DISTANCE ATOMS=3,6 LABEL=d2
+BIASVALUE ARG=d1,d2 LABEL=b
+PRINT ARG=d1,d2,b.d1,b.d2
+\end{DoxyVerb}
+ (See also \hyperlink{DISTANCE}{D\+I\+S\+T\+A\+N\+C\+E} and \hyperlink{PRINT}{P\+R\+I\+N\+T}).
+
+Another thing one can do is asking one system to follow a circle in sin/cos according a time dependence
+
+\begin{DoxyVerb}t: TIME
+# this just print cos and sin of time
+cos: MATHEVAL ARG=t VAR=t FUNC=cos(t) PERIODIC=NO 
+sin: MATHEVAL ARG=t VAR=t FUNC=sin(t) PERIODIC=NO
+c1: COM ATOMS=1,2
+c2: COM ATOMS=3,4
+d: DISTANCE COMPONENTS ATOMS=c1,c2
+PRINT ARG=t,cos,sin,d.x,d.y,d.z STRIDE=1 FILE=colvar FMT=%8.4f
+# this calculates sine and cosine of a projected component of distance
+mycos:  MATHEVAL ARG=d.x,d.y  VAR=x,y   FUNC=x/sqrt(x*x+y*y) PERIODIC=NO
+mysin:  MATHEVAL ARG=d.x,d.y  VAR=x,y   FUNC=y/sqrt(x*x+y*y) PERIODIC=NO
+# this creates a moving spring so that the system follows a circle-like dynamics 
+# but it is not a bias, it is a simple value now
+vv1:  MATHEVAL ARG=mycos,mysin,cos,sin VAR=mc,ms,c,s  FUNC=100*((mc-c)^2+(ms-s)^2) PERIODIC=NO
+# this takes the value calculated with matheval and uses as a bias 
+cc: BIASVALUE ARG=vv1 
+# some printout
+PRINT ARG=t,cos,sin,d.x,d.y,d.z,mycos,mysin,cc.bias.vv1 STRIDE=1 FILE=colvar FMT=%8.4f
+\end{DoxyVerb}
+ (see also \hyperlink{TIME}{T\+I\+M\+E}, \hyperlink{MATHEVAL}{M\+A\+T\+H\+E\+V\+A\+L}, \hyperlink{COM}{C\+O\+M}, \hyperlink{DISTANCE}{D\+I\+S\+T\+A\+N\+C\+E}, and \hyperlink{PRINT}{P\+R\+I\+N\+T}). \hypertarget{EXTERNAL}{}\section{E\+X\+T\+E\+R\+N\+A\+L}\label{EXTERNAL}
+\begin{TabularC}{2}
+\hline
+&{\bfseries  This is part of the bias \hyperlink{mymodules}{module }}   \\\cline{1-2}
+\end{TabularC}
+Calculate a restraint that is defined on a grid that is read during start up
+
+\begin{DoxyParagraph}{Description of components}
+
+\end{DoxyParagraph}
+By default this Action calculates the following quantities. These quanties can be referenced elsewhere in the input by using this Action's label followed by a dot and the name of the quantity required from the list below.
+
+\begin{TabularC}{2}
+\hline
+{\bfseries  Quantity }  &{\bfseries  Description }   \\\cline{1-2}
+{\bfseries  bias } &the instantaneous value of the bias potential   \\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Compulsory keywords}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  A\+R\+G } &the input for this action is the scalar output from one or more other actions. The particular scalars that you will use are referenced using the label of the action. If the label appears on its own then it is assumed that the Action calculates a single scalar value. The value of this scalar is thus used as the input to this new action. If $\ast$ or $\ast$.$\ast$ appears the scalars calculated by all the proceding actions in the input file are taken. Some actions have multi-\/component outputs and each component of the output has a specific label. For example a \hyperlink{DISTANCE}{D\+I\+S\+T\+A\+N\+C\+E} action labelled dist may have three componets x, y and z. To take just the x component you should use dist.\+x, if you wish to take all three components then use dist.$\ast$.More information on the referencing of Actions can be found in the section of the manual on the P\+L\+U\+M\+E\+D \hyperlink{_syntax}{Getting started}. Scalar values can also be referenced using P\+O\+S\+I\+X regular expressions as detailed in the section on \hyperlink{Regex}{Regular Expressions}. To use this feature you you must compile P\+L\+U\+M\+E\+D with the appropriate flag.   \\\cline{1-2}
+{\bfseries  F\+I\+L\+E } &the name of the file containing the external potential.   \\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Options}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  N\+U\+M\+E\+R\+I\+C\+A\+L\+\_\+\+D\+E\+R\+I\+V\+A\+T\+I\+V\+E\+S } &( default=off ) calculate the derivatives for these quantities numerically   \\\cline{1-2}
+{\bfseries  N\+O\+S\+P\+L\+I\+N\+E } &( default=off ) specifies that no spline interpolation is to be used when calculating the energy and forces due to the external potential   \\\cline{1-2}
+{\bfseries  S\+P\+A\+R\+S\+E } &( default=off ) specifies that the external potential uses a sparse grid  
+
+\\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Examples}
+The following is an input for a calculation with an external potential that is defined in the file bias.\+dat and that acts on the distance between atoms 3 and 5. \begin{DoxyVerb}DISTANCE ATOMS=3,5 LABEL=d1
+EXTERNAL ARG=d1 FILENAME=bias.dat LABEL=external 
+\end{DoxyVerb}
+ (See also \hyperlink{DISTANCE}{D\+I\+S\+T\+A\+N\+C\+E} \hyperlink{PRINT}{P\+R\+I\+N\+T}).
+\end{DoxyParagraph}
+The header in the file bias.\+dat should read\+: \begin{DoxyVerb}#! FIELDS d1 external.bias der_d1
+#! SET min_d1 0.0
+#! SET max_d1 1.0
+#! SET nbins_d1 100
+#! SET periodic_d1 false
+\end{DoxyVerb}
+
+
+This should then be followed by the value of the potential and its derivative at 100 equally spaced points along the distance between 0 and 1. If you run with N\+O\+S\+P\+L\+I\+N\+E you do not need to provide derivative information.
+
+You can also include grids that are a function of more than one collective variable. For instance the following would be the input for an external potential acting on two torsional angles\+: \begin{DoxyVerb}TORSION ATOMS=4,5,6,7 LABEL=t1
+TORSION ATOMS=6,7,8,9 LABEL=t2
+EXTERNAL ARG=t1,t2 FILENAME=bias.dat LABEL=ext
+\end{DoxyVerb}
+
+
+The header in the file bias.\+dat for this calculation would read\+: \begin{DoxyVerb}#! FIELDS t1 t2 ext.bias der_t1 der_t2
+#! SET min_t1 -pi
+#! SET max_t1 +pi
+#! SET nbins_t1 100
+#! SET periodic_t1 true
+#! SET min_t2 -pi
+#! SET max_t2 +pi
+#! SET nbins_t2 100
+#! SET periodic_t2 true
+\end{DoxyVerb}
+
+
+This would be then followed by 100 blocks of data. In the first block of data the value of t1 (the value in the first column) is kept fixed and the value of the function is given at 100 equally spaced values for t2 between $-pi$ and $+pi$. In the second block of data t1 is fixed at $-pi + \frac{2pi}{100}$ and the value of the function is given at 100 equally spaced values for t2 between $-pi$ and $+pi$. In the third block of data the same is done but t1 is fixed at $-pi + \frac{4pi}{100}$ and so on untill you get to the 100th block of data where t1 is fixed at $+pi$.
+
+Please note the order that the order of arguments in the plumed.\+dat file must be the same as the order of arguments in the header of the grid file. \hypertarget{LOWER_WALLS}{}\section{L\+O\+W\+E\+R\+\_\+\+W\+A\+L\+L\+S}\label{LOWER_WALLS}
+\begin{TabularC}{2}
+\hline
+&{\bfseries  This is part of the bias \hyperlink{mymodules}{module }}   \\\cline{1-2}
+\end{TabularC}
+Defines a wall for the value of one or more collective variables, which limits the region of the phase space accessible during the simulation.
+
+The restraining potential starts acting on the system when the value of the C\+V is greater (in the case of U\+P\+P\+E\+R\+\_\+\+W\+A\+L\+L\+S) or lower (in the case of L\+O\+W\+E\+R\+\_\+\+W\+A\+L\+L\+S) than a certain limit $a_i$ (A\+T) minus an offset $o_i$ (O\+F\+F\+S\+E\+T). The expression for the bias due to the wall is given by\+:
+
+$ \sum_i {k_i}((x_i-a_i+o_i)/s_i)^e_i $
+
+$k_i$ (K\+A\+P\+P\+A) is an energy constant in internal unit of the code, $s_i$ (E\+P\+S) a rescaling factor and $e_i$ (E\+X\+P) the exponent determining the power law. By default\+: E\+X\+P = 2, E\+P\+S = 1.\+0, O\+F\+F = 0.
+
+\begin{DoxyParagraph}{Description of components}
+
+\end{DoxyParagraph}
+By default this Action calculates the following quantities. These quanties can be referenced elsewhere in the input by using this Action's label followed by a dot and the name of the quantity required from the list below.
+
+\begin{TabularC}{2}
+\hline
+{\bfseries  Quantity }  &{\bfseries  Description }   \\\cline{1-2}
+{\bfseries  bias } &the instantaneous value of the bias potential   \\\cline{1-2}
+{\bfseries  force2 } &the instantaneous value of the squared force due to this bias potential   \\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Compulsory keywords}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  A\+R\+G } &the input for this action is the scalar output from one or more other actions. The particular scalars that you will use are referenced using the label of the action. If the label appears on its own then it is assumed that the Action calculates a single scalar value. The value of this scalar is thus used as the input to this new action. If $\ast$ or $\ast$.$\ast$ appears the scalars calculated by all the proceding actions in the input file are taken. Some actions have multi-\/component outputs and each component of the output has a specific label. For example a \hyperlink{DISTANCE}{D\+I\+S\+T\+A\+N\+C\+E} action labelled dist may have three componets x, y and z. To take just the x component you should use dist.\+x, if you wish to take all three components then use dist.$\ast$.More information on the referencing of Actions can be found in the section of the manual on the P\+L\+U\+M\+E\+D \hyperlink{_syntax}{Getting started}. Scalar values can also be referenced using P\+O\+S\+I\+X regular expressions as detailed in the section on \hyperlink{Regex}{Regular Expressions}. To use this feature you you must compile P\+L\+U\+M\+E\+D with the appropriate flag.   \\\cline{1-2}
+{\bfseries  A\+T } &the positions of the wall. The a\+\_\+i in the expression for a wall.   \\\cline{1-2}
+{\bfseries  K\+A\+P\+P\+A } &the force constant for the wall. The k\+\_\+i in the expression for a wall.   \\\cline{1-2}
+{\bfseries  O\+F\+F\+S\+E\+T } &( default=0.\+0 ) the offset for the start of the wall. The o\+\_\+i in the expression for a wall.   \\\cline{1-2}
+{\bfseries  E\+X\+P } &( default=2.\+0 ) the powers for the walls. The e\+\_\+i in the expression for a wall.   \\\cline{1-2}
+{\bfseries  E\+P\+S } &( default=1.\+0 ) the values for s\+\_\+i in the expression for a wall   \\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Options}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  N\+U\+M\+E\+R\+I\+C\+A\+L\+\_\+\+D\+E\+R\+I\+V\+A\+T\+I\+V\+E\+S } &( default=off ) calculate the derivatives for these quantities numerically  
+
+\\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Examples}
+The following input tells plumed to add both a lower and an upper walls on the distance between atoms 3 and 5 and the distance between atoms 2 and 4. The lower and upper limits are defined at different values. The strength of the walls is the same for the four cases. It also tells plumed to print the energy of the walls. \begin{DoxyVerb}DISTANCE ATOMS=3,5 LABEL=d1
+DISTANCE ATOMS=2,4 LABEL=d2
+UPPER_WALLS ARG=d1,d2 AT=1.0,1.5 KAPPA=150.0,150.0 EXP=2,2 EPS=1,1 OFFSET 0,0 LABEL=uwall
+LOWER_WALLS ARG=d1,d2 AT=0.0,1.0 KAPPA=150.0,150.0 EXP=2,2 EPS=1,1 OFFSET 0,0 LABEL=lwall
+PRINT ARG=uwall.bias,lwall.bias
+\end{DoxyVerb}
+ (See also \hyperlink{DISTANCE}{D\+I\+S\+T\+A\+N\+C\+E} and \hyperlink{PRINT}{P\+R\+I\+N\+T}). 
+\end{DoxyParagraph}
+\hypertarget{METAD}{}\section{M\+E\+T\+A\+D}\label{METAD}
+\begin{TabularC}{2}
+\hline
+&{\bfseries  This is part of the bias \hyperlink{mymodules}{module }}   \\\cline{1-2}
+\end{TabularC}
+Used to performed Meta\+Dynamics on one or more collective variables.
+
+In a metadynamics simulations a history dependent bias composed of intermittently added Gaussian functions is added to the potential \cite{metad}.
+
+\[ V(\vec{s},t) = \sum_{ k \tau < t} W(k \tau) \exp\left( -\sum_{i=1}^{d} \frac{(s_i-s_i^{(0)}(k \tau))^2}{2\sigma_i^2} \right). \]
+
+This potential forces the system away from the kinetic traps in the potential energy surface and out into the unexplored parts of the energy landscape. Information on the Gaussian functions from which this potential is composed is output to a file called H\+I\+L\+L\+S, which is used both the restart the calculation and to reconstruct the free energy as a function of the C\+Vs. The free energy can be reconstructed from a metadynamics calculation because the final bias is given by\+:
+
+\[ V(\vec{s}) = -F(\vec(s)) \]
+
+During post processing the free energy can be calculated in this way using the \hyperlink{sum_hills}{sum\+\_\+hills} utility.
+
+In the simplest possible implementation of a metadynamics calculation the expense of a metadynamics calculation increases with the length of the simulation as one has to, at every step, evaluate the values of a larger and larger number of Gaussians. To avoid this issue you can store the bias on a grid. This approach is similar to that proposed in \cite{babi}+08jcp but has the advantage that the grid spacing is independent on the Gaussian width. Notice that you should provide either the number of bins for every collective variable (G\+R\+I\+D\+\_\+\+B\+I\+N) or the desired grid spacing (G\+R\+I\+D\+\_\+\+S\+P\+A\+C\+I\+N\+G). In case you provide both P\+L\+U\+M\+E\+D will use the most conservative choice (highest number of bins) for each dimension. In case you do not provide any information about bin size (neither G\+R\+I\+D\+\_\+\+B\+I\+N nor G\+R\+I\+D\+\_\+\+S\+P\+A\+C\+I\+N\+G) and if Gaussian width is fixed P\+L\+U\+M\+E\+D will use 1/5 of the Gaussian width as grid spacing. This default choice should be reasonable for most applications.
+
+Another option that is available in plumed is well-\/tempered metadynamics \cite{Barducci:2008}. In this varient of metadynamics the heights of the Gaussian hills are rescaled at each step so the bias is now given by\+:
+
+\[ V({s},t)= \sum_{t'=0,\tau_G,2\tau_G,\dots}^{t'<t} W e^{-V({s}({q}(t'),t')/\Delta T} \exp\left( -\sum_{i=1}^{d} \frac{(s_i({q})-s_i({q}(t'))^2}{2\sigma_i^2} \right), \]
+
+This method ensures that the bias converges more smoothly. It should be noted that, in the case of well-\/tempered metadynamics, in the output printed the Gaussian height is re-\/scaled using the bias factor. Also notice that with well-\/tempered metadynamics the H\+I\+L\+L\+S file does not contain the bias, but the negative of the free-\/energy estimate. This choice has the advantage that one can restart a simulation using a different value for the $\Delta T$. The applied bias will be scaled accordingly.
+
+Note that you can use here also the flexible gaussian approach \cite{Branduardi:2012dl} in which you can adapt the gaussian to the extent of Cartesian space covered by a variable or to the space in collective variable covered in a given time. In this case the width of the deposited gaussian potential is denoted by one value only that is a Cartesian space (A\+D\+A\+P\+T\+I\+V\+E=G\+E\+O\+M) or a time (A\+D\+A\+P\+T\+I\+V\+E=D\+I\+F\+F). Note that a specific integration technique for the deposited gaussians should be used in this case. Check the documentation for utility sum\+\_\+hills.
+
+With the keyword I\+N\+T\+E\+R\+V\+A\+L one changes the metadynamics algorithm setting the bias force equal to zero outside boundary \cite{baftizadeh2012protein}. If, for example, metadynamics is performed on a C\+V s and one is interested only to the free energy for s $>$ sw, the history dependent potential is still updated according to the above equations but the metadynamics force is set to zero for s $<$ sw. Notice that Gaussians are added also if s $<$ sw, as the tails of these Gaussians influence V\+G in the relevant region s $>$ sw. In this way, the force on the system in the region s $>$ sw comes from both metadynamics and the force field, in the region s $<$ sw only from the latter. This approach allows obtaining a history-\/dependent bias potential V\+G that fluctuates around a stable estimator, equal to the negative of the free energy far enough from the boundaries. Note that\+:
+\begin{DoxyItemize}
+\item It works only for one-\/dimensional biases;
+\item It works both with and without G\+R\+I\+D;
+\item The interval limit sw in a region where the free energy derivative is not large;
+\item If in the region outside the limit sw the system has a free energy minimum, the I\+N\+T\+E\+R\+V\+A\+L keyword should be used together with a \hyperlink{UPPER_WALLS}{U\+P\+P\+E\+R\+\_\+\+W\+A\+L\+L\+S} or \hyperlink{LOWER_WALLS}{L\+O\+W\+E\+R\+\_\+\+W\+A\+L\+L\+S} at sw.
+\end{DoxyItemize}
+
+As a final note, since version 2.\+0.\+2 when the system is outside of the selected interval the force is set to zero and the bias value to the value at the corresponding boundary. This allows acceptances for replica exchange methods to be computed correctly.
+
+Multiple walkers \cite{multiplewalkers} can also be used. See below the examples.
+
+Additional material and examples can be also found in the tutorials\+:
+
+
+\begin{DoxyItemize}
+\item \hyperlink{belfast-6}{Belfast tutorial\+: Metadynamics}
+\item \hyperlink{belfast-7}{Belfast tutorial\+: Replica exchange I}
+\item \hyperlink{belfast-8}{Belfast tutorial\+: Replica exchange I\+I and Multiple walkers}
+\end{DoxyItemize}
+
+\begin{DoxyParagraph}{Description of components}
+
+\end{DoxyParagraph}
+By default this Action calculates the following quantities. These quanties can be referenced elsewhere in the input by using this Action's label followed by a dot and the name of the quantity required from the list below.
+
+\begin{TabularC}{2}
+\hline
+{\bfseries  Quantity }  &{\bfseries  Description }   \\\cline{1-2}
+{\bfseries  bias } &the instantaneous value of the bias potential   \\\cline{1-2}
+\end{TabularC}
+
+
+In addition the following quantities can be calculated by employing the keywords listed below
+
+\begin{TabularC}{3}
+\hline
+{\bfseries  Quantity }  &{\bfseries  Keyword }  &{\bfseries  Description }   \\\cline{1-3}
+{\bfseries  acc } &{\bfseries  A\+C\+C\+E\+L\+E\+R\+A\+T\+I\+O\+N }  &the metadynamics acceleration factor   \\\cline{1-3}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Compulsory keywords}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  A\+R\+G } &the input for this action is the scalar output from one or more other actions. The particular scalars that you will use are referenced using the label of the action. If the label appears on its own then it is assumed that the Action calculates a single scalar value. The value of this scalar is thus used as the input to this new action. If $\ast$ or $\ast$.$\ast$ appears the scalars calculated by all the proceding actions in the input file are taken. Some actions have multi-\/component outputs and each component of the output has a specific label. For example a \hyperlink{DISTANCE}{D\+I\+S\+T\+A\+N\+C\+E} action labelled dist may have three componets x, y and z. To take just the x component you should use dist.\+x, if you wish to take all three components then use dist.$\ast$.More information on the referencing of Actions can be found in the section of the manual on the P\+L\+U\+M\+E\+D \hyperlink{_syntax}{Getting started}. Scalar values can also be referenced using P\+O\+S\+I\+X regular expressions as detailed in the section on \hyperlink{Regex}{Regular Expressions}. To use this feature you you must compile P\+L\+U\+M\+E\+D with the appropriate flag.   \\\cline{1-2}
+{\bfseries  S\+I\+G\+M\+A } &the widths of the Gaussian hills   \\\cline{1-2}
+{\bfseries  P\+A\+C\+E } &the frequency for hill addition   \\\cline{1-2}
+{\bfseries  F\+I\+L\+E } &( default=H\+I\+L\+L\+S ) a file in which the list of added hills is stored   \\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Options}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  N\+U\+M\+E\+R\+I\+C\+A\+L\+\_\+\+D\+E\+R\+I\+V\+A\+T\+I\+V\+E\+S } &( default=off ) calculate the derivatives for these quantities numerically   \\\cline{1-2}
+{\bfseries  G\+R\+I\+D\+\_\+\+S\+P\+A\+R\+S\+E } &( default=off ) use a sparse grid to store hills   \\\cline{1-2}
+{\bfseries  G\+R\+I\+D\+\_\+\+N\+O\+S\+P\+L\+I\+N\+E } &( default=off ) don't use spline interpolation with grids   \\\cline{1-2}
+{\bfseries  S\+T\+O\+R\+E\+\_\+\+G\+R\+I\+D\+S } &( default=off ) store all the grid files the calculation generates. They will be deleted if this keyword is not present   \\\cline{1-2}
+{\bfseries  W\+A\+L\+K\+E\+R\+S\+\_\+\+M\+P\+I } &( default=off ) Switch on M\+P\+I version of multiple walkers -\/ not compatible with other W\+A\+L\+K\+E\+R\+S\+\_\+$\ast$ options   \\\cline{1-2}
+{\bfseries  A\+C\+C\+E\+L\+E\+R\+A\+T\+I\+O\+N } &( default=off ) Set to T\+R\+U\+E if you want to compute the metadynamics acceleration factor.  
+
+\\\cline{1-2}
+\end{TabularC}
+
+
+\begin{TabularC}{2}
+\hline
+{\bfseries  H\+E\+I\+G\+H\+T } &the heights of the Gaussian hills. Compulsory unless T\+A\+U, T\+E\+M\+P and B\+I\+A\+S\+F\+A\+C\+T\+O\+R are given   \\\cline{1-2}
+{\bfseries  F\+M\+T } &specify format for H\+I\+L\+L\+S files (useful for decrease the number of digits in regtests)   \\\cline{1-2}
+{\bfseries  B\+I\+A\+S\+F\+A\+C\+T\+O\+R } &use well tempered metadynamics and use this biasfactor. Please note you must also specify temp   \\\cline{1-2}
+{\bfseries  T\+E\+M\+P } &the system temperature -\/ this is only needed if you are doing well-\/tempered metadynamics   \\\cline{1-2}
+{\bfseries  T\+A\+U } &in well tempered metadynamics, sets height to (kb$\ast$\+Delta\+T$\ast$pace$\ast$timestep)/tau   \\\cline{1-2}
+{\bfseries  G\+R\+I\+D\+\_\+\+M\+I\+N } &the lower bounds for the grid   \\\cline{1-2}
+{\bfseries  G\+R\+I\+D\+\_\+\+M\+A\+X } &the upper bounds for the grid   \\\cline{1-2}
+{\bfseries  G\+R\+I\+D\+\_\+\+B\+I\+N } &the number of bins for the grid   \\\cline{1-2}
+{\bfseries  G\+R\+I\+D\+\_\+\+S\+P\+A\+C\+I\+N\+G } &the approximate grid spacing (to be used as an alternative or together with G\+R\+I\+D\+\_\+\+B\+I\+N)   \\\cline{1-2}
+{\bfseries  G\+R\+I\+D\+\_\+\+W\+S\+T\+R\+I\+D\+E } &write the grid to a file every N steps   \\\cline{1-2}
+{\bfseries  G\+R\+I\+D\+\_\+\+W\+F\+I\+L\+E } &the file on which to write the grid   \\\cline{1-2}
+{\bfseries  A\+D\+A\+P\+T\+I\+V\+E } &use a geometric (=G\+E\+O\+M) or diffusion (=D\+I\+F\+F) based hills width scheme. Sigma is one number that has distance units or timestep dimensions   \\\cline{1-2}
+{\bfseries  W\+A\+L\+K\+E\+R\+S\+\_\+\+I\+D } &walker id   \\\cline{1-2}
+{\bfseries  W\+A\+L\+K\+E\+R\+S\+\_\+\+N } &number of walkers   \\\cline{1-2}
+{\bfseries  W\+A\+L\+K\+E\+R\+S\+\_\+\+D\+I\+R } &shared directory with the hills files from all the walkers   \\\cline{1-2}
+{\bfseries  W\+A\+L\+K\+E\+R\+S\+\_\+\+R\+S\+T\+R\+I\+D\+E } &stride for reading hills files   \\\cline{1-2}
+{\bfseries  I\+N\+T\+E\+R\+V\+A\+L } &monodimensional lower and upper limits, outside the limits the system will not feel the biasing force.   \\\cline{1-2}
+{\bfseries  G\+R\+I\+D\+\_\+\+R\+F\+I\+L\+E } &a grid file from which the bias should be read at the initial step of the simulation   \\\cline{1-2}
+{\bfseries  S\+I\+G\+M\+A\+\_\+\+M\+A\+X } &the upper bounds for the sigmas (in C\+V units) when using adaptive hills. Negative number means no bounds   \\\cline{1-2}
+{\bfseries  S\+I\+G\+M\+A\+\_\+\+M\+I\+N } &the lower bounds for the sigmas (in C\+V units) when using adaptive hills. Negative number means no bounds  
+
+\\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Examples}
+The following input is for a standard metadynamics calculation using as collective variables the distance between atoms 3 and 5 and the distance between atoms 2 and 4. The value of the C\+Vs and the metadynamics bias potential are written to the C\+O\+L\+V\+A\+R file every 100 steps. \begin{DoxyVerb}DISTANCE ATOMS=3,5 LABEL=d1
+DISTANCE ATOMS=2,4 LABEL=d2
+METAD ARG=d1,d2 SIGMA=0.2,0.2 HEIGHT=0.3 PACE=500 LABEL=restraint
+PRINT ARG=d1,d2,restraint.bias STRIDE=100  FILE=COLVAR
+\end{DoxyVerb}
+ (See also \hyperlink{DISTANCE}{D\+I\+S\+T\+A\+N\+C\+E} \hyperlink{PRINT}{P\+R\+I\+N\+T}).
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+If you use adaptive Gaussians, with diffusion scheme where you use a Gaussian that should cover the space of 20 timesteps in collective variables. Note that in this case the histogram correction is needed when summing up hills. \begin{DoxyVerb}DISTANCE ATOMS=3,5 LABEL=d1
+DISTANCE ATOMS=2,4 LABEL=d2
+METAD ARG=d1,d2 SIGMA=20 HEIGHT=0.3 PACE=500 LABEL=restraint ADAPTIVE=DIFF
+PRINT ARG=d1,d2,restraint.bias STRIDE=100  FILE=COLVAR
+\end{DoxyVerb}
+
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+If you use adaptive Gaussians, with geometrical scheme where you use a Gaussian that should cover the space of 0.\+05 nm in Cartesian space. Note that in this case the histogram correction is needed when summing up hills. \begin{DoxyVerb}DISTANCE ATOMS=3,5 LABEL=d1
+DISTANCE ATOMS=2,4 LABEL=d2
+METAD ARG=d1,d2 SIGMA=0.05 HEIGHT=0.3 PACE=500 LABEL=restraint ADAPTIVE=GEOM
+PRINT ARG=d1,d2,restraint.bias STRIDE=100  FILE=COLVAR
+\end{DoxyVerb}
+
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+When using adaptive Gaussians you might want to limit how the hills width can change. You can use S\+I\+G\+M\+A\+\_\+\+M\+I\+N and S\+I\+G\+M\+A\+\_\+\+M\+A\+X keywords. The sigmas should specified in terms of C\+V so you should use the C\+V units. Note that if you use a negative number, this means that the limit is not set. Note also that in this case the histogram correction is needed when summing up hills. \begin{DoxyVerb}DISTANCE ATOMS=3,5 LABEL=d1
+DISTANCE ATOMS=2,4 LABEL=d2
+METAD ...
+  ARG=d1,d2 SIGMA=0.05 HEIGHT=0.3 PACE=500 LABEL=restraint ADAPTIVE=GEOM
+  SIGMA_MIN=0.2,0.1 SIGMA_MAX=0.5,1.0   
+... METAD 
+PRINT ARG=d1,d2,restraint.bias STRIDE=100  FILE=COLVAR
+\end{DoxyVerb}
+
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+Multiple walkers can be also use as in \cite{multiplewalkers} These are enabled by setting the number of walker used, the id of the current walker which interprets the input file, the directory where the hills containing files resides, and the frequency to read the other walkers. Here is an example \begin{DoxyVerb}DISTANCE ATOMS=3,5 LABEL=d1
+METAD ...
+   ARG=d1 SIGMA=0.05 HEIGHT=0.3 PACE=500 LABEL=restraint 
+   WALKERS_N=10
+   WALKERS_ID=3
+   WALKERS_DIR=../
+   WALKERS_RSTRIDE=100
+... METAD
+\end{DoxyVerb}
+ where W\+A\+L\+K\+E\+R\+S\+\_\+\+N is the total number of walkers, W\+A\+L\+K\+E\+R\+S\+\_\+\+I\+D is the id of the present walker (starting from 0 ) and the W\+A\+L\+K\+E\+R\+S\+\_\+\+D\+I\+R is the directory where all the walkers are located. W\+A\+L\+K\+E\+R\+S\+\_\+\+R\+S\+T\+R\+I\+D\+E is the number of step between one update and the other.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+The kinetics of the transitions between basins can also be analysed on the fly as in \cite{PRL230602}. The flag A\+C\+C\+E\+L\+E\+R\+A\+T\+I\+O\+N turn on accumulation of the acceleration factor that can then be used to determine the rate. This method can be used together with \hyperlink{COMMITTOR}{C\+O\+M\+M\+I\+T\+T\+O\+R} analysis to stop the simulation when the system get to the target basin. It must be used together with Well-\/\+Tempered Metadynamics. 
+\end{DoxyParagraph}
+\hypertarget{MOVINGRESTRAINT}{}\section{M\+O\+V\+I\+N\+G\+R\+E\+S\+T\+R\+A\+I\+N\+T}\label{MOVINGRESTRAINT}
+\begin{TabularC}{2}
+\hline
+&{\bfseries  This is part of the bias \hyperlink{mymodules}{module }}   \\\cline{1-2}
+\end{TabularC}
+Add a time-\/dependent, harmonic restraint on one or more variables.
+
+This form of bias can be used to performed steered M\+D \cite{Grubmuller3} and Jarzynski sampling \cite{jarzynski}.
+
+The harmonic restraint on your system is given by\+:
+
+\[ V(\vec{s},t) = \frac{1}{2} \kappa(t) ( \vec{s} - \vec{s}_0(t) )^2 \]
+
+The time dependence of $\kappa$ and $\vec{s}_0$ are specified by a list of S\+T\+E\+P, K\+A\+P\+P\+A and A\+T keywords. These keywords tell plumed what values $\kappa$ and $\vec{s}_0$ should have at the time specified by the corresponding S\+T\+E\+P keyword. Inbetween these times the values of $\kappa$ and $\vec{s}_0$ are linearly interpolated.
+
+Additional material and examples can be also found in the tutorial \hyperlink{belfast-5}{Belfast tutorial\+: Out of equilibrium dynamics}
+
+\begin{DoxyParagraph}{Description of components}
+
+\end{DoxyParagraph}
+By default this Action calculates the following quantities. These quanties can be referenced elsewhere in the input by using this Action's label followed by a dot and the name of the quantity required from the list below.
+
+\begin{TabularC}{2}
+\hline
+{\bfseries  Quantity }  &{\bfseries  Description }   \\\cline{1-2}
+{\bfseries  bias } &the instantaneous value of the bias potential   \\\cline{1-2}
+{\bfseries  force2 } &the instantaneous value of the squared force due to this bias potential   \\\cline{1-2}
+{\bfseries  \+\_\+cntr } &one or multiple instances of this quantity will be refereceable elsewhere in the input file. these quantities will named with the arguments of the bias followed by the character string \+\_\+cntr. These quantities give the instantaneous position of the center of the harmonic potential.   \\\cline{1-2}
+{\bfseries  \+\_\+work } &one or multiple instances of this quantity will be refereceable elsewhere in the input file. These quantities will named with the arguments of the bias followed by the character string \+\_\+work. These quantities tell the user how much work has been done by the potential in dragging the system along the various colvar axis.   \\\cline{1-2}
+{\bfseries  \+\_\+kappa } &one or multiple instances of this quantity will be refereceable elsewhere in the input file. These quantities will named with the arguments of the bias followed by the character string \+\_\+kappa. These quantities tell the user the time dependent value of kappa.   \\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Compulsory keywords}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  A\+R\+G } &the input for this action is the scalar output from one or more other actions. The particular scalars that you will use are referenced using the label of the action. If the label appears on its own then it is assumed that the Action calculates a single scalar value. The value of this scalar is thus used as the input to this new action. If $\ast$ or $\ast$.$\ast$ appears the scalars calculated by all the proceding actions in the input file are taken. Some actions have multi-\/component outputs and each component of the output has a specific label. For example a \hyperlink{DISTANCE}{D\+I\+S\+T\+A\+N\+C\+E} action labelled dist may have three componets x, y and z. To take just the x component you should use dist.\+x, if you wish to take all three components then use dist.$\ast$.More information on the referencing of Actions can be found in the section of the manual on the P\+L\+U\+M\+E\+D \hyperlink{_syntax}{Getting started}. Scalar values can also be referenced using P\+O\+S\+I\+X regular expressions as detailed in the section on \hyperlink{Regex}{Regular Expressions}. To use this feature you you must compile P\+L\+U\+M\+E\+D with the appropriate flag.   \\\cline{1-2}
+{\bfseries  V\+E\+R\+S\+E } &( default=B ) Tells plumed whether the restraint is only acting for C\+V larger (U) or smaller (L) than the restraint or whether it is acting on both sides (B)   \\\cline{1-2}
+{\bfseries  S\+T\+E\+P } &This keyword appears multiple times as S\+T\+E\+Px with x=0,1,2,...,n. Each value given represents the M\+D step at which the restraint parameters take the values K\+A\+P\+P\+Ax and A\+Tx. You can use multiple instances of this keyword i.\+e. S\+T\+E\+P1, S\+T\+E\+P2, S\+T\+E\+P3...   \\\cline{1-2}
+{\bfseries  A\+T } &A\+Tx is equal to the position of the restraint at time S\+T\+E\+Px. For intermediate times this parameter is linearly interpolated. If no A\+Tx is specified for S\+T\+E\+Px then the values of A\+T are kept constant during the interval of time between S\+T\+E\+Px-\/1 and S\+T\+E\+Px. You can use multiple instances of this keyword i.\+e. A\+T1, A\+T2, A\+T3...   \\\cline{1-2}
+{\bfseries  K\+A\+P\+P\+A } &K\+A\+P\+P\+Ax is equal to the value of the force constants at time S\+T\+E\+Px. For intermediate times this parameter is linearly interpolated. If no K\+A\+P\+P\+Ax is specified for S\+T\+E\+Px then the values of K\+A\+P\+P\+Ax are kept constant during the interval of time between S\+T\+E\+Px-\/1 and S\+T\+E\+Px. You can use multiple instances of this keyword i.\+e. K\+A\+P\+P\+A1, K\+A\+P\+P\+A2, K\+A\+P\+P\+A3...   \\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Options}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  N\+U\+M\+E\+R\+I\+C\+A\+L\+\_\+\+D\+E\+R\+I\+V\+A\+T\+I\+V\+E\+S } &( default=off ) calculate the derivatives for these quantities numerically  
+
+\\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Examples}
+The following input is dragging the distance between atoms 2 and 4 from 1 to 2 in the first 1000 steps, then back in the next 1000 steps. In the following 500 steps the restraint is progressively switched off. \begin{DoxyVerb}DISTANCE ATOMS=2,4 LABEL=d
+MOVINGRESTRAINT ...
+  ARG=d
+  STEP0=0    AT0=1.0 KAPPA0=100.0
+  STEP1=1000 AT1=2.0
+  STEP2=2000 AT2=1.0
+  STEP3=2500         KAPPA3=0.0
+... MOVINGRESTRAINT
+\end{DoxyVerb}
+ The following input is progressively building restraints distances between atoms 1 and 5 and between atoms 2 and 4 in the first 1000 steps. Afterwards, the restraint is kept static. \begin{DoxyVerb}DISTANCE ATOMS=1,5 LABEL=d1
+DISTANCE ATOMS=2,4 LABEL=d2
+MOVINGRESTRAINT ...
+  ARG=d1,d2 
+  STEP0=0    AT0=1.0,1.5 KAPPA0=0.0,0.0
+  STEP1=1000 AT1=1.0,1.5 KAPPA1=1.0,1.0
+... MOVINGRESTRAINT
+\end{DoxyVerb}
+ The following input is progressively bringing atoms 1 and 2 close to each other with an upper wall \begin{DoxyVerb}DISTANCE ATOMS=1,2 LABEL=d1
+MOVINGRESTRAINT ...
+  ARG=d1
+  VERSE=U
+  STEP0=0    AT0=1.0 KAPPA0=10.0
+  STEP1=1000 AT1=0.0
+... MOVINGRESTRAINT
+\end{DoxyVerb}
+
+\end{DoxyParagraph}
+By default the Action is issuing some values which are the work on each degree of freedom, the center of the harmonic potential, the total bias deposited
+
+(See also \hyperlink{DISTANCE}{D\+I\+S\+T\+A\+N\+C\+E}).
+
+\begin{DoxyAttention}{Attention}
+Work is not computed properly when K\+A\+P\+P\+A is time dependent. 
+\end{DoxyAttention}
+\hypertarget{RESTRAINT}{}\section{R\+E\+S\+T\+R\+A\+I\+N\+T}\label{RESTRAINT}
+\begin{TabularC}{2}
+\hline
+&{\bfseries  This is part of the bias \hyperlink{mymodules}{module }}   \\\cline{1-2}
+\end{TabularC}
+Adds harmonic and/or linear restraints on one or more variables.
+
+Either or both of S\+L\+O\+P\+E and K\+A\+P\+P\+A must be present to specify the linear and harmonic force constants respectively. The resulting potential is given by\+: \[ \sum_i \frac{k_i}{2} (x_i-a_i)^2 + m_i*(x_i-a_i) \].
+
+The number of components for any vector of force constants must be equal to the number of arguments to the action.
+
+Additional material and examples can be also found in the tutorial \hyperlink{belfast-4}{Belfast tutorial\+: Umbrella sampling}
+
+\begin{DoxyParagraph}{Description of components}
+
+\end{DoxyParagraph}
+By default this Action calculates the following quantities. These quanties can be referenced elsewhere in the input by using this Action's label followed by a dot and the name of the quantity required from the list below.
+
+\begin{TabularC}{2}
+\hline
+{\bfseries  Quantity }  &{\bfseries  Description }   \\\cline{1-2}
+{\bfseries  bias } &the instantaneous value of the bias potential   \\\cline{1-2}
+{\bfseries  force2 } &the instantaneous value of the squared force due to this bias potential   \\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Compulsory keywords}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  A\+R\+G } &the input for this action is the scalar output from one or more other actions. The particular scalars that you will use are referenced using the label of the action. If the label appears on its own then it is assumed that the Action calculates a single scalar value. The value of this scalar is thus used as the input to this new action. If $\ast$ or $\ast$.$\ast$ appears the scalars calculated by all the proceding actions in the input file are taken. Some actions have multi-\/component outputs and each component of the output has a specific label. For example a \hyperlink{DISTANCE}{D\+I\+S\+T\+A\+N\+C\+E} action labelled dist may have three componets x, y and z. To take just the x component you should use dist.\+x, if you wish to take all three components then use dist.$\ast$.More information on the referencing of Actions can be found in the section of the manual on the P\+L\+U\+M\+E\+D \hyperlink{_syntax}{Getting started}. Scalar values can also be referenced using P\+O\+S\+I\+X regular expressions as detailed in the section on \hyperlink{Regex}{Regular Expressions}. To use this feature you you must compile P\+L\+U\+M\+E\+D with the appropriate flag.   \\\cline{1-2}
+{\bfseries  S\+L\+O\+P\+E } &( default=0.\+0 ) specifies that the restraint is linear and what the values of the force constants on each of the variables are   \\\cline{1-2}
+{\bfseries  K\+A\+P\+P\+A } &( default=0.\+0 ) specifies that the restraint is harmonic and what the values of the force constants on each of the variables are   \\\cline{1-2}
+{\bfseries  A\+T } &the position of the restraint   \\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Options}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  N\+U\+M\+E\+R\+I\+C\+A\+L\+\_\+\+D\+E\+R\+I\+V\+A\+T\+I\+V\+E\+S } &( default=off ) calculate the derivatives for these quantities numerically  
+
+\\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Examples}
+The following input tells plumed to restrain the distance between atoms 3 and 5 and the distance between atoms 2 and 4, at different equilibrium values, and to print the energy of the restraint \begin{DoxyVerb}DISTANCE ATOMS=3,5 LABEL=d1
+DISTANCE ATOMS=2,4 LABEL=d2
+RESTRAINT ARG=d1,d2 AT=1.0,1.5 KAPPA=150.0,150.0 LABEL=restraint
+PRINT ARG=restraint.bias
+\end{DoxyVerb}
+ (See also \hyperlink{DISTANCE}{D\+I\+S\+T\+A\+N\+C\+E} and \hyperlink{PRINT}{P\+R\+I\+N\+T}). 
+\end{DoxyParagraph}
+\hypertarget{UPPER_WALLS}{}\section{U\+P\+P\+E\+R\+\_\+\+W\+A\+L\+L\+S}\label{UPPER_WALLS}
+\begin{TabularC}{2}
+\hline
+&{\bfseries  This is part of the bias \hyperlink{mymodules}{module }}   \\\cline{1-2}
+\end{TabularC}
+Defines a wall for the value of one or more collective variables, which limits the region of the phase space accessible during the simulation.
+
+The restraining potential starts acting on the system when the value of the C\+V is greater (in the case of U\+P\+P\+E\+R\+\_\+\+W\+A\+L\+L\+S) or lower (in the case of L\+O\+W\+E\+R\+\_\+\+W\+A\+L\+L\+S) than a certain limit $a_i$ (A\+T) minus an offset $o_i$ (O\+F\+F\+S\+E\+T). The expression for the bias due to the wall is given by\+:
+
+$ \sum_i {k_i}((x_i-a_i+o_i)/s_i)^e_i $
+
+$k_i$ (K\+A\+P\+P\+A) is an energy constant in internal unit of the code, $s_i$ (E\+P\+S) a rescaling factor and $e_i$ (E\+X\+P) the exponent determining the power law. By default\+: E\+X\+P = 2, E\+P\+S = 1.\+0, O\+F\+F = 0.
+
+\begin{DoxyParagraph}{Description of components}
+
+\end{DoxyParagraph}
+By default this Action calculates the following quantities. These quanties can be referenced elsewhere in the input by using this Action's label followed by a dot and the name of the quantity required from the list below.
+
+\begin{TabularC}{2}
+\hline
+{\bfseries  Quantity }  &{\bfseries  Description }   \\\cline{1-2}
+{\bfseries  bias } &the instantaneous value of the bias potential   \\\cline{1-2}
+{\bfseries  force2 } &the instantaneous value of the squared force due to this bias potential   \\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Compulsory keywords}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  A\+R\+G } &the input for this action is the scalar output from one or more other actions. The particular scalars that you will use are referenced using the label of the action. If the label appears on its own then it is assumed that the Action calculates a single scalar value. The value of this scalar is thus used as the input to this new action. If $\ast$ or $\ast$.$\ast$ appears the scalars calculated by all the proceding actions in the input file are taken. Some actions have multi-\/component outputs and each component of the output has a specific label. For example a \hyperlink{DISTANCE}{D\+I\+S\+T\+A\+N\+C\+E} action labelled dist may have three componets x, y and z. To take just the x component you should use dist.\+x, if you wish to take all three components then use dist.$\ast$.More information on the referencing of Actions can be found in the section of the manual on the P\+L\+U\+M\+E\+D \hyperlink{_syntax}{Getting started}. Scalar values can also be referenced using P\+O\+S\+I\+X regular expressions as detailed in the section on \hyperlink{Regex}{Regular Expressions}. To use this feature you you must compile P\+L\+U\+M\+E\+D with the appropriate flag.   \\\cline{1-2}
+{\bfseries  A\+T } &the positions of the wall. The a\+\_\+i in the expression for a wall.   \\\cline{1-2}
+{\bfseries  K\+A\+P\+P\+A } &the force constant for the wall. The k\+\_\+i in the expression for a wall.   \\\cline{1-2}
+{\bfseries  O\+F\+F\+S\+E\+T } &( default=0.\+0 ) the offset for the start of the wall. The o\+\_\+i in the expression for a wall.   \\\cline{1-2}
+{\bfseries  E\+X\+P } &( default=2.\+0 ) the powers for the walls. The e\+\_\+i in the expression for a wall.   \\\cline{1-2}
+{\bfseries  E\+P\+S } &( default=1.\+0 ) the values for s\+\_\+i in the expression for a wall   \\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Options}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  N\+U\+M\+E\+R\+I\+C\+A\+L\+\_\+\+D\+E\+R\+I\+V\+A\+T\+I\+V\+E\+S } &( default=off ) calculate the derivatives for these quantities numerically  
+
+\\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Examples}
+The following input tells plumed to add both a lower and an upper walls on the distance between atoms 3 and 5 and the distance between atoms 2 and 4. The lower and upper limits are defined at different values. The strength of the walls is the same for the four cases. It also tells plumed to print the energy of the walls. \begin{DoxyVerb}DISTANCE ATOMS=3,5 LABEL=d1
+DISTANCE ATOMS=2,4 LABEL=d2
+UPPER_WALLS ARG=d1,d2 AT=1.0,1.5 KAPPA=150.0,150.0 EXP=2,2 EPS=1,1 OFFSET 0,0 LABEL=uwall
+LOWER_WALLS ARG=d1,d2 AT=0.0,1.0 KAPPA=150.0,150.0 EXP=2,2 EPS=1,1 OFFSET 0,0 LABEL=lwall
+PRINT ARG=uwall.bias,lwall.bias
+\end{DoxyVerb}
+ (See also \hyperlink{DISTANCE}{D\+I\+S\+T\+A\+N\+C\+E} and \hyperlink{PRINT}{P\+R\+I\+N\+T}). 
+\end{DoxyParagraph}
+\hypertarget{RESTART}{}\section{R\+E\+S\+T\+A\+R\+T}\label{RESTART}
+\begin{TabularC}{2}
+\hline
+&{\bfseries  This is part of the setup \hyperlink{mymodules}{module }}   \\\cline{1-2}
+\end{TabularC}
+Activate restart.
+
+This is a Setup directive and, as such, should appear at the beginning of the input file.
+
+\begin{DoxyParagraph}{Examples}
+
+\end{DoxyParagraph}
+Using the following input\+: \begin{DoxyVerb}d: DISTANCE ATOMS=1,2
+PRINT ARG=d FILE=out
+\end{DoxyVerb}
+ a new 'out' file will be created. If an old one is on the way, it will be automatically backed up. On the other hand, using the following input\+: \begin{DoxyVerb}RESTART
+d: DISTANCE ATOMS=1,2
+PRINT ARG=d FILE=out
+\end{DoxyVerb}
+ the file 'out' will be appended. (See also \hyperlink{DISTANCE}{D\+I\+S\+T\+A\+N\+C\+E} and \hyperlink{PRINT}{P\+R\+I\+N\+T}).
+
+\begin{DoxyAttention}{Attention}
+This directive can have also other side effects, e.\+g. on \hyperlink{METAD}{M\+E\+T\+A\+D} 
+\end{DoxyAttention}
+\hypertarget{IMD}{}\section{I\+M\+D}\label{IMD}
+\begin{TabularC}{2}
+\hline
+&{\bfseries  This is part of the imd \hyperlink{mymodules}{module }}   \\\cline{1-2}
+\end{TabularC}
+Use interactive molecular dynamics with V\+M\+D
+
+\begin{DoxyParagraph}{Examples}
+
+\end{DoxyParagraph}
+\begin{DoxyVerb}# listen to port 1112 of localhost
+IMD PORT=1112
+\end{DoxyVerb}
+ \begin{DoxyVerb}# listen to port 1112 of pippo
+IMD HOST=pippo PORT=1112
+\end{DoxyVerb}
+ \begin{DoxyVerb}# listen to port 1112 of localhost and run only when connected
+IMD PORT=1112 WAIT
+\end{DoxyVerb}
+
+
+\begin{DoxyAttention}{Attention}
+The I\+M\+B object only works if the I\+M\+D routines have been downloaded and properly linked with P\+L\+U\+M\+E\+D 
+\end{DoxyAttention}

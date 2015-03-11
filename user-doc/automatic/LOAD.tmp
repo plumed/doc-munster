@@ -1,0 +1,19 @@
+/**
+\page LOAD LOAD
+<table  align=center frame=void width=95%% celpadding=5%%>
+<tr> <td width=70%%> </td> <td>
+<b> This is part of the setup \link mymodules module \endlink</b>
+</td> </tr> </table>
+Loads a library, possibly defining new actions.
+
+It is available only
+on systems allowing for dynamic loading. It can also be fed with a cpp file,
+in which case the file is compiled first.
+
+\par Examples
+
+\verbatim
+LOAD FILE=extensions.so
+\endverbatim
+
+*/

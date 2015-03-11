@@ -1,0 +1,9 @@
+<table align=center frame=void width=95%% cellpadding=5%%>
+<tr> <td width=5%> \subpage AROUND </td> <td>This quantity can be used to calculate functions of the distribution of collective variables for the atoms that lie in a particular, user-specified part of of the cell.</td> </tr>
+<tr> <td width=5%> \subpage LOCAL_AVERAGE </td> <td>Calculate averages over spherical regions centered on atoms</td> </tr>
+<tr> <td width=5%> \subpage LOCAL_Q3 </td> <td>Calculate the local degree of order around an atoms by taking the average dot product between the \f$q_3\f$ vector on the central atom and the \f$q_3\f$ vectoron the atoms in the first coordination sphere.</td> </tr>
+<tr> <td width=5%> \subpage LOCAL_Q4 </td> <td>Calculate the local degree of order around an atoms by taking the average dot product between the \f$q_4\f$ vector on the central atom and the \f$q_4\f$ vectoron the atoms in the first coordination sphere.</td> </tr>
+<tr> <td width=5%> \subpage LOCAL_Q6 </td> <td>Calculate the local degree of order around an atoms by taking the average dot product between the \f$q_6\f$ vector on the central atom and the \f$q_6\f$ vectoron the atoms in the first coordination sphere.</td> </tr>
+<tr> <td width=5%> \subpage NLINKS </td> <td>Calculate number of pairs of atoms/molecules that are "linked"</td> </tr>
+<tr> <td width=5%> \subpage SPRINT </td> <td>Calculate SPRINT topological variables.</td> </tr>
+</table>

@@ -1,0 +1,6 @@
+<table align=center frame=void width=95%% cellpadding=5%%>
+<tr> <td width=5%> \subpage DRMSD </td> <td>Calculate the distance RMSD with respect to a reference structure. </td> </tr>
+<tr> <td width=5%> \subpage MULTI-RMSD </td> <td>Calculate the RMSD distance moved by a number of separated domains from their positions in a reference structure.  </td> </tr>
+<tr> <td width=5%> \subpage RMSD </td> <td>Calculate the RMSD with respect to a reference structure.  </td> </tr>
+<tr> <td width=5%> \subpage TARGET </td> <td>This function measures the pythagorean distance from a particular structure measured in the space defined by some set of collective variables.</td> </tr>
+</table>

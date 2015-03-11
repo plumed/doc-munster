@@ -1,0 +1,26 @@
+/**
+
+\page tools Command Line Tools
+
+PLUMED contains a number of simple command line tools.  To use one of these tools 
+you issue a command something like:
+
+\verbatim
+plumed <toolname> <list of input flags for that tool>
+\endverbatim
+
+The following is a list of the various standalone tools that PLUMED contains.
+
+<table align=center frame=void width=95%% cellpadding=5%%>
+<tr> <td width=5%> \subpage driver </td> <td>driver is a tool that allows one to to use plumed to post-process an existing trajectory.</td> </tr>
+<tr> <td width=5%> \subpage gentemplate </td> <td>gentemplate is a tool that you can use to construct template inputs for the variousactions</td> </tr>
+<tr> <td width=5%> \subpage info </td> <td>This tool allows you to obtain information about your plumed version</td> </tr>
+<tr> <td width=5%> \subpage kt </td> <td>Print out the value of \f$k_BT\f$ at a particular temperature</td> </tr>
+<tr> <td width=5%> \subpage manual </td> <td>manual is a tool that you can use to construct the manual page for a particular action</td> </tr>
+<tr> <td width=5%> \subpage simplemd </td> <td>simplemd allows one to do molecular dynamics on systems of Lennard-Jones atoms.</td> </tr>
+<tr> <td width=5%> \subpage sum_hills </td> <td>sum_hills is a tool that allows one to to use plumed to post-process an existing hills/colvar file </td> </tr>
+</table>
+
+For all these tools and to use PLUMED as a plugin in an MD calculation you will need an input file.
+
+*/

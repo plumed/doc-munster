@@ -1,0 +1,37 @@
+<table align=center frame=void width=65%% cellpadding=5%%>
+<tr> <td> <b> Module name </b> </td> <td> <b> Default behavior </b> </td> </tr>
+<tr> <td> analysis </td>
+<td> on </td> </tr>
+<tr> <td> bias </td>
+<td> on </td> </tr>
+<tr> <td> cltools </td>
+<td> on </td> </tr>
+<tr> <td> colvar </td>
+<td> on </td> </tr>
+<tr> <td> crystallization </td>
+<td> off </td> </tr>
+<tr> <td> function </td>
+<td> on </td> </tr>
+<tr> <td> generic </td>
+<td> on </td> </tr>
+<tr> <td> imd </td>
+<td> off </td> </tr>
+<tr> <td> manyrestraints </td>
+<td> off </td> </tr>
+<tr> <td> mapping </td>
+<td> on </td> </tr>
+<tr> <td> molfile </td>
+<td> on </td> </tr>
+<tr> <td> multicolvar </td>
+<td> on </td> </tr>
+<tr> <td> reference </td>
+<td> on </td> </tr>
+<tr> <td> secondarystructure </td>
+<td> on </td> </tr>
+<tr> <td> setup </td>
+<td> on </td> </tr>
+<tr> <td> vatom </td>
+<td> on </td> </tr>
+<tr> <td> vesselbase </td>
+<td> on </td> </tr>
+</table>

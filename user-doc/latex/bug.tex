@@ -1,0 +1,17 @@
+
+\begin{DoxyRefList}
+\item[\label{bug__bug000001}%
+\hypertarget{bug__bug000001}{}%
+Page \hyperlink{_e_n_e_r_g_y}{E\+N\+E\+R\+G\+Y} ]Acceptance for replica exchange when \hyperlink{ENERGY}{E\+N\+E\+R\+G\+Y} is biased is computed correctly only of all the replicas has the same potential energy function. This is for instance not true when using G\+R\+O\+M\+A\+C\+S with lambda replica exchange of with plumed-\/hrex branch. 
+\item[\label{bug__bug000002}%
+\hypertarget{bug__bug000002}{}%
+Page \hyperlink{_m_o_l_i_n_f_o}{M\+O\+L\+I\+N\+F\+O} ]At the moment the H\+A1 atoms in a G\+L\+Y residues are treated as if they are the C\+B atoms. This may or may not be true -\/ G\+L\+Y is problematic for secondary structure residues as it is achiral. 
+
+If you use W\+H\+O\+L\+E\+M\+O\+L\+E\+C\+U\+L\+E\+S R\+E\+S\+I\+D\+U\+E\+S=1-\/10 for a 18 amino acid protein ( 18 amino acids + 2 terminal groups = 20 residues ) the code will fail as it will not be able to interpret termnal residue 1. 
+\item[\label{bug__bug000004}%
+\hypertarget{bug__bug000004}{}%
+Page \hyperlink{namd-2-8}{namd-\/2.8} ]N\+A\+M\+D does not currently take into account virial contributions from P\+L\+U\+M\+E\+D. Please use constant volume simulations only 
+\item[\label{bug__bug000005}%
+\hypertarget{bug__bug000005}{}%
+Page \hyperlink{namd-2-9}{namd-\/2.9} ]N\+A\+M\+D does not currently take into account virial contributions from P\+L\+U\+M\+E\+D. Please use constant volume simulations only
+\end{DoxyRefList}

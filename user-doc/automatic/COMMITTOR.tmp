@@ -1,0 +1,27 @@
+/**
+\page COMMITTOR COMMITTOR
+<table  align=center frame=void width=95%% celpadding=5%%>
+<tr> <td width=70%%> </td> <td>
+<b> This is part of the analysis \link mymodules module \endlink</b>
+</td> </tr> </table>
+Does a committor analysis.
+
+\par Examples
+The following input monitors two torsional angles during a simulation,
+defines two basins (A and B) as a function of the two torsions and 
+stops the simulation when it falls in one of the two. In the log
+file will be shown the latest values for the CVs and the basin reached.  
+\verbatim
+TORSION ATOMS=1,2,3,4 LABEL=r1
+TORSION ATOMS=2,3,4,5 LABEL=r2
+COMMITTOR ...
+  ARG=r1,r2 
+  STRIDE=10
+  BASIN_A_LOWER=0.15,0.20 
+  BASIN_A_UPPER=0.25,0.40 
+  BASIN_B_LOWER=-0.15,-0.20 
+  BASIN_B_UPPER=-0.25,-0.40 
+... COMMITTOR 
+\endverbatim
+
+*/

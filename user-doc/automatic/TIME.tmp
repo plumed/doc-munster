@@ -1,0 +1,17 @@
+/**
+\page TIME TIME
+<table  align=center frame=void width=95%% celpadding=5%%>
+<tr> <td width=70%%> </td> <td>
+<b> This is part of the generic \link mymodules module \endlink</b>
+</td> </tr> </table>
+retrieve the time of the simulation to be used elsewere
+
+\par Examples
+
+\verbatim
+TIME            LABEL=t1
+PRINT ARG=t1
+\endverbatim
+(See also \ref PRINT).
+
+*/

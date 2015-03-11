@@ -1,0 +1,48 @@
+This is BibTeX, Version 0.99c (TeX Live 2009/Debian)
+The top-level auxiliary file: refman.aux
+The style file: plain.bst
+Database file #1: bibliography.bib
+Warning--I didn't find a database entry for "babi"
+Warning--empty title in Grubmuller3
+You've used 37 entries,
+            2118 wiz_defined-function locations,
+            749 strings with 10877 characters,
+and the built_in function-call counts, 13793 in all, are:
+= -- 1369
+> -- 689
+< -- 1
++ -- 271
+- -- 232
+* -- 1121
+:= -- 2306
+add.period$ -- 110
+call.type$ -- 37
+change.case$ -- 226
+chr.to.int$ -- 0
+cite$ -- 38
+duplicate$ -- 438
+empty$ -- 1015
+format.name$ -- 232
+if$ -- 2809
+int.to.chr$ -- 0
+int.to.str$ -- 37
+missing$ -- 37
+newline$ -- 187
+num.names$ -- 74
+pop$ -- 158
+preamble$ -- 1
+purify$ -- 190
+quote$ -- 0
+skip$ -- 315
+stack$ -- 0
+substring$ -- 1106
+swap$ -- 68
+text.length$ -- 1
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 148
+warning$ -- 1
+while$ -- 130
+width$ -- 39
+write$ -- 407
+(There were 2 warnings)

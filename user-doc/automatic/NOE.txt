@@ -1,0 +1,94 @@
+/**
+\page NOE NOE
+<table  align=center frame=void width=95%% celpadding=5%%>
+<tr> <td width=70%%> </td> <td>
+<b> This is part of the colvar \link mymodules module \endlink</b>
+</td> </tr> </table>
+Calculates the deviation of current distances from experimental NOE derived distances.
+
+NOE distances are calculated between couple of atoms, averaging over equivalent couples, and compared with a set of reference distances. 
+Distances can also be averaged over multiple replicas to perform replica-averaged simulations.
+Each NOE is defined by two groups containing the same number of atoms and by a reference distance, distances
+are calculated in pairs.
+
+\f[
+NOE() = \sum_i^{noes}((\frac{1}{N_{eq}}\sum_j^{N_{eq}} (\frac{1}{r_j^6}))^{\frac{-1}{6}} - d_i^{exp})^2 
+\f]
+
+Reference distances can also be considered as upper limits only, in this case the sum is over a half
+parabola. 
+
+\par The atoms involved can be specified using
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> GROUPA </b></td>
+<td> the atoms involved in each of the contacts you wish to calculate. Keywords like GROUPA1, GROUPA2, GROUPA3,... should be listed and one contact will be calculated for each ATOM keyword you specify. You can use multiple instances of this keyword i.e. GROUPA1, GROUPA2, GROUPA3... </td>
+</tr>
+<tr>
+<td width=15%> <b> GROUPB </b></td>
+<td> the atoms involved in each of the contacts you wish to calculate. Keywords like GROUPB1, GROUPB2, GROUPB3,... should be listed and one contact will be calculated for each ATOM keyword you specify. You can use multiple instances of this keyword i.e. GROUPB1, GROUPB2, GROUPB3... </td>
+</tr>
+</table>
+
+\par Compulsory keywords
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> WRITE_NOE </b></td>
+<td> ( default=0 ) Write the back-calculated chemical shifts every # steps. </td>
+</tr>
+</table>
+
+\par Options
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> NUMERICAL_DERIVATIVES </b></td>
+<td> ( default=off ) calculate the derivatives for these quantities numerically </td>
+</tr>
+<tr>
+<td width=15%> <b> NOPBC </b></td>
+<td> ( default=off ) ignore the periodic boundary conditions when calculating distances </td>
+</tr>
+<tr>
+<td width=15%> <b> UPPER_LIMITS </b></td>
+<td> ( default=off ) Set to TRUE if you want to consider the reference distances as upper limits. </td>
+</tr>
+<tr>
+<td width=15%> <b> ENSEMBLE </b></td>
+<td> ( default=off ) Set to TRUE if you want to average over multiple replicas. </td>
+</tr>
+<tr>
+<td width=15%> <b> SERIAL </b></td>
+<td> ( default=off ) Perform the calculation in serial - for debug purpose </td>
+</tr>
+
+</table>
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> NOEDIST </b></td>
+<td> A compulsory reference distance for a given NOEYou can either specify a global reference value using NOEDIST or one reference value for each contact. You can use multiple instances of this keyword i.e. NOEDIST1, NOEDIST2, NOEDIST3... </td>
+</tr>
+
+</table>
+
+\par Examples
+In the following examples three noes are defined, the first is calculated based on the distances
+of atom 1-2 and 3-2; the second is defined by the distance 5-7 and the third by the distances
+4-15,4-16,8-15,8-16.
+
+\verbatim
+NOE ...
+GROUPA1=1,3 GROUPB1=2,2 NOEDIST1=0.5
+GROUPA2=5 GROUPB2=7 NOEDIST2=0.4
+GROUPA3=4,4,8,8 GROUPB3=15,16,15,16 NOEDIST3=0.3
+LABEL=noes
+... NOE
+
+PRINT ARG=noes FILE=colvar
+\endverbatim
+(See also \ref PRINT) 
+
+*/

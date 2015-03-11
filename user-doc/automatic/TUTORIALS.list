@@ -1,0 +1,15 @@
+<table align=center frame=void width=95%% cellpadding=5%%>
+<tr> <td>  @subpage belfast-1 </td> <td>  This tutorial explains how to use plumed to analyze CVs </td> </tr>
+<tr> <td>  @subpage belfast-2 </td> <td>  How to use path CVs </td> </tr>
+<tr> <td>  @subpage belfast-3 </td> <td>  Dimensionality reduction and sketch maps </td> </tr>
+<tr> <td>  @subpage belfast-4 </td> <td>  Umbrella sampling, reweighting, and weighted histogram </td> </tr>
+<tr> <td>  @subpage belfast-5 </td> <td>  How to run a steered MD simulations and how to estimate the free energy </td> </tr>
+<tr> <td>  @subpage belfast-6 </td> <td>  How to run a metadynamics simulation </td> </tr>
+<tr> <td>  @subpage belfast-7 </td> <td>  Parallel tempering and Metadynamics, Well-Tempered Ensemble </td> </tr>
+<tr> <td>  @subpage belfast-8 </td> <td>  Bias exchange and multiple walkers </td> </tr>
+<tr> <td>  @subpage belfast-9 </td> <td>  NMR constraints </td> </tr>
+<tr> <td>  @subpage belfast-10 </td> <td>  Steinhardt Parameters </td> </tr>
+<tr> <td>  @subpage mindist </td> <td>  This tutorial explains how to calculate the minimum distance between groups of atoms and serves as an introduction to MultiColvars </td> </tr>
+<tr> <td>  @subpage moving </td> <td>  This tutorial explains how plumed 1 input files can be translated into the new plumed 2 syntax. </td> </tr>
+<tr> <td>  @subpage munster </td> <td>  A short 3 hours tutorial </td> </tr>
+</table>

@@ -1,0 +1,18 @@
+/**
+\page kt kt
+<table  align=center frame=void width=95%% celpadding=5%%>
+<tr> <td width=70%%> </td> <td>
+<b> This is part of the cltools \link mymodules module \endlink</b>
+</td> </tr> </table>
+Print out the value of \f$k_BT\f$ at a particular temperature
+
+\par Examples
+
+The following command will tell you the value of \f$k_BT\f$ when T is equal 
+to 300 K in eV
+
+\verbatim
+plumed kt --temp 300 --units eV
+\endverbatim
+
+*/

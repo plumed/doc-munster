@@ -1,0 +1,38 @@
+/**
+\page NOE NOE
+<table  align=center frame=void width=95%% celpadding=5%%>
+<tr> <td width=70%%> </td> <td>
+<b> This is part of the colvar \link mymodules module \endlink</b>
+</td> </tr> </table>
+Calculates the deviation of current distances from experimental NOE derived distances.
+
+NOE distances are calculated between couple of atoms, averaging over equivalent couples, and compared with a set of reference distances. 
+Distances can also be averaged over multiple replicas to perform replica-averaged simulations.
+Each NOE is defined by two groups containing the same number of atoms and by a reference distance, distances
+are calculated in pairs.
+
+\f[
+NOE() = \sum_i^{noes}((\frac{1}{N_{eq}}\sum_j^{N_{eq}} (\frac{1}{r_j^6}))^{\frac{-1}{6}} - d_i^{exp})^2 
+\f]
+
+Reference distances can also be considered as upper limits only, in this case the sum is over a half
+parabola. 
+
+\par Examples
+In the following examples three noes are defined, the first is calculated based on the distances
+of atom 1-2 and 3-2; the second is defined by the distance 5-7 and the third by the distances
+4-15,4-16,8-15,8-16.
+
+\verbatim
+NOE ...
+GROUPA1=1,3 GROUPB1=2,2 NOEDIST1=0.5
+GROUPA2=5 GROUPB2=7 NOEDIST2=0.4
+GROUPA3=4,4,8,8 GROUPB3=15,16,15,16 NOEDIST3=0.3
+LABEL=noes
+... NOE
+
+PRINT ARG=noes FILE=colvar
+\endverbatim
+(See also \ref PRINT) 
+
+*/

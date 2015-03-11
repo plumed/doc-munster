@@ -1,0 +1,49 @@
+P\+L\+U\+M\+E\+D is a plugin that works with a large number of molecular dynamics codes. It can be used to analyse features of the dynamics on-\/the-\/fly or to perform a wide variety of free energy methods. The original P\+L\+U\+M\+E\+D 1 \cite{plumed1} was highly successful and had over 1000 users. P\+L\+U\+M\+E\+D 2 \cite{plumed2} constitues an extensive rewrite of the original in a way that makes it more modular and thus easier to implement new methods, more straightforward to add it to M\+D codes and hopefully simpler to use. This is the user manual -\/ if you want to modify P\+L\+U\+M\+E\+D or to understand how it works internally, have a look at the \href{../../developer-doc/html/index.html}{\tt developer manual }.
+
+
+
+To understand the difference between P\+L\+U\+M\+E\+D 1 and P\+L\+U\+M\+E\+D 2, and to follow the development of P\+L\+U\+M\+E\+D 2, you can look at the detailed \hyperlink{_changelog}{Change Log}.
+
+A short tutorial explaining how to move from P\+L\+U\+M\+E\+D 1 to P\+L\+U\+M\+E\+D 2 is also available (see \hyperlink{moving}{Moving from Plumed 1 to Plumed 2})
+
+To install P\+L\+U\+M\+E\+D 2, see this page\+: \hyperlink{_installation}{Installation}\hypertarget{index_AboutManual}{}\section{About this manual}\label{index_AboutManual}
+This manual has been compiled from P\+L\+U\+M\+E\+D version {\bfseries  2.\+1.\+munster } (git version\+: {\bfseries  727ae3af0cab }). Manual built on Travis C\+I for branch munster.
+
+Regtest results for this version can be found \href{../regtests/report.html}{\tt here}.
+
+Since version 2.\+1 we provide an experimental P\+D\+F manual. The P\+D\+F version is still not complete and has some known issue (e.\+g. some links are not working properly and images are not correctly included), and the html documentation should be considered as the official one. The goal of the P\+D\+F manual is to allow people to download a full copy on the documentation for offline access and to perform easily full-\/text searches. Notice that the manual is updated very frequently (sometime more than once per week), so keep your local version of the P\+D\+F manual up to date. Since the P\+D\+F manual is 200+ pages and is continuously updated, {\bfseries  please do not print it! }\hypertarget{index_qintro}{}\section{A quick introduction}\label{index_qintro}
+To run P\+L\+U\+M\+E\+D 2 you need to provide one input file. In this file you specify what it is that P\+L\+U\+M\+E\+D should do during the course of the run. Typically this will involve calculating one or more collective variables, perhaps calculating a function of these C\+Vs and then doing some analysis of values of your collective variables/functions or running some free energy method. A very brief introduction to the syntax used in the P\+L\+U\+M\+E\+D input file is provided in this \href{http://www.youtube.com/watch?v=PxJP16qNCYs}{\tt 10-\/minute video }.
+
+More information on the input syntax as well as details on the the various trajectory analsyis tools that come with P\+L\+U\+M\+E\+D are given in\+:
+
+
+\begin{DoxyItemize}
+\item \hyperlink{colvarintro}{Collective variables} tells you about the ways that you can calculate functions of the positions of the atoms.
+\item \hyperlink{_analysis}{Analysis} tells you about the various forms of analysis you can run on trajectories using P\+L\+U\+M\+E\+D.
+\item \hyperlink{_bias}{Bias} tells you about the methods that you can use to bias molecular dynamics simulations with P\+L\+U\+M\+E\+D.
+\end{DoxyItemize}
+
+P\+L\+U\+M\+E\+D can be used in one of two ways. First, it can be incorporated into an M\+D code and used to analyse or bias a molecular dynamics run on the fly. Notice that some M\+D code could already include calls to the P\+L\+U\+M\+E\+D library and be P\+L\+U\+M\+E\+D-\/ready in its original distribution. As far as we know, the following M\+D codes can be used with P\+L\+U\+M\+E\+D 2 out of the box\+:
+\begin{DoxyItemize}
+\item \href{http://espressomd.org}{\tt E\+S\+P\+Res\+So}, in a Plumedized version that can be found \href{http://davidebr.github.io/espresso/}{\tt here}.
+\item \href{http://github.com/TuckermanGroup/PINY}{\tt P\+I\+N\+Y-\/\+M\+D}, in its plumed branch.
+\item \href{http://sourceforge.net/projects/iphigenie/}{\tt I\+P\+H\+I\+G\+E\+N\+I\+E}.
+\end{DoxyItemize}
+
+Please refer to the documentation of the M\+D code to know how to use it with the latest P\+L\+U\+M\+E\+D release. If you maintain another M\+D code that is P\+L\+U\+M\+E\+D-\/ready let us know and we will add it to this list.
+
+Additionally, we provide patching procedures for the following codes\+:
+
+
+\begin{DoxyItemize}
+\item amber14
+\item gromacs-\/4-\/5-\/5
+\item gromacs-\/4-\/6-\/7
+\item gromacs-\/5-\/0
+\item lammps-\/6\+Apr13
+\item namd-\/2-\/8
+\item namd-\/2-\/9
+\item qespresso-\/5-\/0-\/2
+\end{DoxyItemize}
+
+Alternatively, one can use P\+L\+U\+M\+E\+D as a standalone tool for postprocessing the results from molecular dynamics or enhanced sampling calculations. 

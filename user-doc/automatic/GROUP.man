@@ -1,0 +1,23 @@
+\par The atoms involved can be specified using
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> ATOMS </b></td>
+<td> the numerical indexes for the set of atoms in the group.  For more information on how to specify lists of atoms see \ref Group </td>
+</tr>
+</table>
+
+</table>
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> NDX_FILE </b></td>
+<td> the name of index file (gromacs syntax) </td>
+</tr>
+<tr>
+<td width=15%> <b> NDX_GROUP </b></td>
+<td> the name of the group to be imported (gromacs syntax) - first group found is used by default </td>
+</tr>
+
+</table>
+

@@ -1,0 +1,52 @@
+/**
+\page SPRINT SPRINT
+<table  align=center frame=void width=95%% celpadding=5%%>
+<tr> <td width=70%%> </td> <td>
+<b> This is part of the multicolvar \link mymodules module \endlink</b>
+</td> </tr> </table>
+Calculate SPRINT topological variables.
+
+The SPRINT topological variables are calculated from the largest eigenvalue, \f$\lambda\f$ of
+an \f$n\times n\f$ adjacency matrix and its corresponding eigenvector, \f$\mathbf{V}\f$, using:
+
+\f[
+s_i = \sqrt{n} \lambda v_i
+\f]
+
+You can use different quantities to measure whether or not two given atoms/molecules are
+adjacent or not in the adjacency matrix.  The simplest measure of adjacency is is whether
+two atoms/molecules are within some cutoff of each other.  Further complexity can be added by 
+insisting that two molecules are adjacent if they are within a certain distance of each 
+other and if they have similar orientations.
+
+\par Examples
+
+This example input calculates the 7 SPRINT coordinates for a 7 atom cluster of Lennard-Jones
+atoms and prints their values to a file.  In this input the SPRINT coordinates are calculated
+in the manner described in ?? so two atoms are adjacent if they are within a cutoff:
+
+\verbatim
+DENSITY SPECIES=1-7 LABEL=d1
+SPRINT ARG=d1 SWITCH={RATIONAL R_0=0.1} LABEL=ss
+PRINT ARG=ss.* FILE=colvar 
+\endverbatim
+
+This example input calculates the 14 SPRINT coordinates foa a molecule composed of 7 hydrogen and
+7 carbon atoms.  Once again two atoms are adjacent if they are within a cutoff:
+
+\verbatim
+DENSITY SPECIES=1-7 LABEL=c
+DENSITY SPECIES=8-14 LABEL=h
+
+SPRINT ...
+ ARG=c,h
+ SWITCH11={RATIONAL R_0=2.6 NN=6 MM=12}
+ SWITCH12={RATIONAL R_0=2.2 NN=6 MM=12}
+ SWITCH22={RATIONAL R_0=2.2 NN=6 MM=12}
+ LABEL=ss
+... SPRINT
+
+PRINT ARG=ss.* FILE=colvar
+\endverbatim
+
+*/

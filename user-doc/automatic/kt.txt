@@ -1,0 +1,43 @@
+/**
+\page kt kt
+<table  align=center frame=void width=95%% celpadding=5%%>
+<tr> <td width=70%%> </td> <td>
+<b> This is part of the cltools \link mymodules module \endlink</b>
+</td> </tr> </table>
+Print out the value of \f$k_BT\f$ at a particular temperature
+
+\par Compulsory keywords
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> \c \-\-temp </b></td>
+<td> print the manual for this particular action </td>
+</tr>
+<tr>
+<td width=15%> <b> \c \-\-units </b></td>
+<td> ( default=kj/mol ) the units of energy can be kj/mol, kcal/mol, j/mol, eV or the conversion factor from kj/mol </td>
+</tr>
+</table>
+
+\par Options
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> \c \-\-help/-h </b></td>
+<td> ( default=off ) print this help </td>
+</tr>
+
+</table>
+
+</table>
+
+\par Examples
+
+The following command will tell you the value of \f$k_BT\f$ when T is equal 
+to 300 K in eV
+
+\verbatim
+plumed kt --temp 300 --units eV
+\endverbatim
+
+*/

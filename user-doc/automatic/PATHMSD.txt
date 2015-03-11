@@ -1,0 +1,91 @@
+/**
+\page PATHMSD PATHMSD
+<table  align=center frame=void width=95%% celpadding=5%%>
+<tr> <td width=70%%> </td> <td>
+<b> This is part of the colvar \link mymodules module \endlink</b>
+</td> </tr> </table>
+This Colvar calculates path collective variables. 
+
+This is the Path Collective Variables implementation 
+( see \cite brand07 ).
+This variable computes the progress along a given set of frames that is provided  
+in input ("sss" component) and the distance from them ("zzz" component). 
+(see below).
+
+\par Description of components
+
+By default this Action calculates the following quantities. These quanties can be referenced elsewhere in the input by using this Action's label followed by a dot and the name of the quantity required from the list below.
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr> <td width=5%> <b> Quantity </b> </td> <td> <b> Description </b> </td> </tr>
+<tr>
+<td width=15%> <b> sss </b></td>
+<td> the position on the path </td>
+</tr>
+<tr>
+<td width=15%> <b> zzz </b></td>
+<td> the distance from the path </td>
+</tr>
+</table>
+
+\par Compulsory keywords
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> LAMBDA </b></td>
+<td> the lambda parameter is needed for smoothing, is in the units of plumed </td>
+</tr>
+<tr>
+<td width=15%> <b> REFERENCE </b></td>
+<td> the pdb is needed to provide the various milestones </td>
+</tr>
+</table>
+
+\par Options
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> NUMERICAL_DERIVATIVES </b></td>
+<td> ( default=off ) calculate the derivatives for these quantities numerically </td>
+</tr>
+<tr>
+<td width=15%> <b> NOPBC </b></td>
+<td> ( default=off ) ignore the periodic boundary conditions when calculating distances </td>
+</tr>
+
+</table>
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> NEIGH_SIZE </b></td>
+<td> size of the neighbor list </td>
+</tr>
+<tr>
+<td width=15%> <b> NEIGH_STRIDE </b></td>
+<td> how often the neighbor list needs to be calculated in time units </td>
+</tr>
+
+</table>
+
+\par Examples
+
+Here below is a case where you have defined three frames and you want to  
+calculate the progress along the path and the distance from it in p1
+
+\verbatim
+p1: PATHMSD REFERENCE=file.pdb  LAMBDA=500.0 NEIGH_STRIDE=4 NEIGH_SIZE=8 
+PRINT ARG=p1.sss,p1.zzz STRIDE=1 FILE=colvar FMT=%8.4f
+\endverbatim
+
+note that NEIGH_STRIDE=4 NEIGH_SIZE=8 control the neighborlist parameter (optional but
+recommended for performance) and states that the neighbor list will be calculated every 4
+timesteps and consider only the closest 8 member to the actual md snapshots.
+
+In the REFERENCE PDB file the frames must be separated either using END or ENDMDL.
+
+\note
+The implementation of this collective variable and of \ref PROPERTYMAP
+is shared, as well as most input options.
+
+
+*/

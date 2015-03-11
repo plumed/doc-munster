@@ -1,0 +1,42 @@
+/**
+\page PIECEWISE PIECEWISE
+<table  align=center frame=void width=95%% celpadding=5%%>
+<tr> <td width=70%%> </td> <td>
+<b> This is part of the function \link mymodules module \endlink</b>
+</td> </tr> </table>
+Compute a piecewise straight line through its arguments that passes through
+a set of ordered control points. 
+
+For variables less than the first
+(greater than the last) point, the value of the first (last) point is used.
+
+\f[
+\frac{y_{i+1}-y_i}{x_{i+1}-x_i}(s-x_i)+y_i ;  if x_i<s<x_{i+1}
+\f]
+\f[
+y_N ; if x>x_{N-1} 
+\f]
+\f[
+y_1 ; if x<x_0 
+\f]
+
+Control points are passed using the POINT0=... POINT1=... syntax as in the example below
+
+If one argument is supplied, it results in a scalar quantity.
+If multiple arguments are supplied, it results
+in a vector of values. Each value will be named as the name of the original
+argument with suffix _pfunc.
+
+\par Examples
+\verbatim
+dist1: DISTANCE ATOMS=1,10
+dist2: DISTANCE ATOMS=2,11
+
+pw: PIECEWISE POINT0=1,10 POINT1=1,PI POINT2=3,10 ARG=dist1
+ppww: PIECEWISE POINT0=1,10 POINT1=1,PI POINT2=3,10 ARG=dist1,dist2
+PRINT ARG=pw,ppww.dist1_pfunc,ppww.dist2_pfunc
+\endverbatim
+(See also \ref PRINT and \ref DISTANCE).
+
+
+*/

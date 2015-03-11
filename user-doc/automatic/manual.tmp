@@ -1,0 +1,22 @@
+/**
+\page manual manual
+<table  align=center frame=void width=95%% celpadding=5%%>
+<tr> <td width=70%%> </td> <td>
+<b> This is part of the cltools \link mymodules module \endlink</b>
+</td> </tr> </table>
+manual is a tool that you can use to construct the manual page for 
+a particular action
+
+The manual constructed by this action is in html. In all probability you will never need to use this
+tool. However, it is used within the scripts that generate plumed's html manual.  If you need to use this
+tool outside those scripts the input is specified using the following command line arguments.
+
+\par Examples
+
+The following generates the html manual for the action DISTANCE.
+\verbatim
+plumed manual --action DISTANCE
+\endverbatim
+ 
+
+*/

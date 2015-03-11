@@ -1,0 +1,95 @@
+\par Compulsory keywords
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> ARG </b></td>
+<td> the input for this action is the scalar output from one or more other actions. The particular scalars that you will use are referenced using the label of the action. If the label appears on its own then it is assumed that the Action calculates a single scalar value.  The value of this scalar is thus used as the input to this new action.  If * or *.* appears the scalars calculated by all the proceding actions in the input file are taken.  Some actions have multi-component outputs and each component of the output has a specific label.  For example a \ref DISTANCE action labelled dist may have three componets x, y and z.  To take just the x component you should use dist.x, if you wish to take all three components then use dist.*.More information on the referencing of Actions can be found in the section of the manual on the PLUMED \ref Syntax.  Scalar values can also be referenced using POSIX regular expressions as detailed in the section on \ref Regex. To use this feature you you must compile PLUMED with the appropriate flag. </td>
+</tr>
+<tr>
+<td width=15%> <b> STRIDE </b></td>
+<td> ( default=1 ) the frequency with which data should be stored for analysis </td>
+</tr>
+<tr>
+<td width=15%> <b> RUN </b></td>
+<td> the frequency with which to run the analysis algorithm. This is not required if you specify USE_ALL_DATA </td>
+</tr>
+<tr>
+<td width=15%> <b> GRID_MIN </b></td>
+<td> the lower bounds for the grid </td>
+</tr>
+<tr>
+<td width=15%> <b> GRID_MAX </b></td>
+<td> the upper bounds for the grid </td>
+</tr>
+<tr>
+<td width=15%> <b> KERNEL </b></td>
+<td> ( default=gaussian ) the kernel function you are using. Use discrete/DISCRETE if you want to accumulate a discrete histogram.                                              More details on the kernels available in plumed can be found in \ref kernelfunctions. </td>
+</tr>
+<tr>
+<td width=15%> <b> GRID_WFILE </b></td>
+<td> ( default=histogram ) the file on which to write the grid </td>
+</tr>
+</table>
+
+\par Options
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> USE_ALL_DATA </b></td>
+<td> ( default=off ) use the data from the entire trajectory to perform the analysis </td>
+</tr>
+<tr>
+<td width=15%> <b> REWEIGHT_BIAS </b></td>
+<td> ( default=off ) reweight the data using all the biases acting on the dynamics. For more information see \ref reweighting. </td>
+</tr>
+<tr>
+<td width=15%> <b> WRITE_CHECKPOINT </b></td>
+<td> ( default=off ) write out a checkpoint so that the analysis can be restarted in a later run </td>
+</tr>
+<tr>
+<td width=15%> <b> SERIAL </b></td>
+<td> ( default=off ) do the calculation in serial.  Do not parallelize </td>
+</tr>
+<tr>
+<td width=15%> <b> LOWMEM </b></td>
+<td> ( default=off ) lower the memory requirements </td>
+</tr>
+<tr>
+<td width=15%> <b> FREE-ENERGY </b></td>
+<td> ( default=off ) Set to TRUE if you want a FREE ENERGY instead of a probabilty density (you need to set TEMP). </td>
+</tr>
+<tr>
+<td width=15%> <b> NOMEMORY </b></td>
+<td> ( default=off ) analyse each block of data separately </td>
+</tr>
+
+</table>
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> FMT </b></td>
+<td> the format that should be used in analysis output files </td>
+</tr>
+<tr>
+<td width=15%> <b> TEMP </b></td>
+<td> the system temperature.  This is required if you are reweighting or doing free energies. </td>
+</tr>
+<tr>
+<td width=15%> <b> REWEIGHT_TEMP </b></td>
+<td> reweight data from a trajectory at one temperature and output the probability distribution at a second temperature. For more information see \ref reweighting. This is not possible during postprocessing. </td>
+</tr>
+<tr>
+<td width=15%> <b> GRID_BIN </b></td>
+<td> the number of bins for the grid </td>
+</tr>
+<tr>
+<td width=15%> <b> GRID_SPACING </b></td>
+<td> the approximate grid spacing (to be used as an alternative or together with GRID_BIN) </td>
+</tr>
+<tr>
+<td width=15%> <b> BANDWIDTH </b></td>
+<td> the bandwdith for kernel density estimation </td>
+</tr>
+
+</table>
+

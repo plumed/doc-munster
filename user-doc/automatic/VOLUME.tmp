@@ -1,0 +1,17 @@
+/**
+\page VOLUME VOLUME
+<table  align=center frame=void width=95%% celpadding=5%%>
+<tr> <td width=70%%> </td> <td>
+<b> This is part of the colvar \link mymodules module \endlink</b>
+</td> </tr> </table>
+Calculate the volume of the simulation box.
+
+\par Examples
+The following input tells plumed to print the volume of the system
+\verbatim
+VOLUME LABEL=vol
+PRINT ARG=vol
+\endverbatim
+(See also \ref PRINT).
+
+*/

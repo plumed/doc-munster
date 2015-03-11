@@ -1,0 +1,15 @@
+/**
+\page FUNCSUMHILLS FUNCSUMHILLS
+<table  align=center frame=void width=95%% celpadding=5%%>
+<tr> <td width=70%%> </td> <td>
+<b> This is part of the function \link mymodules module \endlink</b>
+</td> </tr> </table>
+This function is intended to be called by the command line tool sum_hills
+and it is meant to integrate a HILLS file or an HILLS file interpreted as 
+a histogram i a variety of ways. Therefore it is not expected that you use this 
+during your dynamics (it will crash!)
+
+In the future one could implement periodic integration during the metadynamics 
+or straightforward MD as a tool to check convergence
+
+*/

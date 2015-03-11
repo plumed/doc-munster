@@ -1,0 +1,436 @@
+
+\begin{DoxyItemize}
+\item \hyperlink{comments}{Comments}
+\item \hyperlink{ContinuationLines}{Continuation lines}
+\item \hyperlink{includes}{Including other files}
+\item \hyperlink{load}{Loading shared libraries}
+\item \hyperlink{degub}{Debugging the code}
+\item \hyperlink{exchange-patterns}{Changing exchange patterns in replica exchange}
+\item \hyperlink{mymodules}{List of modules}
+\item \hyperlink{misc}{Frequently used tools} 
+\end{DoxyItemize}\hypertarget{comments}{}\section{Comments}\label{comments}
+If you are an organised sort of person who likes to remember what the hell you were trying to do when you ran a particular simulation you might find it useful to put comments in your input file. In P\+L\+U\+M\+E\+D you can do this as comments can be added using a \# sign. On any given line everything after the \# sign is ignored so erm... yes add lines of comments or trailing comments to your hearts content as shown below (using Shakespeare is optional)\+:
+
+\begin{DoxyVerb}# This is the distance between two atoms:
+DISTANCE ATOM=1,2 LABEL=d1
+UPPER_WALLS ARG=d1 AT=3.0 KAPPA=3.0 LABEL=Snout # In this same interlude it doth befall.
+# That I, one Snout by name, present a wall.
+\end{DoxyVerb}
+ (see \hyperlink{DISTANCE}{D\+I\+S\+T\+A\+N\+C\+E} and \hyperlink{UPPER_WALLS}{U\+P\+P\+E\+R\+\_\+\+W\+A\+L\+L\+S})
+
+An alternative to including comments in this way is to use line starting E\+N\+D\+P\+L\+U\+M\+E\+D. Everything in the P\+L\+U\+M\+E\+D input after this keyword will be ignored. \hypertarget{ContinuationLines}{}\section{Continuation lines}\label{ContinuationLines}
+If your input lines get very long then editing them using vi and other such text editors becomes a massive pain in the arse. We at P\+L\+U\+M\+E\+D are aware of this fact and thus have provided a way of doing line continuations so as to make your life that much easier -\/ aren't we kind? Well no not really, we have to use this code too. Anyway, you can do continuations by using the \char`\"{}...\char`\"{} syntax as this makes this\+:
+
+\begin{DoxyVerb}DISTANCES ATOMS1=1,300 ATOMS2=1,400 ATOMS3=1,500
+\end{DoxyVerb}
+ (see \hyperlink{DISTANCES}{D\+I\+S\+T\+A\+N\+C\+E\+S})
+
+equivalent to this\+:
+
+\begin{DoxyVerb}DISTANCES ...
+# we can also insert comments here
+  ATOMS1=1,300
+# multiple kewords per line are allowed
+  ATOMS2=1,400 ATOMS3=1,500
+#empty lines are also allowed
+
+... DISTANCES
+\end{DoxyVerb}
+ \hypertarget{includes}{}\section{Including other files}\label{includes}
+If, for some reason, you want to spread your P\+L\+U\+M\+E\+D input over a number of files you can use \hyperlink{INCLUDE}{I\+N\+C\+L\+U\+D\+E} as shown below\+:
+
+\begin{DoxyVerb}INCLUDE FILE=filename
+\end{DoxyVerb}
+
+
+So, for example, a single \char`\"{}plumed.\+dat\char`\"{} file\+:
+
+\begin{DoxyVerb}DISTANCE ATOMS=0,1 LABEL=dist
+RESTRAINT ARG=dist
+\end{DoxyVerb}
+ (see \hyperlink{DISTANCE}{D\+I\+S\+T\+A\+N\+C\+E} and \hyperlink{RESTRAINT}{R\+E\+S\+T\+R\+A\+I\+N\+T})
+
+could be split up into two files as shown below\+:
+
+\begin{DoxyVerb}DISTANCE ATOMS=0,1 LABEL=dist
+INCLUDE FILE=toBeIncluded.dat
+\end{DoxyVerb}
+ plus a \char`\"{}to\+Be\+Included.\+dat\char`\"{} file \begin{DoxyVerb}RESTRAINT ARG=dist
+\end{DoxyVerb}
+
+
+However, when you do this it is important to recognise that \hyperlink{INCLUDE}{I\+N\+C\+L\+U\+D\+E} is a real directive that is only resolved after all the \hyperlink{comments}{Comments} have been stripped and the \hyperlink{ContinuationLines}{Continuation lines} have been unrolled. This means it is not possible to do things like\+:
+
+\begin{DoxyVerb}# this is wrong:
+DISTANCE INCLUDE FILE=options.dat
+RESTRAINT ARG=dist
+\end{DoxyVerb}
+ \hypertarget{INCLUDE}{}\subsection{I\+N\+C\+L\+U\+D\+E}\label{INCLUDE}
+\begin{TabularC}{2}
+\hline
+&{\bfseries  This is part of the generic \hyperlink{mymodules}{module }}   \\\cline{1-2}
+\end{TabularC}
+Includes an external input file, similar to \char`\"{}\#include\char`\"{} in C preprocessor.
+
+Useful to split very large plumed.\+dat files.
+
+\begin{DoxyParagraph}{Compulsory keywords}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  F\+I\+L\+E } &file to be included   \\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Examples}
+
+\end{DoxyParagraph}
+This input \begin{DoxyVerb}c1: COM ATOMS=1-100
+c2: COM ATOMS=101-202
+d: DISTANCE ARG=c1,c2
+PRINT ARG=d
+\end{DoxyVerb}
+
+
+can be replaced with \begin{DoxyVerb}INCLUDE FILE=pippo.dat
+d: DISTANCE ARG=c1,c2
+PRINT ARG=d
+\end{DoxyVerb}
+
+
+where the content of file pippo.\+dat is \begin{DoxyVerb}c1: COM ATOMS=1-100
+c2: COM ATOMS=101-202
+\end{DoxyVerb}
+
+
+(see also \hyperlink{COM}{C\+O\+M}, \hyperlink{DISTANCE}{D\+I\+S\+T\+A\+N\+C\+E}, and \hyperlink{PRINT}{P\+R\+I\+N\+T}). \hypertarget{load}{}\section{Loading shared libraries}\label{load}
+You can introduce new functionality into P\+L\+U\+M\+E\+D by placing it directly into the src directory and recompiling the P\+L\+U\+M\+E\+D libraries. Alternatively, if you want to keep your code independent from the rest of P\+L\+U\+M\+E\+D (perhaps so you can release it independely -\/ we won't be offended), then you can create your own dynamic library. To use this in conjuction with P\+L\+U\+M\+E\+D you can then load it at runtime by using the \hyperlink{LOAD}{L\+O\+A\+D} keyword as shown below\+:
+
+\begin{DoxyVerb}LOAD FILE=library.so
+\end{DoxyVerb}
+
+
+N.\+B. If your system uses a different suffix for dynamic libraries (e.\+g. macs use .dylib) then P\+L\+U\+M\+E\+D will try to automatically adjust the suffix accordingly. \hypertarget{LOAD}{}\subsection{L\+O\+A\+D}\label{LOAD}
+\begin{TabularC}{2}
+\hline
+&{\bfseries  This is part of the setup \hyperlink{mymodules}{module }}   \\\cline{1-2}
+\end{TabularC}
+Loads a library, possibly defining new actions.
+
+It is available only on systems allowing for dynamic loading. It can also be fed with a cpp file, in which case the file is compiled first.
+
+\begin{DoxyParagraph}{Compulsory keywords}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  F\+I\+L\+E } &file to be loaded   \\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Examples}
+
+\end{DoxyParagraph}
+\begin{DoxyVerb}LOAD FILE=extensions.so
+\end{DoxyVerb}
+ \hypertarget{degub}{}\section{Debugging the code}\label{degub}
+The \hyperlink{DEBUG}{D\+E\+B\+U\+G} action provides some functionality for debugging the code that may be useful if you are doing very intensive development of the code of if you are running on a computer with a strange architecture. \hypertarget{DEBUG}{}\subsection{D\+E\+B\+U\+G}\label{DEBUG}
+\begin{TabularC}{2}
+\hline
+&{\bfseries  This is part of the generic \hyperlink{mymodules}{module }}   \\\cline{1-2}
+\end{TabularC}
+Set some debug options.
+
+Can be used while debugging or optimizing plumed.
+
+\begin{DoxyParagraph}{Compulsory keywords}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  S\+T\+R\+I\+D\+E } &( default=1 ) the frequency with which this action is to be performed   \\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Options}
+
+\end{DoxyParagraph}
+\begin{TabularC}{2}
+\hline
+{\bfseries  log\+Activity } &( default=off ) write in the log which actions are inactive and which are inactive   \\\cline{1-2}
+{\bfseries  log\+Requested\+Atoms } &( default=off ) write in the log which atoms have been requested at a given time   \\\cline{1-2}
+{\bfseries  N\+O\+V\+I\+R\+I\+A\+L } &( default=off ) switch off the virial contribution for the entirity of the simulation   \\\cline{1-2}
+{\bfseries  D\+E\+T\+A\+I\+L\+E\+D\+\_\+\+T\+I\+M\+E\+R\+S } &( default=off ) switch on detailed timers  
+
+\\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Examples}
+
+\end{DoxyParagraph}
+\begin{DoxyVerb}# print detailed (action-by-action) timers at the end of simulation
+DEBUG DETAILED_TIMERS
+# dump every two steps which are the atoms required from the MD code
+DEBUG logRequestedAtoms STRIDE=2
+\end{DoxyVerb}
+ \hypertarget{exchange-patterns}{}\section{Changing exchange patterns in replica exchange}\label{exchange-patterns}
+Using the \hyperlink{RANDOM_EXCHANGES}{R\+A\+N\+D\+O\+M\+\_\+\+E\+X\+C\+H\+A\+N\+G\+E\+S} keyword it is possible to make exchanges betweem randomly chosen replicas. This is useful e.\+g. for bias exchange metadynamics \cite{piana}\}. \hypertarget{RANDOM_EXCHANGES}{}\subsection{R\+A\+N\+D\+O\+M\+\_\+\+E\+X\+C\+H\+A\+N\+G\+E\+S}\label{RANDOM_EXCHANGES}
+\begin{TabularC}{2}
+\hline
+&{\bfseries  This is part of the generic \hyperlink{mymodules}{module }}   \\\cline{1-2}
+\end{TabularC}
+Set random pattern for exchanges.
+
+In this way, exchanges will not be done between replicas with consecutive index, but will be done using a random pattern. Typically used in bias exchange \cite{piana}.
+
+\begin{TabularC}{2}
+\hline
+{\bfseries  S\+E\+E\+D } &seed for random exchanges  
+
+\\\cline{1-2}
+\end{TabularC}
+
+
+\begin{DoxyParagraph}{Examples}
+
+\end{DoxyParagraph}
+Using the following three input files one can run a bias exchange metadynamics simulation using a different angle in each replica. Exchanges will be randomly tried between replicas 0-\/1, 0-\/2 and 1-\/2
+
+Here is plumed.\+dat.\+0 \begin{DoxyVerb}RANDOM_EXCHANGES
+t: TORSION ATOMS=1,2,3,4
+METAD ARG=t HEIGHT=0.1 PACE=100 SIGMA=0.3
+\end{DoxyVerb}
+
+
+Here is plumed.\+dat.\+1 \begin{DoxyVerb}RANDOM_EXCHANGES
+t: TORSION ATOMS=2,3,4,5
+METAD ARG=t HEIGHT=0.1 PACE=100 SIGMA=0.3
+\end{DoxyVerb}
+
+
+Here is plumed.\+dat.\+2 \begin{DoxyVerb}RANDOM_EXCHANGES
+t: TORSION ATOMS=3,4,5,6
+METAD ARG=t HEIGHT=0.1 PACE=100 SIGMA=0.3
+\end{DoxyVerb}
+
+
+\begin{DoxyWarning}{Warning}
+Multi replica simulations are presently only working with gromacs.
+
+The directive should appear in input files for every replicas. In case S\+E\+E\+D is specified, it should be the same in all input files. 
+\end{DoxyWarning}
+\hypertarget{mymodules}{}\section{List of modules}\label{mymodules}
+The functionality in P\+L\+U\+M\+E\+D 2 is divided into a small number of modules. Some users may only wish to use a subset of the functionality available within the code while others may wish to use some of P\+L\+U\+M\+E\+D's more complicated features. For this reason the plumed source code is divided into modules, which users can activate or deactivate to their hearts content.
+
+
+\begin{DoxyItemize}
+\item To activate a module add a file called modulename.\+on to the plumed2/src directory
+\item To deactivate a module add a file called modulename.\+off to the plumed2/src directory
+\end{DoxyItemize}
+
+Obviously, in the above instructions modulename should be replaced by the name of the module that you would like to activate or deactivate.
+
+Some modules are active by default in the version of P\+L\+U\+M\+E\+D 2 that you download from the website while others are inactive. The following lists all of the modules that are available in plumed and tells you whether or not they are active by default.
+
+\begin{TabularC}{2}
+\hline
+{\bfseries  Module name }  &{\bfseries  Default behavior }   \\\cline{1-2}
+analysis  &on   \\\cline{1-2}
+bias  &on   \\\cline{1-2}
+cltools  &on   \\\cline{1-2}
+colvar  &on   \\\cline{1-2}
+crystallization  &off   \\\cline{1-2}
+function  &on   \\\cline{1-2}
+generic  &on   \\\cline{1-2}
+imd  &off   \\\cline{1-2}
+manyrestraints  &off   \\\cline{1-2}
+mapping  &on   \\\cline{1-2}
+molfile  &on   \\\cline{1-2}
+multicolvar  &on   \\\cline{1-2}
+reference  &on   \\\cline{1-2}
+secondarystructure  &on   \\\cline{1-2}
+setup  &on   \\\cline{1-2}
+vatom  &on   \\\cline{1-2}
+vesselbase  &on   \\\cline{1-2}
+\end{TabularC}
+\hypertarget{misc}{}\section{Frequently used tools}\label{misc}
+\begin{TabularC}{3}
+\hline
+\hyperlink{histogrambead}{histogrambead} &I\+N\+T\+E\+R\+N\+A\+L &A function that can be used to calculate whether quantities are between fixed upper and lower bounds.  \\\cline{1-3}
+\hyperlink{kernelfunctions}{kernelfunctions} &I\+N\+T\+E\+R\+N\+A\+L &Functions that are used to construct histograms  \\\cline{1-3}
+\hyperlink{landmarkselection}{landmarkselection} &I\+N\+T\+E\+R\+N\+A\+L &This is currently a filler page.   \\\cline{1-3}
+\hyperlink{reweighting}{reweighting} &I\+N\+T\+E\+R\+N\+A\+L &Calculate free energies from a biassed/higher temperature trajectory.   \\\cline{1-3}
+\hyperlink{switchingfunction}{switchingfunction} &I\+N\+T\+E\+R\+N\+A\+L &Functions that measure whether values are less than a certain quantity.  \\\cline{1-3}
+\end{TabularC}
+\begin{TabularC}{3}
+\hline
+\hyperlink{Regex}{Regular Expressions} &&P\+O\+S\+I\+X regular expressions can be used to select multiple actions when using A\+R\+G (i.\+e. \hyperlink{PRINT}{P\+R\+I\+N\+T}).   \\\cline{1-3}
+\hyperlink{Files}{Files} &&Dealing with Input/\+Outpt   \\\cline{1-3}
+\end{TabularC}
+\hypertarget{histogrambead}{}\subsection{histogrambead}\label{histogrambead}
+A function that can be used to calculate whether quantities are between fixed upper and lower bounds. A function that can be used to calculate whether quantities are between fixed upper and lower bounds. 
+
+If we have multiple instances of a variable we can estimate the probability distribution (pdf) for that variable using a process called kernel density estimation\+:
+
+\[ P(s) = \sum_i K\left( \frac{s - s_i}{w} \right) \]
+
+In this equation $K$ is a symmetric funciton that must integrate to one that is often called a kernel function and $w$ is a smearing parameter. From a pdf calculated using kernel density estimation we can calculate the number/fraction of values between an upper and lower bound using\+:
+
+\[ w(s) = \int_a^b \sum_i K\left( \frac{s - s_i}{w} \right) \]
+
+All the input to calculate a quantity like $w(s)$ is generally provided through a single keyword that will have the following form\+:
+
+K\+E\+Y\+W\+O\+R\+D=\{T\+Y\+P\+E U\+P\+P\+E\+R= $a$ L\+O\+W\+E\+R= $b$ S\+M\+E\+A\+R= $\frac{w}{b-a}$\}
+
+This will calculate the number of values between $a$ and $b$. To calculate the fraction of values you add the word N\+O\+R\+M to the input specification. If the function keyword S\+M\+E\+A\+R is not present $w$ is set equal to $0.5(b-a)$. Finally, type should specify one of the kernel types that is present in plumed. These are listed in the table below\+:
+
+\begin{TabularC}{2}
+\hline
+T\+Y\+P\+E  &F\+U\+N\+C\+T\+I\+O\+N   \\\cline{1-2}
+G\+A\+U\+S\+S\+I\+A\+N  &$\frac{1}{\sqrt{2\pi}w} \exp\left( -\frac{(s-s_i)^2}{2w^2} \right)$   \\\cline{1-2}
+T\+R\+I\+A\+N\+G\+U\+L\+A\+R  &$ \frac{1}{2w} \left( 1. - \left| \frac{s-s_i}{w} \right| \right) \quad \frac{s-s_i}{w}<1 $   \\\cline{1-2}
+\end{TabularC}
+
+
+Some keywords can also be used to calculate a descretized version of the histogram. That is to say the number of values between $a$ and $b$, the number of values between $b$ and $c$ and so on. A keyword that specifies this sort of calculation would look something like
+
+K\+E\+Y\+W\+O\+R\+D=\{T\+Y\+P\+E U\+P\+P\+E\+R= $a$ L\+O\+W\+E\+R= $b$ N\+B\+I\+N\+S= $n$ S\+M\+E\+A\+R= $\frac{w}{n(b-a)}$\}
+
+This specification would calculate the following vector of quantities\+:
+
+\[ w_j(s) = \int_{a + \frac{j-1}{n}(b-a)}^{a + \frac{j}{n}(b-a)} \sum_i K\left( \frac{s - s_i}{w} \right) \] \hypertarget{kernelfunctions}{}\subsection{kernelfunctions}\label{kernelfunctions}
+Functions that are used to construct histograms Functions that are used to construct histograms 
+
+Constructing histograms is something you learnt to do relatively early in life. You perform an experiment a number of times, count the number of times each result comes up and then draw a bar graph that describes how often each of the results came up. This only works when there are a finite number of possible results. If the result a number between 0 and 1 the bar chart is less easy to draw as there are as many possible results as there are numbers between zero and one -\/ an infinite number. To resolve this problem we replace probability, $P$ with probability density, $\pi$, and write the probability of getting a number between $a$ and $b$ as\+:
+
+\[ P = \int_{a}^b \textrm{d}x \pi(x) \]
+
+To calculate probability densities from a set of results we use a process called kernel density estimation. Histograms are accumulated by adding up kernel functions, $K$, with finite spatial extent, that integrate to one. These functions are centered on each of the $n$-\/dimensional data points, $\mathbf{x}_i$. The overall effect of this is that each result we obtain in our experiments contributes to the probability density in a finite sized region of the space.
+
+Expressing all this mathematically in kernel density estimation we write the probability density as\+:
+
+\[ \pi(\mathbf{x}) = \sum_i K\left[ (\mathbf{x} - \mathbf{x}_i)^T \Sigma (\mathbf{x} - \mathbf{x}_i) \right] \]
+
+where $\Sigma$ is an $n \times n$ matrix called the bandwidth that controls the spatial extent of the kernel. Whenever we accumulate a histogram (e.\+g. in \hyperlink{HISTOGRAM}{H\+I\+S\+T\+O\+G\+R\+A\+M} or in \hyperlink{METAD}{M\+E\+T\+A\+D}) we use this technique.
+
+There is thus some flexibility in the particular function we use for $K[\mathbf{r}]$ in the above. The following variants are available.
+
+\begin{TabularC}{2}
+\hline
+T\+Y\+P\+E  &F\+U\+N\+C\+T\+I\+O\+N   \\\cline{1-2}
+gaussian  &$f(r) = \frac{1}{(2 \pi)^{n} \sqrt{|\Sigma^{-1}|}} \exp\left(-0.5 r^2 \right)$   \\\cline{1-2}
+triangular  &$f(r) = \frac{3}{V} ( 1 - | r | )H(1-|r|) $   \\\cline{1-2}
+uniform  &$f(r) = \frac{1}{V}H(1-|r|)$   \\\cline{1-2}
+\end{TabularC}
+
+
+In the above $H(y)$ is a function that is equal to one when $y>0$ and zero when $y \le 0$. $n$ is the dimensionality of the vector $\mathbf{x}$ and $V$ is the volume of an elipse in an $n$ dimensional space which is given by\+:
+
+\begin{eqnarray*} V &=& | \Sigma^{-1} | \frac{ \pi^{\frac{n}{2}} }{\left( \frac{n}{2} \right)! } \qquad \textrm{for even} \quad n \\ V &=& | \Sigma^{-1} | \frac{ 2^{\frac{n+1}{2}} \pi^{\frac{n-1}{2}} }{ n!! } \end{eqnarray*}
+
+In \hyperlink{METAD}{M\+E\+T\+A\+D} the normalization constants are ignored so that the value of the function at $r=0$ is equal to one. In addition in \hyperlink{METAD}{M\+E\+T\+A\+D} we must be able to differentiate the bias in order to get forces. This limits the kernels we can use in this method. \hypertarget{landmarkselection}{}\subsection{landmarkselection}\label{landmarkselection}
+\begin{TabularC}{2}
+\hline
+&{\bfseries  This is part of the analysis \hyperlink{mymodules}{module }}   \\\cline{1-2}
+\end{TabularC}
+This is currently a filler page. This is currently a filler page.  
+
+Just use L\+A\+N\+D\+M\+A\+R\+K\+S=A\+L\+L. More complex versions will appear in later versions. \hypertarget{reweighting}{}\subsection{reweighting}\label{reweighting}
+\begin{TabularC}{2}
+\hline
+&{\bfseries  This is part of the analysis \hyperlink{mymodules}{module }}   \\\cline{1-2}
+\end{TabularC}
+Calculate free energies from a biassed/higher temperature trajectory. Calculate free energies from a biassed/higher temperature trajectory.  
+
+We can use our knowledge of the Boltzmann distribution in the cannonical ensemble to reweight the data contained in trajectories. Using this procedure we can take trajectory at temperature $T_1$ and use it to extract probabilities at a different temperature, $T_2$, using\+:
+
+\[ P(s',t) = \frac{ \sum_{t'}^t \delta( s(x) - s' ) \exp\left( +( \left[\frac{1}{T_1} - \frac{1}{T_2}\right] \frac{U(x,t')}{k_B} \right) }{ \sum_{t'}^t \exp\left( +\left[\frac{1}{T_1} - \frac{1}{T_2}\right] \frac{U(x,t')}{k_B} \right) } \]
+
+where $U(x,t')$ is the potential energy of the system. Alternatively, if a static or pseudo-\/static bias $V(x,t')$ is acting on the system we can remove this bias and get the unbiased probability distribution using\+:
+
+\[ P(s',t) = \frac{ \sum_{t'}^t \delta( s(x) - s' ) \exp\left( +\frac{V(x,t')}{k_B T} \right) }{ \sum_t'^t \exp\left( +\frac{V(x,t')}{k_B T} \right) } \] \hypertarget{switchingfunction}{}\subsection{switchingfunction}\label{switchingfunction}
+Functions that measure whether values are less than a certain quantity. Functions that measure whether values are less than a certain quantity. 
+
+Switching functions $s(r)$ take a minimum of one input parameter $d_0$. For $r \le d_0 \quad s(r)=1.0$ while for $r > d_0$ the function decays smoothly to 0. The various switching functions available in plumed differ in terms of how this decay is performed.
+
+Where there is an accepted convention in the literature (e.\+g. \hyperlink{COORDINATION}{C\+O\+O\+R\+D\+I\+N\+A\+T\+I\+O\+N}) on the form of the switching function we use the convention as the default. However, the flexibility to use different switching functions is always present generally through a single keyword. This keyword generally takes an input with the following form\+:
+
+\begin{DoxyVerb}KEYWORD={TYPE <list of parameters>}
+\end{DoxyVerb}
+
+
+The following table contains a list of the various switching functions that are available in plumed 2 together with an example input.
+
+\begin{TabularC}{4}
+\hline
+T\+Y\+P\+E  &F\+U\+N\+C\+T\+I\+O\+N  &E\+X\+A\+M\+P\+L\+E I\+N\+P\+U\+T  &D\+E\+F\+A\+U\+L\+T P\+A\+R\+A\+M\+E\+T\+E\+R\+S   \\\cline{1-4}
+R\+A\+T\+I\+O\+N\+A\+L  &$ s(r)=\frac{ 1 - \left(\frac{ r - d_0 }{ r_0 }\right)^{n} }{ 1 - \left(\frac{ r - d_0 }{ r_0 }\right)^{m} } $  &\{R\+A\+T\+I\+O\+N\+A\+L R\+\_\+0= $r_0$ D\+\_\+0= $d_0$ N\+N= $n$ M\+M= $m$\}  &$d_0=0.0$, $n=6$, $m=12$   \\\cline{1-4}
+E\+X\+P  &$ s(r)=\exp\left(-\frac{ r - d_0 }{ r_0 }\right) $  &\{E\+X\+P R\+\_\+0= $r_0$ D\+\_\+0= $d_0$\}  &$d_0=0.0$   \\\cline{1-4}
+G\+A\+U\+S\+S\+I\+A\+N  &$ s(r)=\exp\left(-\frac{ (r - d_0)^2 }{ 2r_0^2 }\right) $  &\{G\+A\+U\+S\+S\+I\+A\+N R\+\_\+0= $r_0$ D\+\_\+0= $d_0$\}  &$d_0=0.0$   \\\cline{1-4}
+S\+M\+A\+P  &$ s(r) = \left[ 1 + ( 2^{a/b} -1 )\left( \frac{r-d_0}{r_0} \right)\right]^{-b/a} $  &\{S\+M\+A\+P R\+\_\+0= $r_0$ D\+\_\+0= $d_0$ A= $a$ B= $b$\}  &$d_0=0.0$   \\\cline{1-4}
+\end{TabularC}
+
+
+For all the switching functions in the above table one can also specify a further (optional) parameter using the parameter keyword D\+\_\+\+M\+A\+X to assert that for $r>d_{\textrm{max}}$ the switching function can be assumed equal to zero. In this case it is suggested to also use the S\+T\+R\+E\+T\+C\+H flag, which will bring the switching function smoothly to zero by stretching and shifting it. To be more clear, using \begin{DoxyVerb}KEYWORD={RATIONAL R_0=1 D_MAX=3 STRETCH}
+\end{DoxyVerb}
+ the resulting switching function will be $ s(r) = \frac{s'(r)-s'(d_{max})}{s'(0)-s'(d_{max})} $ where $ s'(r)=\frac{1-r^6}{1-r^{12}} $ Since P\+L\+U\+M\+E\+D 2.\+2 this will become the default. \hypertarget{Regex}{}\subsection{Regular Expressions}\label{Regex}
+When you use a collective variable that has many calculated components and you want to refer to them as arguments you can use regular expressions.
+
+Since version 2.\+1, plumed takes advantage of a configuration scripts that detects libraries installed on your system. If regex library is found, then you will be able to use regular expressions to refer to collective variables or function names.
+
+Regular expressions are enclosed in round braces and must not contain spaces (the components names have no spaces indeed, so why use them?).
+
+As an example then command \begin{DoxyVerb}d1: DISTANCE ATOMS=1,2 COMPONENTS
+PRINT ARG=(d1\.[xy])   STRIDE=100 FILE=colvar FMT=%8.4f
+\end{DoxyVerb}
+ will cause both the d1.\+x and d1.\+y components of the D\+I\+S\+T\+A\+N\+C\+E action to be printed out in the order that they are created by plumed. The \char`\"{}.\char`\"{} character must be escaped in order to interpret it as a literal \char`\"{}.\char`\"{}. An unescaped dot is a wildcard which is matched by any character, So as an example \begin{DoxyVerb}d1: DISTANCE ATOMS=1,2 COMPONENTS
+dxy: DISTANCE ATOMS=1,3
+
+# this will match d1.x,d1.y,dxy
+PRINT ARG=(d1.[xy])   STRIDE=100 FILE=colvar FMT=%8.4f
+
+# while this will match d1.x,d1.y only
+PRINT ARG=(d1\.[xy])   STRIDE=100 FILE=colvar FMT=%8.4f
+\end{DoxyVerb}
+
+
+You can include more than one regular expression by using comma separated regular expressions
+
+\begin{DoxyVerb}t1: TORSION ATOMS=5,7,9,15
+t2: TORSION ATOMS=7,9,15,17
+d1: DISTANCE ATOMS=7,17 COMPONENTS
+PRINT ARG=(d1\.[xy]),(t[0-9]) STRIDE=100 FILE=colvar FMT=%8.4f
+\end{DoxyVerb}
+
+
+(this selects t1,t2,d1.\+x and d2.\+x) Be aware that if you have overlapping selection they will be duplicated so it a better alternative is to use the \char`\"{}or\char`\"{} operator \char`\"{}$\vert$\char`\"{}.
+
+\begin{DoxyVerb}t1: TORSION ATOMS=5,7,9,15
+t2: TORSION ATOMS=7,9,15,17
+d1: DISTANCE ATOMS=7,17 COMPONENTS
+PRINT ARG=(d1\.[xy]|t[0-9]) STRIDE=100 FILE=colvar FMT=%8.4f
+\end{DoxyVerb}
+
+
+this selects the same set of arguments as the previous example.
+
+You can check the log to see whether or not your regular expression is picking the set of components you desire.
+
+For more information on regular expressions visit \href{http://www.regular-expressions.info/reference.html}{\tt http\+://www.\+regular-\/expressions.\+info/reference.\+html}. \hypertarget{Files}{}\subsection{Files}\label{Files}
+We tried to design P\+L\+U\+M\+E\+D in such a manner that input/output is done consistently irrespectively of the file type. Most of the files written or read by P\+L\+U\+M\+E\+D thus follow the very same conventions discussed below.\hypertarget{_files_Restart}{}\subsubsection{Restart}\label{_files_Restart}
+Whenever the \hyperlink{RESTART}{R\+E\+S\+T\+A\+R\+T} option is used, all the files written by P\+L\+U\+M\+E\+D are appended. This makes it easy to analyze results of simulations performed as a chain of several sub-\/runs. Notice that most of the P\+L\+U\+M\+E\+D textual files have a header. The header is repeated at every restart. Additionally, several files have time in the first column. P\+L\+U\+M\+E\+D just takes the value of the physical time from the M\+D engine. As such, you could have that time starts again from zero upon restart or not.
+
+An exception from this behavior is given by files which are not growing as the simulation proceeds. For example, grids written with \hyperlink{METAD}{M\+E\+T\+A\+D} with G\+R\+I\+D\+\_\+\+W\+F\+I\+L\+E are overwritten by default during the simulation. As such, when restarting, there is no point in appending the file. Internally, P\+L\+U\+M\+E\+D opens the file in append mode but then rewinds it every time a new grid is dumped.\hypertarget{_files_Backup}{}\subsubsection{Backup}\label{_files_Backup}
+Whenever the \hyperlink{RESTART}{R\+E\+S\+T\+A\+R\+T} option is not used, P\+L\+U\+M\+E\+D tries to write new files. If an old file is found in the way, P\+L\+U\+M\+E\+D takes a backup named \char`\"{}bck.\+X.\+filename\char`\"{} where X is a progressive number. Notice that by default P\+L\+U\+M\+E\+D only allows a maximum of 100 backup copies for a file. This behavior can be changed by setting the environment variable P\+L\+U\+M\+E\+D\+\_\+\+M\+A\+X\+B\+A\+C\+K\+U\+P to the desired number of copies. E.\+g. export P\+L\+U\+M\+E\+D\+\_\+\+M\+A\+X\+B\+A\+C\+K\+U\+P=10 will fail after 10 copies. P\+L\+U\+M\+E\+D\+\_\+\+M\+A\+X\+B\+A\+C\+K\+U\+P=-\/1 will never fail -\/ be careful since your disk might fill up quickly with this setting.\hypertarget{_files_Replica-Suffix}{}\subsubsection{Replica suffix}\label{_files_Replica-Suffix}
+When running with multiple replicas (e.\+g., with G\+R\+O\+M\+A\+C\+S, -\/multi option) P\+L\+U\+M\+E\+D adds the replica index as a suffix to all the files. The following command will thus print files named C\+O\+L\+V\+A\+R.\+0, C\+O\+L\+V\+A\+R.\+1, etc for the different replicas. \begin{DoxyVerb}d: DISTANCE ATOMS=1,2
+PRINT ARG=d FILE=COLVAR
+\end{DoxyVerb}
+ (see also \hyperlink{DISTANCE}{D\+I\+S\+T\+A\+N\+C\+E} and \hyperlink{PRINT}{P\+R\+I\+N\+T}).
+
+When reading a file, P\+L\+U\+M\+E\+D will try to add the suffix. If the file is not found, it will fall back to the name without suffix. The most important case is the reading of the plumed input file. If you provide a file for each replica (e.\+g. plumed.\+dat.\+0, plumed.\+dat.\+1, etc) you will be able to setup plumed differently on each replica. On the other hand, using a single plumed.\+dat will make all the replicas read the same file.\hypertarget{_files_Suffixes-and-file-extension}{}\paragraph{Suffixes and file extension}\label{_files_Suffixes-and-file-extension}
+When P\+L\+U\+M\+E\+D adds the replica suffix, it recognizes some file extension and add the suffix {\itshape before} the extension. The only suffix recognized by P\+L\+U\+M\+E\+D 2.\+1 is \char`\"{}.\+gz\char`\"{}. This means that using \begin{DoxyVerb}d: DISTANCE ATOMS=1,2
+PRINT ARG=d FILE=COLVAR.gz
+\end{DoxyVerb}
+ will write files named C\+O\+L\+V\+A\+R.\+0.\+gz, C\+O\+L\+V\+A\+R.\+1.\+gz, etc. This is useful since the preserved extension makes it easy to process the files later. In future P\+L\+U\+M\+E\+D versions this behavior might change and more extensions could be recognized. 

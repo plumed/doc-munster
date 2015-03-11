@@ -1,0 +1,76 @@
+/**
+\page CELL CELL
+<table  align=center frame=void width=95%% celpadding=5%%>
+<tr> <td width=70%%> </td> <td>
+<b> This is part of the colvar \link mymodules module \endlink</b>
+</td> </tr> </table>
+Calculate the components of the simulation cell
+
+\par Description of components
+
+By default this Action calculates the following quantities. These quanties can be referenced elsewhere in the input by using this Action's label followed by a dot and the name of the quantity required from the list below.
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr> <td width=5%> <b> Quantity </b> </td> <td> <b> Description </b> </td> </tr>
+<tr>
+<td width=15%> <b> ax </b></td>
+<td> the ax component of the cell matrix </td>
+</tr>
+<tr>
+<td width=15%> <b> ay </b></td>
+<td> the ay component of the cell matrix </td>
+</tr>
+<tr>
+<td width=15%> <b> az </b></td>
+<td> the az component of the cell matrix </td>
+</tr>
+<tr>
+<td width=15%> <b> bx </b></td>
+<td> the bx component of the cell matrix </td>
+</tr>
+<tr>
+<td width=15%> <b> by </b></td>
+<td> the by component of the cell matrix </td>
+</tr>
+<tr>
+<td width=15%> <b> bz </b></td>
+<td> the bz component of the cell matrix </td>
+</tr>
+<tr>
+<td width=15%> <b> cx </b></td>
+<td> the cx component of the cell matrix </td>
+</tr>
+<tr>
+<td width=15%> <b> cy </b></td>
+<td> the cy component of the cell matrix </td>
+</tr>
+<tr>
+<td width=15%> <b> cz </b></td>
+<td> the cz component of the cell matrix </td>
+</tr>
+</table>
+
+\par Options
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> NUMERICAL_DERIVATIVES </b></td>
+<td> ( default=off ) calculate the derivatives for these quantities numerically </td>
+</tr>
+
+</table>
+
+</table>
+
+\par Examples
+The following input tells plumed to print the squared modulo of each of the three lattice vectors
+\verbatim
+cell: CELL
+aaa:    COMBINE ARG=cell.ax,cell.ay,cell.az POWERS=2,2,2 PERIODIC=NO
+bbb:    COMBINE ARG=cell.bx,cell.by,cell.bz POWERS=2,2,2 PERIODIC=NO
+ccc:    COMBINE ARG=cell.cx,cell.cy,cell.cz POWERS=2,2,2 PERIODIC=NO
+PRINT ARG=aaa,bbb,ccc
+\endverbatim
+(See also \ref COMBINE and \ref PRINT).
+
+*/

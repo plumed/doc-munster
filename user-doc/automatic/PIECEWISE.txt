@@ -1,0 +1,79 @@
+/**
+\page PIECEWISE PIECEWISE
+<table  align=center frame=void width=95%% celpadding=5%%>
+<tr> <td width=70%%> </td> <td>
+<b> This is part of the function \link mymodules module \endlink</b>
+</td> </tr> </table>
+Compute a piecewise straight line through its arguments that passes through
+a set of ordered control points. 
+
+For variables less than the first
+(greater than the last) point, the value of the first (last) point is used.
+
+\f[
+\frac{y_{i+1}-y_i}{x_{i+1}-x_i}(s-x_i)+y_i ;  if x_i<s<x_{i+1}
+\f]
+\f[
+y_N ; if x>x_{N-1} 
+\f]
+\f[
+y_1 ; if x<x_0 
+\f]
+
+Control points are passed using the POINT0=... POINT1=... syntax as in the example below
+
+If one argument is supplied, it results in a scalar quantity.
+If multiple arguments are supplied, it results
+in a vector of values. Each value will be named as the name of the original
+argument with suffix _pfunc.
+
+\par Description of components
+
+By default this Action calculates the following quantities. These quanties can be referenced elsewhere in the input by using this Action's label followed by a dot and the name of the quantity required from the list below.
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr> <td width=5%> <b> Quantity </b> </td> <td> <b> Description </b> </td> </tr>
+<tr>
+<td width=15%> <b> _pfunc </b></td>
+<td> one or multiple instances of this quantity will be referenceable elsewhere in the input file.  These quantities will be named with the arguments of the function followed by the character string _pfunc.  These quantities tell the user the values of the piecewise functions of each of the arguments. </td>
+</tr>
+</table>
+
+\par Compulsory keywords
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> ARG </b></td>
+<td> the input for this action is the scalar output from one or more other actions. The particular scalars that you will use are referenced using the label of the action. If the label appears on its own then it is assumed that the Action calculates a single scalar value.  The value of this scalar is thus used as the input to this new action.  If * or *.* appears the scalars calculated by all the proceding actions in the input file are taken.  Some actions have multi-component outputs and each component of the output has a specific label.  For example a \ref DISTANCE action labelled dist may have three componets x, y and z.  To take just the x component you should use dist.x, if you wish to take all three components then use dist.*.More information on the referencing of Actions can be found in the section of the manual on the PLUMED \ref Syntax.  Scalar values can also be referenced using POSIX regular expressions as detailed in the section on \ref Regex. To use this feature you you must compile PLUMED with the appropriate flag. </td>
+</tr>
+<tr>
+<td width=15%> <b> POINT </b></td>
+<td> This keyword is used to specify the various points in the function above. You can use multiple instances of this keyword i.e. POINT1, POINT2, POINT3... </td>
+</tr>
+</table>
+
+\par Options
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> NUMERICAL_DERIVATIVES </b></td>
+<td> ( default=off ) calculate the derivatives for these quantities numerically </td>
+</tr>
+
+</table>
+
+</table>
+
+\par Examples
+\verbatim
+dist1: DISTANCE ATOMS=1,10
+dist2: DISTANCE ATOMS=2,11
+
+pw: PIECEWISE POINT0=1,10 POINT1=1,PI POINT2=3,10 ARG=dist1
+ppww: PIECEWISE POINT0=1,10 POINT1=1,PI POINT2=3,10 ARG=dist1,dist2
+PRINT ARG=pw,ppww.dist1_pfunc,ppww.dist2_pfunc
+\endverbatim
+(See also \ref PRINT and \ref DISTANCE).
+
+
+*/

@@ -1,0 +1,158 @@
+/**
+\page SPRINT SPRINT
+<table  align=center frame=void width=95%% celpadding=5%%>
+<tr> <td width=70%%> </td> <td>
+<b> This is part of the multicolvar \link mymodules module \endlink</b>
+</td> </tr> </table>
+Calculate SPRINT topological variables.
+
+The SPRINT topological variables are calculated from the largest eigenvalue, \f$\lambda\f$ of
+an \f$n\times n\f$ adjacency matrix and its corresponding eigenvector, \f$\mathbf{V}\f$, using:
+
+\f[
+s_i = \sqrt{n} \lambda v_i
+\f]
+
+You can use different quantities to measure whether or not two given atoms/molecules are
+adjacent or not in the adjacency matrix.  The simplest measure of adjacency is is whether
+two atoms/molecules are within some cutoff of each other.  Further complexity can be added by 
+insisting that two molecules are adjacent if they are within a certain distance of each 
+other and if they have similar orientations.
+
+\par Description of components
+
+By default this Action calculates the following quantities. These quanties can be referenced elsewhere in the input by using this Action's label followed by a dot and the name of the quantity required from the list below.
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr> <td width=5%> <b> Quantity </b> </td> <td> <b> Description </b> </td> </tr>
+<tr>
+<td width=15%> <b> coord </b></td>
+<td> all $n$ sprint coordinates are calculated and then stored in increasing order. the smallest sprint coordinate will be labelled <em>label</em>.coord-1, the second smallest will be labelleled <em>label</em>.coord-1 and so on </td>
+</tr>
+</table>
+
+In addition the following quantities can be calculated by employing the keywords listed below
+
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr> <td width=5%> <b> Quantity </b> </td> <td> <b> Keyword </b> </td> <td> <b> Description </b> </td> </tr>
+<tr>
+<td width=5%> <b> vmean </b></td> <td width=10%> <b> VMEAN </b> </td> 
+<td> the norm of the mean vector. The output component can be refererred to elsewhere in the input file by using the label.vmean </td>
+</tr>
+<tr>
+<td width=5%> <b> spath </b></td> <td width=10%> <b> SPATH </b> </td> 
+<td> the position on the path </td>
+</tr>
+<tr>
+<td width=5%> <b> zpath </b></td> <td width=10%> <b> ZPATH </b> </td> 
+<td> the distance from the path </td>
+</tr>
+<tr>
+<td width=5%> <b> dhenergy </b></td> <td width=10%> <b> DHENERGY </b> </td> 
+<td> the Debye-Huckel interaction energy. You can calculate this quantity multiple times using different parameters </td>
+</tr>
+<tr>
+<td width=5%> <b> between </b></td> <td width=10%> <b> BETWEEN </b> </td> 
+<td> the number/fraction of values within a certain range. This is calculated using one of the formula described in the description of the keyword so as to make it continuous. You can calculate this quantity multiple times using different parameters. </td>
+</tr>
+<tr>
+<td width=5%> <b> lessthan </b></td> <td width=10%> <b> LESS_THAN </b> </td> 
+<td> the number of values less than a target value. This is calculated using one of the formula described in the description of the keyword so as to make it continuous. You can calculate this quantity multiple times using different parameters. </td>
+</tr>
+<tr>
+<td width=5%> <b> max </b></td> <td width=10%> <b> MAX </b> </td> 
+<td> the maximum value. This is calculated using the formula described in the description of the keyword so as to make it continuous. </td>
+</tr>
+<tr>
+<td width=5%> <b> mean </b></td> <td width=10%> <b> MEAN </b> </td> 
+<td> the mean value. The output component can be refererred to elsewhere in the input file by using the label.mean </td>
+</tr>
+<tr>
+<td width=5%> <b> min </b></td> <td width=10%> <b> MIN </b> </td> 
+<td> the minimum value. This is calculated using the formula described in the description of the keyword so as to make it continuous. </td>
+</tr>
+<tr>
+<td width=5%> <b> moment </b></td> <td width=10%> <b> MOMENTS </b> </td> 
+<td> the central moments of the distribution of values. The second moment would be referenced elsewhere in the input file using <em>label</em>.moment-2, the third as <em>label</em>.moment-3, etc. </td>
+</tr>
+<tr>
+<td width=5%> <b> morethan </b></td> <td width=10%> <b> MORE_THAN </b> </td> 
+<td> the number of values more than a target value. This is calculated using one of the formula described in the description of the keyword so as to make it continuous. You can calculate this quantity multiple times using different parameters. </td>
+</tr>
+<tr>
+<td width=5%> <b> sum </b></td> <td width=10%> <b> SUM </b> </td> 
+<td> the sum of values </td>
+</tr>
+</table>
+
+\par Compulsory keywords
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> DATA </b></td>
+<td> the labels of the action that calculates the multicolvars we are interested in </td>
+</tr>
+</table>
+
+\par Options
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> NOPBC </b></td>
+<td> ( default=off ) ignore the periodic boundary conditions when calculating distances </td>
+</tr>
+<tr>
+<td width=15%> <b> SERIAL </b></td>
+<td> ( default=off ) do the calculation in serial.  Do not parallelize </td>
+</tr>
+<tr>
+<td width=15%> <b> LOWMEM </b></td>
+<td> ( default=off ) lower the memory requirements </td>
+</tr>
+
+</table>
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> TOL </b></td>
+<td> this keyword can be used to speed up your calculation. When accumulating sums in which the individual terms are numbers inbetween zero and one it is assumed that terms less than a certain tolerance make only a small contribution to the sum.  They can thus be safely ignored as can the the derivatives wrt these small quantities. </td>
+</tr>
+<tr>
+<td width=15%> <b> SWITCH </b></td>
+<td> This keyword is used if you want to employ an alternative to the continuous swiching function defined above. The following provides information on the \ref switchingfunction that are available. When this keyword is present you no longer need the NN, MM, D_0 and R_0 keywords. You can use multiple instances of this keyword i.e. SWITCH1, SWITCH2, SWITCH3... </td>
+</tr>
+
+</table>
+
+\par Examples
+
+This example input calculates the 7 SPRINT coordinates for a 7 atom cluster of Lennard-Jones
+atoms and prints their values to a file.  In this input the SPRINT coordinates are calculated
+in the manner described in ?? so two atoms are adjacent if they are within a cutoff:
+
+\verbatim
+DENSITY SPECIES=1-7 LABEL=d1
+SPRINT ARG=d1 SWITCH={RATIONAL R_0=0.1} LABEL=ss
+PRINT ARG=ss.* FILE=colvar 
+\endverbatim
+
+This example input calculates the 14 SPRINT coordinates foa a molecule composed of 7 hydrogen and
+7 carbon atoms.  Once again two atoms are adjacent if they are within a cutoff:
+
+\verbatim
+DENSITY SPECIES=1-7 LABEL=c
+DENSITY SPECIES=8-14 LABEL=h
+
+SPRINT ...
+ ARG=c,h
+ SWITCH11={RATIONAL R_0=2.6 NN=6 MM=12}
+ SWITCH12={RATIONAL R_0=2.2 NN=6 MM=12}
+ SWITCH22={RATIONAL R_0=2.2 NN=6 MM=12}
+ LABEL=ss
+... SPRINT
+
+PRINT ARG=ss.* FILE=colvar
+\endverbatim
+
+*/

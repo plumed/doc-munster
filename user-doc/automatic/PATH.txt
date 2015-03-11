@@ -1,0 +1,87 @@
+/**
+\page PATH PATH
+<table  align=center frame=void width=95%% celpadding=5%%>
+<tr> <td width=70%%> </td> <td>
+<b> This is part of the mapping \link mymodules module \endlink</b>
+</td> </tr> </table>
+Path collective variables with a more flexible framework for the distance metric being used. 
+
+The Path Collective Variables developed by Branduardi and co-workers \cite brand07 allow one
+to compute the progress along a high-dimensional path and the distance from the high-dimensional
+path.  The progress along the path (s) is computed using:
+
+\f[
+s = \frac{ \sum_{i=1}^N i \exp( -\lambda R[X - X_i] ) }{ \sum_{i=1}^N \exp( -\lambda R[X - X_i] ) } 
+\f]
+
+while the distance from the path (z) is measured using:
+
+\f[
+z = -\frac{1}{\lambda} \ln\left[ \sum_{i=1}^N \exp( -\lambda R[X - X_i] ) \right]
+\f]
+
+In these expressions \f$N\f$ high-dimensional frames (\f$X_i\f$) are used to describe the path in the high-dimensional
+space. The two expressions above are then functions of the distances from each of the high-dimensional frames \f$R[X - X_i]\f$.
+Within PLUMED there are multiple ways to define the distance from a high-dimensional configuration.  You could calculate
+the RMSD distance or you could calculate the ammount by which a set of collective variables change.  As such this implementation
+of the path cv allows one to use all the difference distance metrics that are discussed in \ref dists. This is as opposed to 
+the alternative implementation of path (\ref PATHMSD) which is a bit faster but which only allows one to use the RMSD distance.
+
+\par Compulsory keywords
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> REFERENCE </b></td>
+<td> a pdb file containing the set of reference configurations </td>
+</tr>
+<tr>
+<td width=15%> <b> TYPE </b></td>
+<td> ( default=OPTIMAL ) the manner in which distances are calculated. More information on the different metrics that are available in PLUMED can be found in the section of the manual on \ref dists </td>
+</tr>
+<tr>
+<td width=15%> <b> LAMBDA </b></td>
+<td> the value of the lambda parameter for paths </td>
+</tr>
+</table>
+
+\par Options
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> NUMERICAL_DERIVATIVES </b></td>
+<td> ( default=off ) calculate the derivatives for these quantities numerically </td>
+</tr>
+<tr>
+<td width=15%> <b> SERIAL </b></td>
+<td> ( default=off ) do the calculation in serial.  Do not parallelize </td>
+</tr>
+<tr>
+<td width=15%> <b> LOWMEM </b></td>
+<td> ( default=off ) lower the memory requirements </td>
+</tr>
+<tr>
+<td width=15%> <b> DISABLE_CHECKS </b></td>
+<td> ( default=off ) disable checks on reference input structures. </td>
+</tr>
+<tr>
+<td width=15%> <b> NOZPATH </b></td>
+<td> ( default=off ) do not calculate the zpath position </td>
+</tr>
+<tr>
+<td width=15%> <b> NOSPATH </b></td>
+<td> ( default=off ) do not calculate the spath position </td>
+</tr>
+
+</table>
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> TOL </b></td>
+<td> this keyword can be used to speed up your calculation. When accumulating sums in which the individual terms are numbers inbetween zero and one it is assumed that terms less than a certain tolerance make only a small contribution to the sum.  They can thus be safely ignored as can the the derivatives wrt these small quantities. </td>
+</tr>
+
+</table>
+
+\par Examples
+
+*/

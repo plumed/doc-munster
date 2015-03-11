@@ -1,0 +1,12 @@
+/**
+\page landmarkselection landmarkselection
+<table  align=center frame=void width=95%% celpadding=5%%>
+<tr> <td width=70%%> </td> <td>
+<b> This is part of the analysis \link mymodules module \endlink</b>
+</td> </tr> </table>
+This is currently a filler page.  
+This is currently a filler page.  </td> </tr>
+
+Just use LANDMARKS=ALL.  More complex versions will appear in later versions.
+
+*/

@@ -1,0 +1,55 @@
+\par Compulsory keywords
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> DATA </b></td>
+<td> the labels of the action that calculates the multicolvars we are interested in </td>
+</tr>
+<tr>
+<td width=15%> <b> NN </b></td>
+<td> ( default=6 ) The n parameter of the switching function  </td>
+</tr>
+<tr>
+<td width=15%> <b> MM </b></td>
+<td> ( default=12 ) The m parameter of the switching function  </td>
+</tr>
+<tr>
+<td width=15%> <b> D_0 </b></td>
+<td> ( default=0.0 ) The d_0 parameter of the switching function </td>
+</tr>
+<tr>
+<td width=15%> <b> R_0 </b></td>
+<td> The r_0 parameter of the switching function </td>
+</tr>
+</table>
+
+\par Options
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> NOPBC </b></td>
+<td> ( default=off ) ignore the periodic boundary conditions when calculating distances </td>
+</tr>
+<tr>
+<td width=15%> <b> SERIAL </b></td>
+<td> ( default=off ) do the calculation in serial.  Do not parallelize </td>
+</tr>
+<tr>
+<td width=15%> <b> LOWMEM </b></td>
+<td> ( default=off ) lower the memory requirements </td>
+</tr>
+
+</table>
+
+ <table align=center frame=void width=95%% cellpadding=5%%> 
+<tr>
+<td width=15%> <b> TOL </b></td>
+<td> this keyword can be used to speed up your calculation. When accumulating sums in which the individual terms are numbers inbetween zero and one it is assumed that terms less than a certain tolerance make only a small contribution to the sum.  They can thus be safely ignored as can the the derivatives wrt these small quantities. </td>
+</tr>
+<tr>
+<td width=15%> <b> SWITCH </b></td>
+<td> This keyword is used if you want to employ an alternative to the continuous swiching function defined above. The following provides information on the \ref switchingfunction that are available. When this keyword is present you no longer need the NN, MM, D_0 and R_0 keywords. </td>
+</tr>
+
+</table>
+
